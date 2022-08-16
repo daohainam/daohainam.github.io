@@ -1,0 +1,554 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Data Types - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">Ngôn ngữ lập trình Rust</a></li><li class="chapter-item expanded affix "><a href="foreword.html">Foreword</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> Cài đặt</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> Hello, World!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> Hello, Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> Programming a Guessing Game</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> Common Programming Concepts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> Variables and Mutability</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html" class="active"><strong aria-hidden="true">3.2.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> Functions</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> Comments</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> Control Flow</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> Understanding Ownership</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> What is Ownership?</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> References and Borrowing</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> The Slice Type</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> Using Structs to Structure Related Data</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> Defining and Instantiating Structs</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> An Example Program Using Structs</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> Method Syntax</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> Enums and Pattern Matching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> Defining an Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> The match Control Flow Construct</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> Concise Control Flow with if let</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> Managing Growing Projects with Packages, Crates, and Modules</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> Packages and Crates</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> Defining Modules to Control Scope and Privacy</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> Paths for Referring to an Item in the Module Tree</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> Bringing Paths Into Scope with the use Keyword</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> Separating Modules into Different Files</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> Common Collections</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> Storing Lists of Values with Vectors</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> Storing UTF-8 Encoded Text with Strings</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> Storing Keys with Associated Values in Hash Maps</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> Error Handling</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> Unrecoverable Errors with panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> Recoverable Errors with Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> To panic! or Not to panic!</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> Generic Types, Traits, and Lifetimes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> Generic Data Types</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> Traits: Defining Shared Behavior</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> Validating References with Lifetimes</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> Writing Automated Tests</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> How to Write Tests</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> Controlling How Tests Are Run</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> Test Organization</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> An I/O Project: Building a Command Line Program</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> Accepting Command Line Arguments</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> Reading a File</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> Refactoring to Improve Modularity and Error Handling</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> Developing the Library’s Functionality with Test Driven Development</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> Working with Environment Variables</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> Writing Error Messages to Standard Error Instead of Standard Output</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> Functional Language Features: Iterators and Closures</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closures: Anonymous Functions that Can Capture Their Environment</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> Processing a Series of Items with Iterators</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> Improving Our I/O Project</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> Comparing Performance: Loops vs. Iterators</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> More about Cargo and Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> Customizing Builds with Release Profiles</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> Publishing a Crate to Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> Cargo Workspaces</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> Installing Binaries from Crates.io with cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> Extending Cargo with Custom Commands</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> Smart Pointers</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> Using Box&lt;T&gt; to Point to Data on the Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> Treating Smart Pointers Like Regular References with the Deref Trait</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> Running Code on Cleanup with the Drop Trait</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;, the Reference Counted Smart Pointer</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; and the Interior Mutability Pattern</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> Reference Cycles Can Leak Memory</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> Fearless Concurrency</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> Using Threads to Run Code Simultaneously</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> Using Message Passing to Transfer Data Between Threads</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> Shared-State Concurrency</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> Extensible Concurrency with the Sync and Send Traits</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-oop.html"><strong aria-hidden="true">17.</strong> Object Oriented Programming Features of Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-what-is-oo.html"><strong aria-hidden="true">17.1.</strong> Characteristics of Object-Oriented Languages</a></li><li class="chapter-item expanded "><a href="ch17-02-trait-objects.html"><strong aria-hidden="true">17.2.</strong> Using Trait Objects That Allow for Values of Different Types</a></li><li class="chapter-item expanded "><a href="ch17-03-oo-design-patterns.html"><strong aria-hidden="true">17.3.</strong> Implementing an Object-Oriented Design Pattern</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-patterns.html"><strong aria-hidden="true">18.</strong> Patterns and Matching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-all-the-places-for-patterns.html"><strong aria-hidden="true">18.1.</strong> All the Places Patterns Can Be Used</a></li><li class="chapter-item expanded "><a href="ch18-02-refutability.html"><strong aria-hidden="true">18.2.</strong> Refutability: Whether a Pattern Might Fail to Match</a></li><li class="chapter-item expanded "><a href="ch18-03-pattern-syntax.html"><strong aria-hidden="true">18.3.</strong> Pattern Syntax</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-advanced-features.html"><strong aria-hidden="true">19.</strong> Advanced Features</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-unsafe-rust.html"><strong aria-hidden="true">19.1.</strong> Unsafe Rust</a></li><li class="chapter-item expanded "><a href="ch19-03-advanced-traits.html"><strong aria-hidden="true">19.2.</strong> Advanced Traits</a></li><li class="chapter-item expanded "><a href="ch19-04-advanced-types.html"><strong aria-hidden="true">19.3.</strong> Advanced Types</a></li><li class="chapter-item expanded "><a href="ch19-05-advanced-functions-and-closures.html"><strong aria-hidden="true">19.4.</strong> Advanced Functions and Closures</a></li><li class="chapter-item expanded "><a href="ch19-06-macros.html"><strong aria-hidden="true">19.5.</strong> Macros</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-final-project-a-web-server.html"><strong aria-hidden="true">20.</strong> Final Project: Building a Multithreaded Web Server</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-single-threaded.html"><strong aria-hidden="true">20.1.</strong> Building a Single-Threaded Web Server</a></li><li class="chapter-item expanded "><a href="ch20-02-multithreaded.html"><strong aria-hidden="true">20.2.</strong> Turning Our Single-Threaded Server into a Multithreaded Server</a></li><li class="chapter-item expanded "><a href="ch20-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">20.3.</strong> Graceful Shutdown and Cleanup</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">21.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">21.1.</strong> A - Keywords</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">21.2.</strong> B - Operators and Symbols</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">21.3.</strong> C - Derivable Traits</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">21.4.</strong> D - Useful Development Tools</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">21.5.</strong> E - Editions</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">21.6.</strong> F - Translations of the Book</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">21.7.</strong> G - How Rust is Made and “Nightly Rust”</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="các-kiểu-dữ-liệu"><a class="header" href="#các-kiểu-dữ-liệu">Các kiểu dữ liệu</a></h2>
+<p>Mọi giá trị trong Rust đều thuộc một <em>kiểu dữ liệu</em> cụ thể, điều này cho Rust biết loại
+dữ liệu đang được chỉ định để nó biết cách làm việc với dữ liệu đó. Chúng ta sẽ xem xét
+hai tập con kiểu dữ liệu: scalar (vô hướng) và compound (phức).</p>
+<p>Hãy nhớ rằng Rust là một ngôn ngữ <em>xác định kiểu</em>, có nghĩa là nó
+phải biết kiểu dữ liệu của tất cả các biến tại thời điểm biên dịch. Trình biên dịch cũng có thể
+suy ra kiểu dữ liệu ta muốn sử dụng dựa trên giá trị và cách chúng ta sử dụng nó. Trong các trường hợp
+khi có thể có nhiều kiểu, chẳng hạn như khi chúng ta chuyển đổi <code>String</code> thành một số bằng 
+cách sử dụng <code>parse</code> trong <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparing the Guess to the Secret
+Number”</a><!-- ignore --> như trong
+Chương 2, chúng ta phải thêm một chú thích kiểu giống như sau:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let guess: u32 = &quot;42&quot;.parse().expect(&quot;Not a number!&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Nếu chúng ta không thêm chú thích về kiểu <code>: u32</code> như ở trên, Rust sẽ hiển thị
+lỗi sau, có nghĩa là trình biên dịch cần thêm thông tin từ chúng ta để
+biết chính xác kiểu dữ liệu nào chúng ta muốn sử dụng:</p>
+<pre><code class="language-console">$ cargo build
+   Compiling no_type_annotations v0.1.0 (file:///projects/no_type_annotations)
+error[E0282]: type annotations needed
+ --&gt; src/main.rs:2:9
+  |
+2 |     let guess = &quot;42&quot;.parse().expect(&quot;Not a number!&quot;);
+  |         ^^^^^ consider giving `guess` a type
+
+For more information about this error, try `rustc --explain E0282`.
+error: could not compile `no_type_annotations` due to previous error
+</code></pre>
+<p>Bạn sẽ thấy các chú thích kiểu khác nhau cho những kiểu dữ liệu khác nhau.</p>
+<h3 id="các-kiểu-vô-hướng-scalar-type"><a class="header" href="#các-kiểu-vô-hướng-scalar-type">Các kiểu vô hướng (Scalar type)</a></h3>
+<p>Một kiểu vô hướng biểu diễn một giá trị đơn. Rust có bốn kiểu vô hướng chính: số nguyên (integer), 
+các kiểu số dấu chấm động, boolean và kiểu ký tự. Bạn có thể thấy chúng cũng tương tự
+trong các ngôn ngữ lập trình khác. Hãy cùng xem thử trong Rust chúng hoạt động thế nào.</p>
+<h4 id="các-kiểu-số-nguyên-integer"><a class="header" href="#các-kiểu-số-nguyên-integer">Các kiểu số nguyên (integer)</a></h4>
+<p>Một <em>integer</em> là một số không có phần thập phân. Chúng ta đã từng dùng một kiểu integer 
+trong chương 2, kiểu <code>u32</code>. Việc khai báo kiểu này chỉ ra giá trị mà nó kết hợp phải 
+là một số nguyên không dấu (các kiểu có dấu sẽ bắt đầu bằng chữ <code>i</code> thay vì <code>u</code>), và nó 
+chiếm 32 bit không gian nhớ. Bảng 3-1 trình bày các kiểu integer được hỗ trợ sẵn bởi Rust.
+Chúng ta có thể dùng bất kỳ biến thể nào trong danh sách để khai báo một kiểu nguyên.</p>
+<p><span class="caption">Table 3-1: Các kiểu số nguyên trong Rust</span></p>
+<table><thead><tr><th>Length</th><th>Signed</th><th>Unsigned</th></tr></thead><tbody>
+<tr><td>8-bit</td><td><code>i8</code></td><td><code>u8</code></td></tr>
+<tr><td>16-bit</td><td><code>i16</code></td><td><code>u16</code></td></tr>
+<tr><td>32-bit</td><td><code>i32</code></td><td><code>u32</code></td></tr>
+<tr><td>64-bit</td><td><code>i64</code></td><td><code>u64</code></td></tr>
+<tr><td>128-bit</td><td><code>i128</code></td><td><code>u128</code></td></tr>
+<tr><td>arch</td><td><code>isize</code></td><td><code>usize</code></td></tr>
+</tbody></table>
+<p>Mỗi biến thể sẽ là có hoặc không có dấu, đồng thời sẽ có một kích thước cụ thể.
+<em>Signed</em> và <em>unsigned</em> chỉ ra liệu một kiểu có thể chứa số âm hay không, hay nói cách khác
+ta có cần viết dấu cho nó hay không (khi nó chứa một giá trị âm). Nó cũng hoàn toàn tương
+tự khi bạn viết ra giấy: Nếu dấu là quan trọng, bạn cần viết rõ con số với dấu cộng hoặc trừ;
+tuy nhiên khi nó an toàn để xác định đây là một số dương, bạn có thể bỏ qua và không cần viết
+dấu.
+Các số âm được lưu trữ dưới dạng biểu diễn <a href="https://en.wikipedia.org/wiki/Two%27s_complement">two’s
+complement</a><!-- ignore -->.</p>
+<p>Mỗi một biến thể có dấu có thể lưu các con số từ -(2<sup>n - 1</sup>) to 2<sup>n -
+1</sup> - 1, với <em>n</em> là số bit mà biến thể đó dùng. Như vậy một biến <code>i8</code> có thể 
+lưu các giá trị từ -(2<sup>7</sup>) đến 2<sup>7</sup> - 1, tương ứng với -128 đến 127.
+Các biến thể không dấu có thể lưu các giá trị từ 0 đến 2<sup>n</sup> - 1, do vậy 
+một biến <code>u8</code> có thể lưu được từ 0 đến 2<sup>8</sup> - 1, tương ứng với 0 đến 255.</p>
+<p>Thêm vào đó, các kiểu <code>isize</code> và <code>usize</code> sẽ phụ thuộc vào kiến trúc hệ thống mà 
+chương trình chạy trên đó (được ghi trong bảng với tên “arch”):  64 bit nếu đang 
+chạy trên kiến trúc 64 bit và 32 bit nếu chạy trên kiến trúc 32 bit.</p>
+<p>Bạn có thể viết các giá trị kiểu số nguyên theo bất kỳ dạng nào trong bảng 3-2. Lưu ý 
+là nếu một giá trị số nguyên có thể thuộc nhiều kiểu dữ liệu khác nhau thì bạn cũng có
+thể chỉ rõ ra một kiểu cụ thể nào đó, ví dụ <code>57u8</code>. Các giá trị số cũng có thể dùng 
+dấu gạch dưới như một ký hiệu phân cách dễ dễ nhìn hơn, như là <code>1_000</code>, sẽ có cùng 
+giá trị với <code>1000</code>.</p>
+<p><span class="caption">Table 3-2: Các giá trị số nguyên trong Rust</span></p>
+<table><thead><tr><th>Các giá trị</th><th>Ví dụ</th></tr></thead><tbody>
+<tr><td>Decimal</td><td><code>98_222</code></td></tr>
+<tr><td>Hex</td><td><code>0xff</code></td></tr>
+<tr><td>Octal</td><td><code>0o77</code></td></tr>
+<tr><td>Binary</td><td><code>0b1111_0000</code></td></tr>
+<tr><td>Byte (<code>u8</code> only)</td><td><code>b'A'</code></td></tr>
+</tbody></table>
+<p>Vậy làm sao bạn biết được kiểu số nguyên nào để dùng? Nếu không chắc thì hãy nhớ, 
+mặc nhiên trong Rust các kiểu số nguyên sẽ là <code>i32</code>. Một trường hợp mà bạn có lẽ 
+sẽ dùng tới <code>isize</code> hay <code>usize</code> là khi sử dụng chỉ số trong các tập hợp.</p>
+<blockquote>
+<h5 id="tràn-số"><a class="header" href="#tràn-số">Tràn số</a></h5>
+<p>Lấy ví dụ bạn có một biến kiểu <code>u8</code> có thể chứa được giá trị từ 0 đến 255. Nếu 
+bạn cố thay đổi giá trị của biến thành một giá trị ngoài phạm vi đó, chẳng hạn 
+256, <em>integer overflow</em> (lỗi tràn số) sẽ xảy ra, và nó sẽ dẫn đến một trong hai
+trạng thái. Nếu bạn dịch code ở chế độ debug, Rust sẽ thêm vào các phép kiểm tra
+tràn số và khiến chương trình của bạn bị dừng lại và trả về một lỗi nghiêm trọng, 
+Rust gọi việc dừng lại này là panicking; chúng ta sẽ thảo luận thêm về trong phần 
+<a href="ch09-01-unrecoverable-errors-with-panic.html">“Unrecoverable Errors with <code>panic!</code>”</a><!-- ignore --> 
+ở chương 9.</p>
+<ul>
+<li>Wrap in all modes with the <code>wrapping_*</code> methods, such as <code>wrapping_add</code></li>
+<li>Return the <code>None</code> value if there is overflow with the <code>checked_*</code> methods</li>
+<li>Return the value and a boolean indicating whether there was overflow with
+the <code>overflowing_*</code> methods</li>
+<li>Saturate at the value’s minimum or maximum values with <code>saturating_*</code>
+methods</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Khi dịch chương trình ở chế độ release với tùy chọn <code>--release</code>, Rust <em>không</em> 
+thêm vào các phép kiểm tra tràn số gây dừng chương trình. Thay vào đó, nếu xảy ra
+tràn số, Rust sẽ thực hiện <em>two’s complement wrapping</em>. Nói một cách ngắn gọn, các 
+giá trị lớn hơn giá trị lớn nhất mà kiểu dữ liệu có thể chứa được sẽ bị &quot;xoay vòng&quot;
+lại từ giá trị nhỏ nhất. Trong trường hợp của <code>u8</code>, giá trị 256 sẽ quay vòng lại 0, 
+257 trở thành 1, và tiếp tục như vậy. Chương trình sẽ không dừng do lỗi, nhưng biến
+có thể chứa một giá trị mà bạn có thể không mong muốn. Khi xảy ra &quot;xoay vòng&quot; lại 
+giá trị, ta có thể coi như một lỗi.</p>
+<p>Bạn có thể dùng các nhóm phương thức sau nếu muốn xử lý việc tràn số, các nhóm phương 
+thức này hỗ trợ các kiểu dữ liêu số nguyên thủy và được cung cấp bởi thư viện chuẩn.</p>
+</blockquote>
+<h4 id="các-kiểu-số-dấu-chấm-động"><a class="header" href="#các-kiểu-số-dấu-chấm-động">Các kiểu số dấu chấm động</a></h4>
+<p>Rust cũng có hai kiểu nguyên thủy cho các <em>số dấu chấm động</em> (floating-point numbers),
+là các kiểu số có phần thập phân. Các kiểu số dấu chấm động của Rust gồm có <code>f32</code> và <code>f64</code>,
+tương ứng với các kích cỡ 32 bit và 64 bit. Kiểu mặc nhiên là <code>f64</code>, vì trên các bộ xử lý 
+hiện đại tốc độ xử lý của nó tương đương với <code>f32</code> nhưng có độ chính xác cao hơn. Tất cả 
+các kiểu dấu chấm động đều là có dấu.</p>
+<p>Đây là một ví dụ về việc dùng các dấu chấm động:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = 2.0; // f64
+
+    let y: f32 = 3.0; // f32
+}
+</code></pre></pre>
+<p>Các kiểu dấu chấm động được biểu diễn dựa trên tiêu chuẩn IEEE-754. Kiểu <code>f32</code> là 
+kiểu dấu chấm động chính xác đơn, và <code>f64</code> có độ chính xác kép.</p>
+<h4 id="các-toán-tử-số"><a class="header" href="#các-toán-tử-số">Các toán tử số</a></h4>
+<p>Rust hỗ trợ các phép toán toán học cơ bản: cộng, trừ, nhân, chia và lấy phần dư. 
+Các kiểu số nguyên khi chia sẽ trả về một số nguyên gần nhất với thương. Đoạn code
+sau đây biểu diễn cách bạn sẽ dùng các toán tử trong một phát biểu <code>let</code>:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let floored = 2 / 3; // Results in 0
+
+    // remainder
+    let remainder = 43 % 5;
+}
+</code></pre></pre>
+<p>Mỗi biểu thức trong các phát biểu đó dùng một toán tử toán học và trả về một giá trị 
+đơn, giá trị này sau đó lại được gán cho một biến. <a href="appendix-02-operators.html">Appendix B</a><!-- ignore --> chứa
+một danh sách tất cả các toán tử có trong Rust.</p>
+<h4 id="kiểu-boolean"><a class="header" href="#kiểu-boolean">Kiểu Boolean</a></h4>
+<p>Tương tự trong các ngôn ngữ lập trình khác, một kiểu Boolean có thể chứa một trong 
+hai giá trị <code>true</code> và <code>false</code>. Boolean có kích cỡ một byte. Một biếu kiểu Boolean trong Rust 
+được khai báo sử dụng <code>bool</code>. Ví dụ:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let t = true;
+
+    let f: bool = false; // with explicit type annotation
+}
+</code></pre></pre>
+<p>Các chính để dùng Boolean là thông qua các điều kiện, kiểu như phát biểu <code>if</code>.
+Chúng ta sẽ xem thêm về cách <code>if</code> làm việc trong Rust trong phần <a href="ch03-05-control-flow.html#control-flow">“Control
+Flow”</a><!-- ignore -->.</p>
+<h4 id="kiểu-ký-tự"><a class="header" href="#kiểu-ký-tự">Kiểu ký tự</a></h4>
+<p>Kiểu <code>char</code> trong Rust là kiểu ký tự nguyên thủy nhất. Sau đây là một số ví dụ về 
+cách khai báo các giá trị kiểu <code>char</code>:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let c = 'z';
+    let z: char = 'ℤ'; // with explicit type annotation
+    let heart_eyed_cat = '😻';
+}
+</code></pre></pre>
+<p>Lưu ý là chúng ta chỉ ra một dữ liệu nào đó là kiểu <code>char</code> bằng cách dùng dấu nháy đơn, trong khi đó 
+với string thì ta dùng dấu nháy kép. Kiểu <code>char</code> trong Rust có kích cỡ 4 byte và biểu diễn một ký tự
+Unicode, do nó nó có thể biểu diễn nhiều hơn nhiều so với ASCII. Các ký tự cổ, các ký tự tiếng Trung, 
+tiếng Nhật, tiếng Hàn; các biểu tượng cảm xúc (emoji); và cả các khoảng trống có chiều rộng bằng 0 
+đều là các ký tự kiểu <code>char</code> hợp lệ. Các ký tự Unicode cũng bao gồm cả từ <code>U+0000</code> đến <code>U+D7FF</code> 
+và từ <code>U+E000</code> đến <code>U+10FFFF</code>. Tuy nhiên, &quot;ký tự&quot; là một khái niệm không thực sự được dùng trong 
+Unicode, do vậy cách mà bạn nghĩ về &quot;ký tự&quot; có thể không hoàn toàn giống với <code>char</code> trong Rust.
+Chúng ta sẽ thảo luận thêm về chủ đề này trong phần <a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">“Storing UTF-8 Encoded Text with
+Strings”</a><!-- ignore --> in Chương 8.</p>
+<h3 id="các-kiểu-phức"><a class="header" href="#các-kiểu-phức">Các kiểu phức</a></h3>
+<p><em>Kiểu phức</em> có thể nhóm nhiều giá trị vào chung một kiểu. Rust có hai kiểu phức chính: tuple và array.</p>
+<h4 id="kiểu-tuple"><a class="header" href="#kiểu-tuple">Kiểu tuple</a></h4>
+<p>Một kiểu tuple là một cách chung để nhóm các giá trị khác nhau vào làm một. Các tupble có kích thước cố
+định: một khi đã khai báo, chúng sẽ không thể tăng hay giảm kích cỡ. Chúng ta tạo một tuble bằng cách viết 
+một danh sách các giá trị cách nhau bởi dấu phẩy, bao bọc lại bởi một cặp ngoặc tròn. Mỗi vị trí trong tuble 
+có một kiểu, và các giá trị khác nhau trong một tuble không nhất thiết phải cùng kiểu. Chúng ta cũng đã 
+thêm một số phụ chú kiểu trong ví dụ sau:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+}
+</code></pre></pre>
+<p>Biến <code>tup</code> đại diện cho toàn bộ tuple, vì mỗi một tuple được coi như một biến đơn. Để lấy giá trị của từng
+thành phần riêng lẻ bên trong một tuple, chúng ta có thể dùng cách khớp mẫu để phân tách một giá trị kiểu 
+tuple, giống trong ví dụ sau:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let tup = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!(&quot;The value of y is: {y}&quot;);
+}
+</code></pre></pre>
+<p>Chương trình này đầu tiên sẽ tạo ra một tuple và gắn kết nó với biến <code>tup</code>. 
+Sau đó nó dùng một mẫu với <code>let</code> để lấy ra ba giá trị riêng lẻ từ các thành phần 
+của <code>tup</code>, <code>x</code>, <code>y</code> và <code>z</code>. Ta gọi quá trình này là phá hủy (<em>destructuring</em>), vì nó sẽ tách một
+tuple đơn ra thành ba phần riêng biệt. Cuối cùng, chương trình in ra giá trị của <code>y</code> la <code>6.4</code>.</p>
+<p>Ta cũng có thể truy cập trực tiếp vào một thành phần bên trong tuple bằng cách dùng 
+dấu chấm (<code>.</code>), theo sau bởi chỉ mục của giá trị mà bạn muốn đọc hay ghi. Ví dụ:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x: (i32, f64, u8) = (500, 6.4, 1);
+
+    let five_hundred = x.0;
+
+    let six_point_four = x.1;
+
+    let one = x.2;
+}
+</code></pre></pre>
+<p>Chương trình này tạo một tuple <code>x</code> và sau đó truy cập vào từng thành phần của tuple 
+thông qua các giá trị chỉ mục tương ứng. Tương tự với hầu hết ngôn ngữ lập trình khác,
+chỉ mục đầu tiên sẽ mang giá trị 0.</p>
+<p>Một tuple mà không có giá trị nào có một cái tên đặc biệt, <em>unit</em>. Giá trị này và kiểu 
+tương ứng của nó được viết là <code>()</code> và đại diện cho một giá trị rỗng hay một kiểu trả 
+về rỗng. Các biểu thức được ngầm hiểu là trả về <em>unit</em> nếu chúng không trả về một giá
+trị nào khác.</p>
+<h4 id="kiểu-mảng-array"><a class="header" href="#kiểu-mảng-array">Kiểu mảng (array)</a></h4>
+<p>Một cách khác để khai báo một biến chứa được nhiều giá trị là <em>array</em> (mảng). Không như
+tuple, các thành phần của mảng phải có cùng kiểu. Cũng không giống mảng trong nhiều ngôn
+ngữ khác, mảng trong Rust có chiều dài cố định.</p>
+<p>Chúng ta viết các giá trị của mảng như một danh sách các giá trị cách nhau bởi dấu phẩy, 
+được bao bọc bởi cặp dấu ngoặc vuông:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let a = [1, 2, 3, 4, 5];
+}
+</code></pre></pre>
+<p>Các mảng sẽ hữu ích hơn khi chúng ta phân bố chúng trên stack thay vì heap (chúng ta sẽ 
+thảo luận về stack và heap trong <a href="ch04-01-what-is-ownership.html#the-stack-and-the-heap">Chương 4</a><!-- ignore -->) hoặc 
+khi chúng ta muốn đảm bảo luôn có một số phần tử cố định. Dù vậy kiểu array không 
+được mềm dẻo như vector. Một vector là một kiểu tập hợp tương tự được cung cấp 
+bởi thư viện chuẩn, và nó cho phép thay đổi kích thước. Nếu bạn không chắc nên dùng
+array hay vector, vậy thì hãy dùng vector. <a href="ch08-01-vectors.html">Chương 8</a><!-- ignore --> sẽ
+thảo luận kỹ hơn về vector.</p>
+<p>Tuy nhiên, các mảng sẽ hữu ích hơn nếu bạn biết số phần tử sẽ không thay đổi. Ví dụ,
+nếu bạn muốn lưu danh sách tên các tháng trong năm, sẽ tốt hơn khi dùng array thay vì
+vector vì bạn biết nó luôn có 12 phần tử:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let months = [&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
+              &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;];
+<span class="boring">}
+</span></code></pre></pre>
+<p>Bạn viết một kiểu của mảng sử dụng cặp dấu ngoặc vuông với kiểu của mỗi phần tử,
+một dấu chấm phẩy, và số phần tử của mảng, giống như sau:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a: [i32; 5] = [1, 2, 3, 4, 5];
+<span class="boring">}
+</span></code></pre></pre>
+<p>Ở đây, <code>i32</code> là kiểu của mỗi phần tử. Sau dấu chấm phẩy, số <code>5</code> chỉ ra mang này có 5
+phần tử.</p>
+<p>Bạn cũng có thể khởi tạo một mảng để chứa các phần tử cùng giá trị bằng cách chỉ ra
+giá trị ban đầu, theo sau bởi một dấu chấm phẩy, và sau đó là chiều dai của mảng, tất
+cả bao trong cặp dấu ngoặc vuông, như ví dụ dưới đây:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a = [3; 5];
+<span class="boring">}
+</span></code></pre></pre>
+<p>Mảng tên <code>a</code> sẽ chứa <code>5</code> phần tử với giá trị ban đầu là <code>3</code>. Điều này hoàn toàn giống
+với khi bạn viết <code>let a = [3, 3, 3, 3, 3];</code> nhưng theo một cách ngắn gọn hơn.</p>
+<h5 id="truy-cập-các-phần-tử-của-mảng"><a class="header" href="#truy-cập-các-phần-tử-của-mảng">Truy cập các phần tử của mảng</a></h5>
+<p>Một mảng là một đoạn bộ nhớ có kích thước cố định, xác định trước và có thể được cấp
+phát trên stack. Bạn có thể truy cập các phần tử của mảng dùng chỉ số, giống như sau:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    let first = a[0];
+    let second = a[1];
+}
+</code></pre></pre>
+<p>Trong ví dụ này, một biến có tên <code>first</code> sẽ có giá trị <code>1</code>, vì nó là giá trị tại vị trí 
+<code>[0]</code> trong mảng. Biến có tên <code>second</code> sẽ có giá trị <code>2</code> từ phần tử <code>[1]</code> trong mảng.</p>
+<h5 id="việc-truy-cập-mảng-không-hợp-lệ"><a class="header" href="#việc-truy-cập-mảng-không-hợp-lệ">Việc truy cập mảng không hợp lệ</a></h5>
+<p>Hãy xem điều gì sẽ xảy ra nếu bạn thử truy cập vào một phần tử vượt quá phần tử cuối của
+mảng. Chúng ta sẽ chạy đoạn code sau, tương tự trong trò chơi đoán chữ trong chương 2, để 
+lấy một chỉ mục từ người dùng:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><code class="language-rust ignore panics">use std::io;
+
+fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    println!(&quot;Please enter an array index.&quot;);
+
+    let mut index = String::new();
+
+    io::stdin()
+        .read_line(&amp;mut index)
+        .expect(&quot;Failed to read line&quot;);
+
+    let index: usize = index
+        .trim()
+        .parse()
+        .expect(&quot;Index entered was not a number&quot;);
+
+    let element = a[index];
+
+    println!(&quot;The value of the element at index {index} is: {element}&quot;);
+}
+</code></pre>
+<p>Đoạn code này được dịch thành công. Nếu bạn chạy nó bằng cách dùng <code>cargo run</code> và nhập
+vào 0,1, 2, 3, hay 4, chương trình sẽ in ra giá trị tương ứng tại vị trí trong mảng. Nếu
+bạn nhập một giá trị vượt quá kích thước mảng, chẳng hạn 10, bạn sẽ thấy xuất ra như sau:</p>
+<!-- manual-regeneration
+cd listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access
+cargo run
+10
+-->
+<pre><code class="language-console">thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:19:19
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>Chương trình sinh ra một lỗi <em>runtime</em> ngay tại nơi mà chúng ta dùng một giá trị không 
+hợp lệ khi dùng chỉ số mảng. Chương trình kết thúc với một thông báo lỗi và đã không
+thực thi đến câu lệnh <code>println!</code> cuối cùng. Khi bạn thử truy cập một phần tử bằng cách 
+dùng chỉ số, Rust sẽ kiểm tra xem liệu chỉ số đó có nhỏ hơn chiều dài của mảng hay không.
+Nếu chỉ số này lớn hơn hay bằng chiều dài mảng, chương trình sẽ bị lỗi và kết thúc 
+ngay lập tức (panic). Việc kiểm tra này phải được thực hiện khi chạy chương trình, đặc
+biệt trong trường hợp này, vì trình dịch không thể biết giá trị mà người dùng sẽ nhập
+vào khi chạy chương trình sau này.</p>
+<p>Đây là một ví dụ về các nguyên tắc an toàn của Rust khi hoạt động. Trong nhiều ngôn ngữ 
+cấp thấp, việc kiểm tra này không được thực hiện, và khi bạn cung cấp một chỉ số không 
+hợp lệ, vùng bộ nhớ không hợp lệ sẽ bị truy cập. Rust bảo vệ bạn khỏi loại lỗi này bằng 
+cách thoát ra ngay lập tức thay vì cho phép truy cập vào vùng nhớ và tiếp tục chạy. 
+Chương 9 sẽ thảo luận thêm về việc xử lý lỗi trong Rust, cách viết code dễ đọc, an toàn
+và tránh các lỗi panic hay truy cập vùng nhớ không hợp lệ.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch03-01-variables-and-mutability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="ch03-03-how-functions-work.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch03-01-variables-and-mutability.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="ch03-03-how-functions-work.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="ferris.js"></script>
+
+
+    </body>
+</html>

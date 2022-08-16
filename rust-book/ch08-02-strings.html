@@ -1,0 +1,452 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Storing UTF-8 Encoded Text with Strings - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">Ngôn ngữ lập trình Rust</a></li><li class="chapter-item expanded affix "><a href="foreword.html">Foreword</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> Cài đặt</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> Hello, World!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> Hello, Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> Programming a Guessing Game</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> Common Programming Concepts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> Variables and Mutability</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> Functions</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> Comments</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> Control Flow</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> Understanding Ownership</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> What is Ownership?</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> References and Borrowing</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> The Slice Type</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> Using Structs to Structure Related Data</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> Defining and Instantiating Structs</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> An Example Program Using Structs</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> Method Syntax</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> Enums and Pattern Matching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> Defining an Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> The match Control Flow Construct</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> Concise Control Flow with if let</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> Managing Growing Projects with Packages, Crates, and Modules</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> Packages and Crates</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> Defining Modules to Control Scope and Privacy</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> Paths for Referring to an Item in the Module Tree</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> Bringing Paths Into Scope with the use Keyword</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> Separating Modules into Different Files</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> Common Collections</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> Storing Lists of Values with Vectors</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html" class="active"><strong aria-hidden="true">8.2.</strong> Storing UTF-8 Encoded Text with Strings</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> Storing Keys with Associated Values in Hash Maps</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> Error Handling</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> Unrecoverable Errors with panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> Recoverable Errors with Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> To panic! or Not to panic!</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> Generic Types, Traits, and Lifetimes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> Generic Data Types</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> Traits: Defining Shared Behavior</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> Validating References with Lifetimes</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> Writing Automated Tests</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> How to Write Tests</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> Controlling How Tests Are Run</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> Test Organization</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> An I/O Project: Building a Command Line Program</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> Accepting Command Line Arguments</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> Reading a File</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> Refactoring to Improve Modularity and Error Handling</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> Developing the Library’s Functionality with Test Driven Development</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> Working with Environment Variables</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> Writing Error Messages to Standard Error Instead of Standard Output</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> Functional Language Features: Iterators and Closures</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closures: Anonymous Functions that Can Capture Their Environment</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> Processing a Series of Items with Iterators</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> Improving Our I/O Project</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> Comparing Performance: Loops vs. Iterators</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> More about Cargo and Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> Customizing Builds with Release Profiles</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> Publishing a Crate to Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> Cargo Workspaces</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> Installing Binaries from Crates.io with cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> Extending Cargo with Custom Commands</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> Smart Pointers</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> Using Box&lt;T&gt; to Point to Data on the Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> Treating Smart Pointers Like Regular References with the Deref Trait</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> Running Code on Cleanup with the Drop Trait</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;, the Reference Counted Smart Pointer</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; and the Interior Mutability Pattern</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> Reference Cycles Can Leak Memory</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> Fearless Concurrency</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> Using Threads to Run Code Simultaneously</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> Using Message Passing to Transfer Data Between Threads</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> Shared-State Concurrency</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> Extensible Concurrency with the Sync and Send Traits</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-oop.html"><strong aria-hidden="true">17.</strong> Object Oriented Programming Features of Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-what-is-oo.html"><strong aria-hidden="true">17.1.</strong> Characteristics of Object-Oriented Languages</a></li><li class="chapter-item expanded "><a href="ch17-02-trait-objects.html"><strong aria-hidden="true">17.2.</strong> Using Trait Objects That Allow for Values of Different Types</a></li><li class="chapter-item expanded "><a href="ch17-03-oo-design-patterns.html"><strong aria-hidden="true">17.3.</strong> Implementing an Object-Oriented Design Pattern</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-patterns.html"><strong aria-hidden="true">18.</strong> Patterns and Matching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-all-the-places-for-patterns.html"><strong aria-hidden="true">18.1.</strong> All the Places Patterns Can Be Used</a></li><li class="chapter-item expanded "><a href="ch18-02-refutability.html"><strong aria-hidden="true">18.2.</strong> Refutability: Whether a Pattern Might Fail to Match</a></li><li class="chapter-item expanded "><a href="ch18-03-pattern-syntax.html"><strong aria-hidden="true">18.3.</strong> Pattern Syntax</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-advanced-features.html"><strong aria-hidden="true">19.</strong> Advanced Features</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-unsafe-rust.html"><strong aria-hidden="true">19.1.</strong> Unsafe Rust</a></li><li class="chapter-item expanded "><a href="ch19-03-advanced-traits.html"><strong aria-hidden="true">19.2.</strong> Advanced Traits</a></li><li class="chapter-item expanded "><a href="ch19-04-advanced-types.html"><strong aria-hidden="true">19.3.</strong> Advanced Types</a></li><li class="chapter-item expanded "><a href="ch19-05-advanced-functions-and-closures.html"><strong aria-hidden="true">19.4.</strong> Advanced Functions and Closures</a></li><li class="chapter-item expanded "><a href="ch19-06-macros.html"><strong aria-hidden="true">19.5.</strong> Macros</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-final-project-a-web-server.html"><strong aria-hidden="true">20.</strong> Final Project: Building a Multithreaded Web Server</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-single-threaded.html"><strong aria-hidden="true">20.1.</strong> Building a Single-Threaded Web Server</a></li><li class="chapter-item expanded "><a href="ch20-02-multithreaded.html"><strong aria-hidden="true">20.2.</strong> Turning Our Single-Threaded Server into a Multithreaded Server</a></li><li class="chapter-item expanded "><a href="ch20-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">20.3.</strong> Graceful Shutdown and Cleanup</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">21.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">21.1.</strong> A - Keywords</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">21.2.</strong> B - Operators and Symbols</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">21.3.</strong> C - Derivable Traits</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">21.4.</strong> D - Useful Development Tools</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">21.5.</strong> E - Editions</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">21.6.</strong> F - Translations of the Book</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">21.7.</strong> G - How Rust is Made and “Nightly Rust”</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string"><a class="header" href="#lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string">Lưu trữ văn bản được mã hóa UTF-8 bằng chuỗi (String)</a></h2>
+<p>Chúng ta đã nói về chuỗi trong Chương 4, nhưng bây giờ chúng ta sẽ xem xét chúng sâu hơn. Những tín đồ mới của Rust thường bị mắc kẹt khi làm việc với string vì ba lý do: Rust có xu hướng tìm ra các lỗi có khả năng xảy ra, chuỗi là một cấu trúc dữ liệu phức tạp hơn nhiều lập trình viên nghĩ và thứ ba là về UTF-8. Những yếu tố này kết hợp theo cách có vẻ khó khăn khi bạn hiểu theo cách các ngôn ngữ lập trình khác.</p>
+<p>Chúng ta sẽ thảo luận về string theo khía cạnh các tập hợp bởi vì string được triển khai dưới dạng tập hợp các byte, được thêm vào một số phương thức để cung cấp chức năng hữu ích khi các byte đó được diễn dịch thành văn bản. Trong phần này, chúng ta sẽ nói về các thao tác trên <code>String</code> mà mọi loại tập hợp đều có, chẳng hạn như tạo, cập nhật và truy xuất. Chúng ta cũng sẽ thảo luận về những cách mà một <code>String</code> khác với các tập hợp khác, cụ thể là cách lập chỉ mục index trong <code>String</code> là phức tạp bởi sự khác biệt giữa cách con người và máy tính diễn giải dữ liệu <code>String</code>.</p>
+<h3 id="string-là-gì"><a class="header" href="#string-là-gì">String là gì?</a></h3>
+<p>Trước tiên, chúng ta sẽ xác định những gì chúng ta hiểu về khái niệm <em>string</em>. Rust chỉ có một kiểu chuỗi trong phần lõi của ngôn ngữ, đó là đoạn chuỗi <code>str</code> thường được thấy ở dạng mượn tham chiếu <code>&amp;str</code>. Trong Chương 4, chúng ta đã nói về <em>string slices</em>, là các tham chiếu đến một số dữ liệu chuỗi mã hóa UTF-8 được lưu trữ ở một nơi nào đó. Ví dụ: các chuỗi ký tự được lưu trữ cố định trong tập tin nhị phân của chương trình và do đó được gọi là các đoạn chuỗi (string slices).</p>
+<p>Loại <code>String</code>, được cung cấp bởi thư viện tiêu chuẩn của Rust thay vì được lập trình như là thành phần lõi của ngôn ngữ, là loại chuỗi được mã hóa UTF-8 có thể tăng kích cỡ, có thể thay đổi, có thể sở hữu. Khi các tín đồ Rust đề cập đến “strings” trong Rust, họ có thể đang đề cập đến cả 2 loại <code>String</code> hoặc <code>&amp;str</code>, không chỉ là một loại cụ thể trong 2 loại đó. Mặc dù phần này chủ yếu nói về <code>String</code>, nhưng cả hai loại đều được sử dụng nhiều trong thư viện tiêu chuẩn của Rust và cả <code>String</code> và <code>&amp;str</code> đều được mã hóa UTF-8.</p>
+<h3 id="tạo-mới-một-string"><a class="header" href="#tạo-mới-một-string">Tạo mới một String</a></h3>
+<p>Nhiều thao tác tương tự có sẵn trong <code>Vec&lt;T&gt;</code> cũng có sẵn với <code>String</code>, bởi vì <code>String</code> thực sự bọc lại một vector kiểu byte và có bổ sung thêm sự đảm bảo, sự hạn chế và khả năng lưu trữ. Ví dụ về một hàm hoạt động theo cùng một cách với <code>Vec&lt;T&gt;</code> và <code>String</code> là hàm <code>new</code> để tạo một đối tượng mới, được thể hiện trong mục 8-11.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let mut s = String::new();
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-11: Tạo mới một <code>String</code> rỗng.</span></p>
+<p>Dòng này tạo một mới một chuỗi rỗng có tên là <code>s</code>, sau đó chúng ta có thể tải dữ liệu vào. Thông thường, chúng ta sẽ có dữ liệu khởi tạo mà chúng ta muốn bắt đầu. Để làm điều này, chúng ta sử dụng phương thức <code>to_string</code>, có sẵn trên bất kỳ kiểu nào triển khai đối tượng đặc tả <code>Display</code>, như các ký tự chuỗi thực hiện. Mục 8-12 cho thấy hai ví dụ.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let data = &quot;initial contents&quot;;
+
+    let s = data.to_string();
+
+    // the method also works on a literal directly:
+    let s = &quot;initial contents&quot;.to_string();
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-12: Dùng phương thức <code>to_string</code> để tạo mới <code>String</code> từ một chuỗi ký tự</span></p>
+<p>Đoạn mã này tạo một string chứa <code>initial contents</code>.</p>
+<p>Chúng ta cũng có thể dùng hàm <code>String::from</code> để tạo một <code>String</code> từ chuỗi ký tự. Đoạn code ở mục 8-13 tương đương với đoạn code của mục 8-12 sử dụng <code>to_string</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let s = String::from(&quot;initial contents&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-13: Dùng hàm <code>String::from</code> để tạo một <code>String</code> từ một chuỗi ký tự</span></p>
+<p>Bởi vì chuỗi được sử dụng cho rất nhiều thứ, chúng ta có thể sử dụng nhiều API chung khác nhau cho chuỗi, cung cấp cho chúng ta rất nhiều tùy chọn. Một số trong đó có vẻ thừa, nhưng chúng đều có vị trí của chúng! Trong trường hợp này, <code>String::from</code> và <code>to_string</code> làm tương tự nhau, vì vậy bạn chọn cái nào là do phong cách và tính dễ đọc của chương trình.</p>
+<p>Hãy nhớ rằng chuỗi cơ bản được mã hóa bằng UTF-8, vì vậy chúng có thể bao gồm bất kỳ dữ liệu nào được mã hóa đúng cách, như được hiển thị trong mục 8-14.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let hello = String::from(&quot;السلام عليكم&quot;);
+    let hello = String::from(&quot;Dobrý den&quot;);
+    let hello = String::from(&quot;Hello&quot;);
+    let hello = String::from(&quot;שָׁלוֹם&quot;);
+    let hello = String::from(&quot;नमस्ते&quot;);
+    let hello = String::from(&quot;こんにちは&quot;);
+    let hello = String::from(&quot;안녕하세요&quot;);
+    let hello = String::from(&quot;你好&quot;);
+    let hello = String::from(&quot;Olá&quot;);
+    let hello = String::from(&quot;Здравствуйте&quot;);
+    let hello = String::from(&quot;Hola&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-14: Lưu các lời chào bằng nhiều ngôn ngữ khác nhau trong chuỗi</span></p>
+<p>Tất cả đều là <code>String</code> hợp lệ.</p>
+<h3 id="cập-nhật-một-string"><a class="header" href="#cập-nhật-một-string">Cập nhật một String</a></h3>
+<p>Một <code>String</code> có khả năng tăng kích thước và nội dung của nó có thể thay đổi, nó giống như nội dung của <code>Vec&lt;T&gt;</code> nếu bạn đưa nhiều dữ liệu hơn vào đó. Ngoài ra, bạn có thể sử dụng toán tử <code>+</code> hoặc macro <code>format!</code> để nối các giá trị <code>String</code> một cách thuận tiện.</p>
+<h4 id="thêm-vào-cuối-append-chuỗi-bằng-push_str-và-push"><a class="header" href="#thêm-vào-cuối-append-chuỗi-bằng-push_str-và-push">Thêm vào cuối (append) chuỗi bằng <code>push_str</code> và <code>push</code></a></h4>
+<p>Chúng ta có thể tăng kích thước một <code>String</code> bằng cách sử dụng phương thức <code>push_str</code> để nối thêm một đoạn chuỗi, như được hiển thị trong mục 8-15.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let mut s = String::from(&quot;foo&quot;);
+    s.push_str(&quot;bar&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-15: Nối chuỗi vào một <code>String</code> sử dụng phương thức <code>push_str</code></span></p>
+<p>Sau hai dòng này, <code>s</code> sẽ chứa <code>foobar</code>. Phương thức <code>push_str</code> có tham số là một đoạn chuỗi (<code>&amp;str</code>) vì chúng ta không nhất thiết chiếm quyền sở hữu tham số đó. Ví dụ, trong mã trong mục 8-16, chúng ta muốn có thể sử dụng lại <code>s2</code> sau khi thêm nội dung của nó vào <code>s1</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let mut s1 = String::from(&quot;foo&quot;);
+    let s2 = &quot;bar&quot;;
+    s1.push_str(s2);
+    println!(&quot;s2 is {}&quot;, s2);
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-16: Sử dụng lại một đoạn chuỗi sau khi thêm nội dung của nó vào một <code>String</code> khác</span></p>
+<p>Nếu phương thức <code>push_str</code> chiếm quyền sở hữu của <code>s2</code>, chúng ta sẽ không thể in giá trị của nó tại dòng cuối. Tuy nhiên, đoạn mã này hoạt động như mong đợi!</p>
+<p>Phương thức <code>push</code> nhận ký tự đơn làm tham số và thêm nó vào <code>String</code>. Mục 8-17 thêm ký tự “l” vào một <code>String</code> bằng phương thức <code>push</code></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let mut s = String::from(&quot;lo&quot;);
+    s.push('l');
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-17: Thêm một ký tự vào giá trị <code>String</code> bằng cách dùng phương thức <code>push</code></span></p>
+<p>Kết quả là, <code>s</code> sẽ chứa <code>lol</code>.</p>
+<h4 id="nối-chuỗi-với-toán-tử--hoặc-macro-format"><a class="header" href="#nối-chuỗi-với-toán-tử--hoặc-macro-format">Nối chuỗi với toán tử <code>+</code> hoặc macro <code>format!</code></a></h4>
+<p>Thông thường, bạn sẽ muốn kết hợp hai chuỗi hiện có. Có một cách để làm điều này là dùng toán tử <code>+</code>, được thể hiện ở mục 8-18</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let s1 = String::from(&quot;Hello, &quot;);
+    let s2 = String::from(&quot;world!&quot;);
+    let s3 = s1 + &amp;s2; // note s1 has been moved here and can no longer be used
+<span class="boring">}
+</span></code></pre></pre>
+<p><span class="caption">Mục 8-18: dùng toán tử <code>+</code> để kết hợp hai chuỗi thành một chuỗi mới</span></p>
+<p>Chuỗi <code>s3</code> sẽ chứa <code>Hello, world!</code>. Lý do <code>s1</code> không còn hợp lệ nữa sau khi thêm và lý do chúng ta sử dụng tham chiếu đến <code>s2</code> có liên quan đến phương thức bên dưới thực sự của toán tử <code>+</code>. Toán tử <code>+</code> sử dụng phương thức <code>add</code>, có cách biểu diễn trông giống như sau:</p>
+<pre><code class="language-rust ignore">fn add(self, s: &amp;str) -&gt; String {
+</code></pre>
+<p>Trong thư viện chuẩn, bạn sẽ thấy <code>add</code> được định nghĩa bằng cách sử dụng generic và các loại liên quan. Ở đây, chúng ta đã thay thế bằng các loại cụ thể, đó là điều xảy ra khi chúng ta gọi phương thức này bằng các giá trị <code>String</code>. Chúng ta sẽ thảo luận về generic trong Chương 10. Thông qua phương thức bên dưới này, sẽ cho chúng ta những manh mối để hiểu về những điểm phức tạp của toán tử <code>+</code>.</p>
+<p>Đầu tiên, <code>s2</code> có dấu <code>&amp;</code>, nghĩa là chúng ta đang thêm một <em>tham chiếu</em> của chuỗi thứ hai vào chuỗi đầu tiên. Điều này là do tham số <code>s</code> trong hàm <code>add</code>: chúng ta chỉ có thể thêm một kiểu <code>&amp;str</code> vào một <code>String</code>; chúng ta không thể thêm hai giá trị <code>String</code> lại với nhau. Nhưng chờ đã - kiểu của <code>&amp;s2</code> là <code>&amp;String</code>, không phải là <code>&amp;str</code> như được chỉ định trong tham số thứ hai của <code>add</code>. Vậy tại sao đoạn code của mục 8-18 biên dịch được?</p>
+<p>Lý do chúng ta có thể sử dụng <code>&amp;s2</code> trong lệnh gọi tới <code>add</code> là trình biên dịch có thể <em>ép kiểu</em> đối số <code>&amp;String</code> thành một <code>&amp;str</code>. Khi chúng ta gọi phương thức <code>add</code>, Rust sử dụng một <em>ép kiểu tự động</em>, mà cụ thể ở đây sẽ biến<code>&amp;s2</code> thành <code>&amp;s2[..]</code>. Chúng ta sẽ thảo luận sâu hơn về ép kiểu tự động trong Chương 15. Bởi vì <code>add</code> không chiếm quyền sở hữu tham số <code>s</code> nên <code>s2</code> sẽ vẫn là một <code>String</code> hợp lệ sau thao tác này.</p>
+<p>Thứ hai, chúng ta có thể thấy trong phương thức đại diện rằng, <code>add</code> chiếm quyền sở hữu <code>self</code> bởi vì <code>self</code> <em>không</em> có dấu <code>&amp;</code>. Điều này có nghĩa là quyền sở hữu của <code>s1</code> trong mục 8-18 sẽ được chuyển vào lệnh gọi <code>add</code> và sẽ không còn hợp lệ sau lời gọi đó nữa. Vì vậy, mặc dù <code>let s3 = s1 + &amp; s2;</code> có vẻ như nó sẽ sao chép cả hai chuỗi và tạo một chuỗi mới, nhưng câu lệnh này thực sự chiếm quyền sở hữu của biến <code>s1</code>, thêm vào cuối nội dung bản sao của <code>s2</code> và sau đó trả về tham chiếu quyền sở hữu của kết quả. Nói cách khác, có vẻ như nó đang tạo ra rất nhiều bản sao nhưng không phải vậy; việc thực hiện hiệu quả hơn sao chép.</p>
+<p>Nếu chúng ta cần nối nhiều chuỗi, hành vi của toán tử <code>+</code> sẽ khó sử dụng:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let s1 = String::from(&quot;tic&quot;);
+    let s2 = String::from(&quot;tac&quot;);
+    let s3 = String::from(&quot;toe&quot;);
+
+    let s = s1 + &quot;-&quot; + &amp;s2 + &quot;-&quot; + &amp;s3;
+<span class="boring">}
+</span></code></pre></pre>
+<p>Lúc này, <code>s</code> sẽ là <code>tic-tac-toe</code>. Với các ký tự <code>+</code> và <code>&quot;</code>, rất khó để biết điều gì đang xảy ra. Thay vào đó, để kết hợp những chuỗi phức tạp hơn, chúng ta có thể sử dụng macro <code>format!</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span>    let s1 = String::from(&quot;tic&quot;);
+    let s2 = String::from(&quot;tac&quot;);
+    let s3 = String::from(&quot;toe&quot;);
+
+    let s = format!(&quot;{}-{}-{}&quot;, s1, s2, s3);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Mã này cũng thiết lập <code>s</code> thành <code>tic-tac-toe</code>. Macro <code>format!</code> hoạt động giống như <code>println!</code>, nhưng thay vì in kết quả ra màn hình, nó trả về một <code>String</code> kèm với nội dung. Phiên bản của đoạn mã sử dụng <code>format!</code> dễ đọc hơn nhiều và mã được tạo bởi macro <code>format!</code> sử dụng các tham chiếu để lệnh gọi này không chiếm quyền sở hữu bất kỳ tham số nào của nó.</p>
+<h3 id="chỉ-mục-index-đến-string"><a class="header" href="#chỉ-mục-index-đến-string">Chỉ mục index đến String</a></h3>
+<p>Trong nhiều ngôn ngữ lập trình khác, truy cập đến các ký tự riêng lẻ trong một chuỗi bằng cách tham chiếu theo chỉ mục là một thao tác hợp lệ và phổ biến. Tuy nhiên, nếu bạn cố truy cập các phần của <code>String</code> bằng cú pháp chỉ mục index trong Rust, bạn sẽ gặp lỗi. Xem xét mã không hợp lệ trong mục 8-19.</p>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
+</span>    let s1 = String::from(&quot;hello&quot;);
+    let h = s1[0];
+<span class="boring">}
+</span></code></pre>
+<p><span class="caption">Mục 8-19: Cố dùng cú pháp index trong String</span></p>
+<p>Đoạn mã này sẽ trả về kết quả lỗi sau:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling collections v0.1.0 (file:///projects/collections)
+error[E0277]: the type `String` cannot be indexed by `{integer}`
+ --&gt; src/main.rs:3:13
+  |
+3 |     let h = s1[0];
+  |             ^^^^^ `String` cannot be indexed by `{integer}`
+  |
+  = help: the trait `Index&lt;{integer}&gt;` is not implemented for `String`
+  = help: the following other types implement trait `Index&lt;Idx&gt;`:
+            &lt;String as Index&lt;RangeFrom&lt;usize&gt;&gt;&gt;
+            &lt;String as Index&lt;RangeFull&gt;&gt;
+            &lt;String as Index&lt;RangeInclusive&lt;usize&gt;&gt;&gt;
+            &lt;String as Index&lt;RangeTo&lt;usize&gt;&gt;&gt;
+            &lt;String as Index&lt;RangeToInclusive&lt;usize&gt;&gt;&gt;
+            &lt;String as Index&lt;std::ops::Range&lt;usize&gt;&gt;&gt;
+            &lt;str as Index&lt;I&gt;&gt;
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `collections` due to previous error
+</code></pre>
+<p>Lỗi và ghi chú về việc lỗi này là: chuỗi trong Rust không hỗ trợ chỉ mục index. Nhưng tại sao không? Để trả lời câu hỏi đó, chúng ta cần thảo luận về cách Rust lưu trữ các chuỗi trong bộ nhớ.</p>
+<h4 id="mô-tả-cách-hoạt-động-bên-trong"><a class="header" href="#mô-tả-cách-hoạt-động-bên-trong">Mô tả cách hoạt động bên trong</a></h4>
+<p><code>String</code> là một kiểu bọc lại kiểu <code>Vec&lt;u8&gt;</code>. Hãy xem xét một số chuỗi UTF-8 được mã hóa đúng cách từ mục 8-14. Đầu tiên là dòng này:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span><span class="boring">    let hello = String::from(&quot;السلام عليكم&quot;);
+</span><span class="boring">    let hello = String::from(&quot;Dobrý den&quot;);
+</span><span class="boring">    let hello = String::from(&quot;Hello&quot;);
+</span><span class="boring">    let hello = String::from(&quot;שָׁלוֹם&quot;);
+</span><span class="boring">    let hello = String::from(&quot;नमस्ते&quot;);
+</span><span class="boring">    let hello = String::from(&quot;こんにちは&quot;);
+</span><span class="boring">    let hello = String::from(&quot;안녕하세요&quot;);
+</span><span class="boring">    let hello = String::from(&quot;你好&quot;);
+</span><span class="boring">    let hello = String::from(&quot;Olá&quot;);
+</span><span class="boring">    let hello = String::from(&quot;Здравствуйте&quot;);
+</span>    let hello = String::from(&quot;Hola&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Trong trường hợp này, <code>len</code> sẽ là 4, có nghĩa là vector lưu trữ chuỗi “Hola” dài 4 byte. Mỗi chữ cái này chiếm 1 byte khi được mã hóa bằng UTF-8. Tuy nhiên, dòng sau đây có thể làm bạn ngạc nhiên. (Lưu ý rằng chuỗi này bắt đầu bằng chữ cái Cyrillic viết hoa Ze, không phải số 3 trong tiếng Ả Rập)</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
+</span><span class="boring">    let hello = String::from(&quot;السلام عليكم&quot;);
+</span><span class="boring">    let hello = String::from(&quot;Dobrý den&quot;);
+</span><span class="boring">    let hello = String::from(&quot;Hello&quot;);
+</span><span class="boring">    let hello = String::from(&quot;שָׁלוֹם&quot;);
+</span><span class="boring">    let hello = String::from(&quot;नमस्ते&quot;);
+</span><span class="boring">    let hello = String::from(&quot;こんにちは&quot;);
+</span><span class="boring">    let hello = String::from(&quot;안녕하세요&quot;);
+</span><span class="boring">    let hello = String::from(&quot;你好&quot;);
+</span><span class="boring">    let hello = String::from(&quot;Olá&quot;);
+</span>    let hello = String::from(&quot;Здравствуйте&quot;);
+<span class="boring">    let hello = String::from(&quot;Hola&quot;);
+</span><span class="boring">}
+</span></code></pre></pre>
+<p>Khi được hỏi chuỗi dài bao nhiêu, bạn có thể trả lời là 12. Thực tế, câu trả lời của Rust là 24: đó là số byte cần thiết để mã hóa “Здравствуйте” trong UTF-8, bởi vì mỗi giá trị vô hướng Unicode trong chuỗi đó chiếm 2 byte dung lượng lưu trữ . Do đó, một chỉ mục index trỏ đến các byte của chuỗi sẽ không phải lúc nào cũng tương ứng với một giá trị vô hướng Unicode hợp lệ. Để chứng minh, hãy xem xét mã Rust không hợp lệ này:</p>
+<pre><code class="language-rust ignore does_not_compile">let hello = &quot;Здравствуйте&quot;;
+let answer = &amp;hello[0];
+</code></pre>
+<p>Bạn biết rằng <code>câu trả lời</code> của chữ cái đầu tiên sẽ không phải là <code>З</code>. Khi được mã hóa bằng UTF-8, byte đầu tiên của <code>З</code> là <code>208</code> và byte thứ hai là <code>151</code>, vì vậy, có vẻ như <code>câu trả lời</code> trên thực tế phải là <code>208</code>, nhưng <code>208</code> không phải là ký tự hợp lệ theo riêng nó. Trả về <code>208</code> có thể không phải là những gì người dùng muốn nếu họ yêu cầu ký tự đầu tiên của chuỗi này; tuy nhiên, đó là dữ liệu duy nhất mà Rust có ở chỉ mục byte số 0. Người dùng thường không muốn giá trị byte được trả về, ngay cả khi chuỗi chỉ chứa các chữ cái Latinh: nếu <code>&amp;&quot;hello&quot;[0]</code> là mã hợp lệ trả về giá trị byte, nó sẽ trả về <code>104</code>, không phải <code>h</code>.</p>
+<p>Vì vậy, để tránh trả về một giá trị không mong muốn và gây ra các lỗi mà có thể không được phát hiện ngay lập tức, câu trả lời là: Rust không biên dịch mã này gì hết và ngăn chặn sự hiểu lầm sớm trong quá trình phát triển.</p>
+<h4 id="byte-giá-trị-vô-hướng-scalar-và-các-cụm-ký-tự-kết-hợp-grapheme-Ôi-trời"><a class="header" href="#byte-giá-trị-vô-hướng-scalar-và-các-cụm-ký-tự-kết-hợp-grapheme-Ôi-trời">Byte, giá trị vô hướng (scalar) và các cụm ký tự kết hợp (grapheme)! Ôi trời!</a></h4>
+<p>Một điểm khác về UTF-8 là trên thực tế có ba cách liên quan để xem xét chuỗi từ quan điểm của Rust: dưới dạng byte, giá trị vô hướng (scalar) và cụm ký tự kết hợp (grapheme) (thứ gần nhất với những gì chúng ta gọi là <em>chữ cái</em>).</p>
+<p>Nếu chúng ta nhìn vào từ tiếng Hindi “नमस्ते” được viết bằng chữ viết Devanagari, nó được lưu trữ dưới dạng vector của các giá trị <code>u8</code> trông giống như sau:</p>
+<pre><code class="language-text">[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
+224, 165, 135]
+</code></pre>
+<p>Đó là 18 byte và là cách máy tính cuối cùng lưu trữ dữ liệu này. Nếu chúng ta xem chúng dưới dạng giá trị vô hướng Unicode, là kiểu <code>char</code> của Rust, thì những byte đó trông như thế này:</p>
+<pre><code class="language-text">['न', 'म', 'स', '्', 'त', 'े']
+</code></pre>
+<p>Có sáu giá trị <code>char</code> ở đây, nhưng giá trị thứ tư và thứ sáu không phải là chữ cái thực sự: chúng là những dấu phụ không có ý nghĩa nếu đứng riêng. Cuối cùng, nếu chúng ta xem chúng dưới dạng các cụm ký tự kết hợp (grapheme), chúng ta sẽ hiểu một người sẽ gọi bốn chữ cái tạo nên từ tiếng Hindi:</p>
+<pre><code class="language-text">[&quot;न&quot;, &quot;म&quot;, &quot;स्&quot;, &quot;ते&quot;]
+</code></pre>
+<p>Rust cung cấp những cách khác nhau để diễn giải dữ liệu chuỗi thô mà máy tính lưu trữ để mỗi chương trình có thể chọn cách diễn giải mà nó cần, bất kể dữ liệu đó bằng ngôn ngữ con người nào.</p>
+<p>Lý do cuối cùng là Rust không cho phép chúng ta lập chỉ mục cho <code>String</code> để truy cập một ký tự là, các hoạt động lập chỉ mục được xem là luôn mất chi phí thời gian không đổi (O(1)). Nhưng không thể đảm bảo hiệu suất đó bằng <code>String</code>, vì Rust sẽ phải lặp qua hết các nội dung từ đầu chuỗi đến vị trí index chỉ định để xác định xem có bao nhiêu ký tự hợp lệ.</p>
+<h3 id="cắt-chuỗi"><a class="header" href="#cắt-chuỗi">Cắt chuỗi</a></h3>
+<p>Lập chỉ mục cho một chuỗi thường là một ý tưởng tồi vì nó không biết rõ kiểu trả về của thao tác lấy giá trị theo index trong chuỗi là gì: giá trị byte, ký tự, một cụm grapheme hay một đoạn chuỗi. Do đó, nếu bạn thực sự cần sử dụng các chỉ số để tạo các đoạn chuỗi, Rust yêu cầu bạn phải cụ thể hơn nữa.</p>
+<p>Thay vì lập chỉ mục bằng cách sử dụng <code>[]</code> với một số đơn lẻ, bạn có thể sử dụng <code>[]</code> với một dãy phạm vi để tạo một đoạn chuỗi chứa các byte cụ thể:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let hello = &quot;Здравствуйте&quot;;
+
+let s = &amp;hello[0..4];
+<span class="boring">}
+</span></code></pre></pre>
+<p>Ở đây, <code>s</code> sẽ là một <code>&amp;str</code> chứa 4 byte đầu tiên của chuỗi.
+Trước đó, chúng tôi đã đề cập rằng mỗi ký tự này là 2 byte, có nghĩa là <code>s</code> sẽ là <code>Зд</code>.</p>
+<p>Nếu chúng ta cố thử cắt chuỗi chỉ một phần byte của một ký tự, đại loại một thứ gì đó như <code>&amp;hello[0..1]</code>, Rust sẽ gây lỗi lúc chạy giống như trường hợp dùng chỉ mục index không hợp lệ truy cập phần tử trong một vector:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling collections v0.1.0 (file:///projects/collections)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.43s
+     Running `target/debug/collections`
+thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`', library/core/src/str/mod.rs:127:5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>Bạn nên sử dụng các dãy phạm vi để tạo các đoạn chuỗi một cách thận trọng, vì làm như vậy có thể làm hỏng chương trình của bạn.</p>
+<h3 id="cách-duyệt-qua-các-phần-tử-của-chuỗi"><a class="header" href="#cách-duyệt-qua-các-phần-tử-của-chuỗi">Cách duyệt qua các phần tử của chuỗi</a></h3>
+<p>Cách tốt nhất để thao tác trên các phần của chuỗi là phải rõ ràng về việc bạn mong muốn: kiểu ký tự hay kiểu byte. Đối với các giá trị vô hướng Unicode riêng lẻ, hãy sử dụng phương thức <code>chars</code>. Việc gọi <code>chars</code> trên “Зд” sẽ tách chuỗi ra và trả về hai giá trị kiểu <code>char</code> và bạn có thể lặp qua kết quả này để truy cập từng phần tử:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for c in &quot;Зд&quot;.chars() {
+    println!(&quot;{}&quot;, c);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Đoạn mã này sẽ in ra như sau:</p>
+<pre><code class="language-text">З
+д
+</code></pre>
+<p>Ngoài ra, phương thức <code>bytes</code> trả về từng byte thô, có thể phù hợp với lĩnh vực của bạn:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for b in &quot;Зд&quot;.bytes() {
+    println!(&quot;{}&quot;, b);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Đoạn mã này sẽ in ra bốn byte đã tạo nên chuỗi này:</p>
+<pre><code class="language-text">208
+151
+208
+180
+</code></pre>
+<p>Nhưng hãy nhớ rằng các giá trị vô hướng Unicode hợp lệ có thể được tạo thành từ nhiều hơn 1 byte.</p>
+<p>Việc lấy các cụm ký tự kết hợp (grapheme) từ chuỗi giống như với chữ viết Devanagari rất phức tạp, vì vậy chức năng này không cung cấp sẵn trong thư viện chuẩn. Có nhiều thư viện có sẵn trên <a href="https://crates.io/">crates.io</a><!-- ignore --> nếu bạn cần những chức năng này.</p>
+<h3 id="kiểu-chuỗi-không-đơn-giản-như-vậy"><a class="header" href="#kiểu-chuỗi-không-đơn-giản-như-vậy">Kiểu chuỗi không đơn giản như vậy</a></h3>
+<p>Tóm lại, kiểu chuỗi rất phức tạp. Các ngôn ngữ lập trình khác nhau tạo ra các lựa chọn khác nhau về cách thể hiện sự phức tạp cho lập trình viên. Rust đã chọn việc xử lý chính xác dữ liệu <code>String</code> làm hành vi mặc định cho tất cả các chương trình Rust, điều đó có nghĩa là các lập trình viên phải suy nghĩ nhiều hơn về việc xử lý dữ liệu UTF-8 từ trước. Sự đánh đổi này cho thấy kiểu chuỗi có tính phức tạp hơn các ngôn ngữ lập trình khác, nhưng nó lại giúp bạn khỏi phải xử lý các lỗi liên quan đến các ký tự không phải ASCII sau này trong vòng đời phát triển của mình.</p>
+<p>Tin tốt là thư viện chuẩn cung cấp rất nhiều chức năng được xây dựng dựa trên các loại <code>String</code> và <code>&amp;str</code> để giúp xử lý các tình huống phức tạp này một cách chính xác. Nhớ xem tài liệu để biết các phương thức hữu ích như <code>contains</code> để tìm kiếm trong một chuỗi và <code>replace</code> để thay thế các phần của một chuỗi bằng một chuỗi khác.</p>
+<p>Hãy chuyển sang một thứ ít phức tạp hơn một chút: bản đồ băm!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch08-01-vectors.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="ch08-03-hash-maps.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch08-01-vectors.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="ch08-03-hash-maps.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="ferris.js"></script>
+
+
+    </body>
+</html>
