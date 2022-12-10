@@ -148,26 +148,27 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="defining-an-enum"><a class="header" href="#defining-an-enum">Defining an Enum</a></h2>
-<p>Where structs give you a way of grouping together related fields and data, like
-a <code>Rectangle</code> with its <code>width</code> and <code>height</code>, enums give you a way of saying a
-value is one of a possible set of values. For example, we may want to say that
-<code>Rectangle</code> is one of a set of possible shapes that also includes <code>Circle</code> and
-<code>Triangle</code>. To do this, Rust allows us to encode these possibilities as an enum.</p>
-<p>Let’s look at a situation we might want to express in code and see why enums
-are useful and more appropriate than structs in this case. Say we need to work
-with IP addresses. Currently, two major standards are used for IP addresses:
-version four and version six. Because these are the only possibilities for an
-IP address that our program will come across, we can <em>enumerate</em> all possible
-variants, which is where enumeration gets its name.</p>
-<p>Any IP address can be either a version four or a version six address, but not
-both at the same time. That property of IP addresses makes the enum data
-structure appropriate, because an enum value can only be one of its variants.
-Both version four and version six addresses are still fundamentally IP
-addresses, so they should be treated as the same type when the code is handling
-situations that apply to any kind of IP address.</p>
-<p>We can express this concept in code by defining an <code>IpAddrKind</code> enumeration and
-listing the possible kinds an IP address can be, <code>V4</code> and <code>V6</code>. These are the
-variants of the enum:</p>
+<p>Trong khi struct cho phép bạn nhóm các trường dữ liệu liên quan lại với nhau,
+ví dụ như <code>Rectangle</code> (hình chữ nhật) sẽ có <code>width</code> (chiều rộng) và <code>height</code> 
+(chiều dài), enum cho phép bạn miêu tả một tập hợp chứa các giá trị có thể xảy
+ra. Ví dụ, chúng ta có thể muốn nói rằng <code>Rectangle</code> là một hình trong một tập
+hợp các hình, bao gồm <code>Circle</code> (hình tròn) và <code>Triangle</code> (tam giác). Rust cho
+phép chúng ta định nghĩa kiểu dữ liệu này bằng một enum.</p>
+<p>Hãy xem xét một trường hợp mà chúng ta có thể muốn biểu diễn trong code và xem
+tại sao enum là hữu ích và phù hợp hơn struct trong trường hợp này. Hãy nói
+rằng chúng ta cần làm việc với địa chỉ IP. Hiện tại, có hai tiêu chuẩn chính
+được sử dụng cho địa chỉ IP: IPv4 và IPv6. Vì đây là những lựa chọn duy nhất
+cho địa chỉ IP mà chương trình của chúng ta sẽ gặp phải, chúng ta có thể <em>liệt
+kê</em> (enumerate) tất cả các biến thể có thể xảy ra, tên <code>enum</code> cũng được đặt ra
+từ enumerate.</p>
+<p>Bất kỳ địa chỉ IP nào đều có thể là địa chỉ IPv4 hoặc địa chỉ IPv6, nhưng không
+thể là cả hai cùng một lúc. Đặc tính này của địa chỉ IP khiến cho kiểu dữ liệu
+enum phù hợp, vì một giá trị enum chỉ có thể là một trong các biến thể của nó.
+Cả địa chỉ IPv4 và địa chỉ IPv6 vẫn là địa chỉ cơ bản đều là địa chỉ IP, vì vậy
+chúng nên được xem như cùng một kiểu dữ liệu khi code cần xử lý địa chỉ IP.</p>
+<p>Chúng ta có thể biểu diễn khái niệm này trong code bằng cách định nghĩa một
+enum <code>IpAddrKind</code> và liệt kê các loại có thể có của địa chỉ IP, <code>V4</code> và <code>V6</code>.
+Đây là các biến thể của enum:</p>
 <pre><pre class="playground"><code class="language-rust">enum IpAddrKind {
     V4,
     V6,
@@ -183,9 +184,11 @@ variants of the enum:</p>
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p><code>IpAddrKind</code> is now a custom data type that we can use elsewhere in our code.</p>
+<p><code>IpAddrKind</code> là một kiểu dữ liệu tùy chỉnh mà chúng ta có thể sử dụng ở bất kỳ
+đâu trong code của mình.</p>
 <h3 id="enum-values"><a class="header" href="#enum-values">Enum Values</a></h3>
-<p>We can create instances of each of the two variants of <code>IpAddrKind</code> like this:</p>
+<p>Chúng ta có thể tạo các thể hiện (instance) của mỗi biến thể của <code>IpAddrKind</code>
+như sau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
@@ -201,10 +204,11 @@ variants of the enum:</p>
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>Note that the variants of the enum are namespaced under its identifier, and we
-use a double colon to separate the two. This is useful because now both values
-<code>IpAddrKind::V4</code> and <code>IpAddrKind::V6</code> are of the same type: <code>IpAddrKind</code>. We
-can then, for instance, define a function that takes any <code>IpAddrKind</code>:</p>
+<p>Lưu ý rằng các biến thể của enum được đặt trong namepsace của nó, và chúng ta
+sử dụng hai dấu hai chấm để phân tách chúng. Điều này rất hữu ích bởi vì giờ cả
+hai giá trị <code>IpAddrKind::V4</code> và <code>IpAddrKind::V6</code> đều là cùng một kiểu:
+<code>IpAddrKind</code>. Chúng ta có thể, ví dụ, định nghĩa một hàm nhận bất kỳ
+<code>IpAddrKind</code> nào:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
@@ -220,7 +224,7 @@ can then, for instance, define a function that takes any <code>IpAddrKind</code>
 </span><span class="boring">
 </span>fn route(ip_kind: IpAddrKind) {}
 </code></pre></pre>
-<p>And we can call this function with either variant:</p>
+<p>Và chúng ta có thể gọi hàm này với bất kỳ biến thể nào:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
@@ -236,11 +240,11 @@ can then, for instance, define a function that takes any <code>IpAddrKind</code>
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>Using enums has even more advantages. Thinking more about our IP address type,
-at the moment we don’t have a way to store the actual IP address <em>data</em>; we
-only know what <em>kind</em> it is. Given that you just learned about structs in
-Chapter 5, you might be tempted to tackle this problem with structs as shown in
-Listing 6-1.</p>
+<p>Sử dụng enum có nhiều lợi ích khác. Nghĩ về kiểu địa chỉ IP của chúng ta, hiện
+tại chúng ta không có cách nào để lưu trữ <em>dữ liệu</em> thực sự của địa chỉ IP;
+chúng ta chỉ biết nó là <em>loại</em> gì. Vì bạn mới học về struct trong chương 5, bạn
+có thể muốn giải quyết vấn đề này bằng cách sử dụng struct như trong Listing
+6-1.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,
@@ -263,20 +267,20 @@ Listing 6-1.</p>
     };
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-1: Storing the data and <code>IpAddrKind</code> variant of
-an IP address using a <code>struct</code></span></p>
-<p>Here, we’ve defined a struct <code>IpAddr</code> that has two fields: a <code>kind</code> field that
-is of type <code>IpAddrKind</code> (the enum we defined previously) and an <code>address</code> field
-of type <code>String</code>. We have two instances of this struct. The first is <code>home</code>,
-and it has the value <code>IpAddrKind::V4</code> as its <code>kind</code> with associated address
-data of <code>127.0.0.1</code>. The second instance is <code>loopback</code>. It has the other
-variant of <code>IpAddrKind</code> as its <code>kind</code> value, <code>V6</code>, and has address <code>::1</code>
-associated with it. We’ve used a struct to bundle the <code>kind</code> and <code>address</code>
-values together, so now the variant is associated with the value.</p>
-<p>However, representing the same concept using just an enum is more concise:
-rather than an enum inside a struct, we can put data directly into each enum
-variant. This new definition of the <code>IpAddr</code> enum says that both <code>V4</code> and <code>V6</code>
-variants will have associated <code>String</code> values:</p>
+<p><span class="caption">Listing 6-1: Lưu trữ dữ liệu và biến thể <code>IpAddrKind</code> của
+một địa chỉ IP bằng cách sử dụng một <code>struct</code></span></p>
+<p>Ở đây, chúng ta đã định nghĩa một struct <code>IpAddr</code> có hai trường: một trường
+<code>kind</code> có kiểu <code>IpAddrKind</code> (enum mà chúng ta đã định nghĩa trước đó) và một
+trường <code>address</code> có kiểu <code>String</code>. Chúng ta có hai thể hiện của struct này. Thứ
+nhất là <code>home</code>, và nó có giá trị <code>IpAddrKind::V4</code> làm giá trị <code>kind</code> với dữ
+liệu địa chỉ liên quan là <code>127.0.0.1</code>. Thể hiện thứ hai là <code>loopback</code>. Nó có
+biến thể khác của <code>IpAddrKind</code> làm giá trị <code>kind</code>, <code>V6</code>, và có địa chỉ <code>::1</code>.
+Chúng ta đã sử dụng một struct để gói gọn các giá trị <code>kind</code> và <code>address</code> lại
+với nhau, vì vậy giờ biến thể được liên kết với giá trị.</p>
+<p>Tuy nhiên, biểu diễn cùng một khái niệm bằng cách sử dụng chỉ một enum sẽ ngắn
+gọn hơn: thay vì một enum bên trong một struct, chúng ta có thể đặt dữ liệu
+trực tiếp vào mỗi biến thể enum. Định nghĩa mới của enum <code>IpAddr</code> nói rằng cả
+biến thể <code>V4</code> và <code>V6</code> sẽ có các giá trị <code>String</code> liên quan:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(String),
@@ -288,19 +292,18 @@ variants will have associated <code>String</code> values:</p>
     let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
 <span class="boring">}
 </span></code></pre></pre>
-<p>We attach data to each variant of the enum directly, so there is no need for an
-extra struct. Here it’s also easier to see another detail of how enums work:
-the name of each enum variant that we define also becomes a function that
-constructs an instance of the enum. That is, <code>IpAddr::V4()</code> is a function call
-that takes a <code>String</code> argument and returns an instance of the <code>IpAddr</code> type. We
-automatically get this constructor function defined as a result of defining the
-enum.</p>
-<p>There’s another advantage to using an enum rather than a struct: each variant
-can have different types and amounts of associated data. Version four type IP
-addresses will always have four numeric components that will have values
-between 0 and 255. If we wanted to store <code>V4</code> addresses as four <code>u8</code> values but
-still express <code>V6</code> addresses as one <code>String</code> value, we wouldn’t be able to with
-a struct. Enums handle this case with ease:</p>
+<p>Chúng ta gắn dữ liệu vào mỗi biến thể enum trực tiếp, vì vậy không cần một
+struct bổ sung. Ở đây cũng dễ dàng hơn để thấy một chi tiết khác về cách hoạt
+động của enum: tên của mỗi biến thể enum mà chúng ta định nghĩa cũng trở thành
+constructor tạo ra một instance của enum. Trong đó, <code>IpAddr::V4()</code> là
+constructor nhận một đối số <code>String</code> và trả về một instance của kiểu <code>IpAddr</code>. Constructor này được tự động định nghĩa khi định nghĩa enum.</p>
+<p>Một lợi ích khác của việc sử dụng enum thay vì struct là mỗi biến thể có thể có
+các kiểu và số lượng dữ liệu liên quan khác nhau (ở đây nói về kiểủ của dữ liệu
+được gắn vào enum, không phải kiểu dữ liệu mà enum thể hiện). Địa chỉ IP phiên
+bản 4 sẽ luôn có 4 thành phần số có giá trị từ 0 đến 255. Nếu chúng ta muốn lưu
+trữ địa chỉ <code>V4</code> dưới dạng 4 giá trị <code>u8</code> nhưng vẫn muốn biểu diễn địa chỉ <code>V6</code>
+dưới dạng một giá trị <code>String</code>, chúng ta sẽ không thể làm được với một struct.
+Enum xử lý trường hợp này một cách dễ dàng:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(u8, u8, u8, u8),
@@ -312,14 +315,12 @@ a struct. Enums handle this case with ease:</p>
     let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
 <span class="boring">}
 </span></code></pre></pre>
-<p>We’ve shown several different ways to define data structures to store version
-four and version six IP addresses. However, as it turns out, wanting to store
-IP addresses and encode which kind they are is so common that <a href="../std/net/enum.IpAddr.html">the standard
-library has a definition we can use!</a><!-- ignore --> Let’s look at how
-the standard library defines <code>IpAddr</code>: it has the exact enum and variants that
-we’ve defined and used, but it embeds the address data inside the variants in
-the form of two different structs, which are defined differently for each
-variant:</p>
+<p>Chúng ta đã có thể dùng nhiều cách khác nhau để định nghĩa cấu trúc dữ liệu để
+lưu trữ địa chỉ IPv4 và IPv6. Tuy nhiên, việc lưu trữ địa chỉ IP và mã hóa loại
+địa chỉ đó là rất phổ biến nên <a href="../std/net/enum.IpAddr.html">thư viện chuẩn có một định nghĩa cho chúng mà chúng ta có thể sử dụng!</a><!-- ignore --> Hãy xem cách thư viện chuẩn
+định nghĩa <code>IpAddr</code>: nó có enum và các biến thể mà chúng ta đã định nghĩa và sử
+dụng, nhưng nó nhúng dữ liệu địa chỉ bên trong các biến thể dưới dạng hai
+struct khác nhau, được định nghĩa khác nhau cho mỗi biến thể:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -337,16 +338,16 @@ enum IpAddr {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>This code illustrates that you can put any kind of data inside an enum variant:
-strings, numeric types, or structs, for example. You can even include another
-enum! Also, standard library types are often not much more complicated than
-what you might come up with.</p>
-<p>Note that even though the standard library contains a definition for <code>IpAddr</code>,
-we can still create and use our own definition without conflict because we
-haven’t brought the standard library’s definition into our scope. We’ll talk
-more about bringing types into scope in Chapter 7.</p>
-<p>Let’s look at another example of an enum in Listing 6-2: this one has a wide
-variety of types embedded in its variants.</p>
+<p>Đoạn code này minh họa rằng bạn có thể đặt bất kỳ loại dữ liệu nào bên trong
+một biến thể enum: chuỗi, kiểu số, hoặc struct. Bạn cũng có thể bao gồm một
+enum khác! Ngoài ra, các loại thư viện chuẩn thường không phức tạp hơn những gì
+bạn có thể tạo ra.</p>
+<p>Lưu ý rằng ngay cả khi thư viện chuẩn chứa một định nghĩa cho <code>IpAddr</code>, chúng
+ta vẫn có thể tạo và sử dụng định nghĩa của riêng mình mà không xung đột vì
+chúng ta chưa đưa định nghĩa của thư viện chuẩn vào phạm vi (scope) của mình.
+Chúng ta sẽ nói thêm về việc đưa các loại vào phạm vi trong Chương 7.</p>
+<p>Hãy cùng nhìn vào một ví dụ khác về enum trong Listing 6-2: một enum <code>Message</code>
+có các biến thể lưu trữ các loại và số lượng khác nhau của giá trị.</p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -356,20 +357,16 @@ variety of types embedded in its variants.</p>
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-2: A <code>Message</code> enum whose variants each store
-different amounts and types of values</span></p>
-<p>This enum has four variants with different types:</p>
+<p>Enum này có 4 biến thể với các loại khác nhau:</p>
 <ul>
-<li><code>Quit</code> has no data associated with it at all.</li>
-<li><code>Move</code> has named fields like a struct does.</li>
-<li><code>Write</code> includes a single <code>String</code>.</li>
-<li><code>ChangeColor</code> includes three <code>i32</code> values.</li>
+<li><code>Quit</code> không có dữ liệu nào được gắn với nó.</li>
+<li><code>Move</code> có các trường được đặt tên giống như một struct.</li>
+<li><code>Write</code> bao gồm một chuỗi <code>String</code>.</li>
+<li><code>ChangeColor</code> bao gồm 3 giá trị <code>i32</code>.</li>
 </ul>
-<p>Defining an enum with variants such as the ones in Listing 6-2 is similar to
-defining different kinds of struct definitions, except the enum doesn’t use the
-<code>struct</code> keyword and all the variants are grouped together under the <code>Message</code>
-type. The following structs could hold the same data that the preceding enum
-variants hold:</p>
+<p>Định nghĩa một enum với các biến thể như trong Listing 6-2 tương tự như định
+nghĩa các loại struct khác, ngoại trừ enum không sử dụng từ khóa <code>struct</code> và
+tất cả các biến thể được nhóm lại dưới loại <code>Message</code>. Các struct sau có thể chứa cùng dữ liệu với các biến thể enum trước đó:</p>
 <pre><pre class="playground"><code class="language-rust">struct QuitMessage; // unit struct
 struct MoveMessage {
     x: i32,
@@ -380,12 +377,14 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>But if we used the different structs, which each have their own type, we
-couldn’t as easily define a function to take any of these kinds of messages as
-we could with the <code>Message</code> enum defined in Listing 6-2, which is a single type.</p>
-<p>There is one more similarity between enums and structs: just as we’re able to
-define methods on structs using <code>impl</code>, we’re also able to define methods on
-enums. Here’s a method named <code>call</code> that we could define on our <code>Message</code> enum:</p>
+<p>Nhưng nếu chúng ta sử dụng các struct khác, mỗi struct có loại riêng, chúng ta
+sẽ không thể dễ dàng định nghĩa một hàm nhận bất kỳ loại tin nhắn nào như chúng
+ta có thể với enum <code>Message</code> được định nghĩa trong Listing 6-2, một loại duy
+nhất.</p>
+<p>Có một điểm tương đồng nữa giữa enum và struct: giống như chúng ta có thể định
+nghĩa các phương thức trên struct sử dụng <code>impl</code>, chúng ta cũng có thể định
+nghĩa các phương thức trên enum. Đây là một phương thức có tên <code>call</code> mà chúng
+ta có thể định nghĩa trên enum <code>Message</code> của chúng ta:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    enum Message {
 </span><span class="boring">        Quit,
@@ -404,49 +403,46 @@ enums. Here’s a method named <code>call</code> that we could define on our <co
     m.call();
 <span class="boring">}
 </span></code></pre></pre>
-<p>The body of the method would use <code>self</code> to get the value that we called the
-method on. In this example, we’ve created a variable <code>m</code> that has the value
-<code>Message::Write(String::from(&quot;hello&quot;))</code>, and that is what <code>self</code> will be in the
-body of the <code>call</code> method when <code>m.call()</code> runs.</p>
-<p>Let’s look at another enum in the standard library that is very common and
-useful: <code>Option</code>.</p>
+<p>Phần thân của phương thức sẽ sử dụng <code>self</code> để lấy giá trị mà chúng ta khởi
+tạo. Trong ví dụ này, chúng ta đã tạo một biến <code>m</code> có giá trị <code>Message::Write(String::from(&quot;hello&quot;))</code>, và giá trị này cũng sẽ là giá trị của <code>self</code> mà
+phương thức <code>call</code> sẽ lấy ra khi <code>m.call()</code> chạy.</p>
+<p>Hãy xem một enum khác trong thư viện chuẩn rất phổ biến và hữu ích: <code>Option</code>.</p>
+<hr />
 <h3 id="the-option-enum-and-its-advantages-over-null-values"><a class="header" href="#the-option-enum-and-its-advantages-over-null-values">The <code>Option</code> Enum and Its Advantages Over Null Values</a></h3>
-<p>This section explores a case study of <code>Option</code>, which is another enum defined
-by the standard library. The <code>Option</code> type encodes the very common scenario in
-which a value could be something or it could be nothing.</p>
-<p>For example, if you request the first of a list containing items, you would get
-a value. If you request the first item of an empty list, you would get nothing.
-Expressing this concept in terms of the type system means the compiler can
-check whether you’ve handled all the cases you should be handling; this
-functionality can prevent bugs that are extremely common in other programming
-languages.</p>
-<p>Programming language design is often thought of in terms of which features you
-include, but the features you exclude are important too. Rust doesn’t have the
-null feature that many other languages have. <em>Null</em> is a value that means there
-is no value there. In languages with null, variables can always be in one of
-two states: null or not-null.</p>
-<p>In his 2009 presentation “Null References: The Billion Dollar Mistake,” Tony
-Hoare, the inventor of null, has this to say:</p>
+<p>Phần này sẽ khám phá một trường hợp sử dụng của <code>Option</code>, một enum được định
+nghĩa bởi thư viện chuẩn. Kiểu <code>Option</code> có thể được dùng trong nhiều tình huống
+mà dữ liệu có thể là một giá trị hoặc không có giá trị.</p>
+<p>Ví dụ, nếu bạn yêu cầu phần tử đầu tiên của một danh sách, bạn sẽ nhận được một
+giá trị. Nếu bạn yêu cầu phần tử đầu tiên của một danh sách rỗng, bạn sẽ không
+nhận được gì. Biểu diễn khái niệm này trong hệ thống kiểu có nghĩa là trình
+biên dịch có thể kiểm tra xem bạn có xử lý tất cả các trường hợp mà bạn nên xử
+lý hay không; tính năng này có thể ngăn chặn các lỗi rất phổ biến trong các
+ngôn ngữ lập trình khác.</p>
+<p>Thiết kế ngôn ngữ lập trình thường được xem như là việc bạn sẽ thêm vào các
+tính năng nào, nhưng các tính năng bạn loại bỏ cũng quan trọng. Rust không có
+tính năng null mà nhiều ngôn ngữ khác có. <em>Null</em> là một giá trị có nghĩa là
+không có giá trị nào ở đó. Trong các ngôn ngữ có null, các biến luôn có thể ở
+một trong hai trạng thái: null hoặc không null.</p>
+<p>Vào năm 2009, trong bài trình bày &quot;Null References: The Billion Dollar
+Mistake&quot;, Tony Hoare, người sáng chế null, nói như sau:</p>
 <blockquote>
-<p>I call it my billion-dollar mistake. At that time, I was designing the first
-comprehensive type system for references in an object-oriented language. My
-goal was to ensure that all use of references should be absolutely safe, with
-checking performed automatically by the compiler. But I couldn’t resist the
-temptation to put in a null reference, simply because it was so easy to
-implement. This has led to innumerable errors, vulnerabilities, and system
-crashes, which have probably caused a billion dollars of pain and damage in
-the last forty years.</p>
+<p>Tôi gọi nó là sai lầm đắt đỏ hàng tỷ đô la của tôi. Tại thời điểm đó, tôi
+đang thiết kế hệ thống kiểu tham chiếu đầu tiên cho một ngôn ngữ lập trình
+hướng đối tượng. Mục tiêu của tôi là đảm bảo rằng tất cả các tham chiếu sẽ được
+an toàn, với kiểm tra được thực hiện tự động bởi trình biên dịch. Nhưng tôi
+không thể cưỡng lại nỗi nản lòng của tôi để thêm vào một tham chiếu null, chỉ
+vì nó rất dễ để triển khai. Điều này đã dẫn đến hàng ngàn lỗi, thiệt hại và
+hỏng hóc hệ thống, có thể đã gây ra hàng tỷ đô la sự cố trong 40 năm qua.</p>
 </blockquote>
-<p>The problem with null values is that if you try to use a null value as a
-not-null value, you’ll get an error of some kind. Because this null or not-null
-property is pervasive, it’s extremely easy to make this kind of error.</p>
-<p>However, the concept that null is trying to express is still a useful one: a
-null is a value that is currently invalid or absent for some reason.</p>
-<p>The problem isn’t really with the concept but with the particular
-implementation. As such, Rust does not have nulls, but it does have an enum
-that can encode the concept of a value being present or absent. This enum is
-<code>Option&lt;T&gt;</code>, and it is <a href="../std/option/enum.Option.html">defined by the standard library</a><!-- ignore -->
-as follows:</p>
+<p>Vấn đề với các giá trị null là nếu bạn cố gắng sử dụng một giá trị null như một
+giá trị not-null, bạn sẽ nhận được một loại lỗi nào đó. Bởi vì tính chất này
+null hoặc not-null rất phổ biến, nó rất dễ để gây ra loại lỗi này.</p>
+<p>Tuy nhiên, khái niệm mà null đang cố gắng biểu thị vẫn là một khái niệm hữu
+ích: một null là một giá trị hiện tại không hợp lệ hoặc vắng mặt vì một lý do
+nào đó.</p>
+<p>Vấn đề thực sự không phải là với khái niệm mà là với cách hiện thực cụ thể của
+null. Vì vậy, Rust không có null, nhưng nó có một dạng enum có thể  thể hiện
+rằng giá trị đang vắng mặt. Enum này là <code>Option&lt;T&gt;</code>, và nó được <a href="../std/option/enum.Option.html">định nghĩa bởi thư viện chuẩn</a><!-- ignore --> như sau:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -456,18 +452,17 @@ as follows:</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>Option&lt;T&gt;</code> enum is so useful that it’s even included in the prelude; you
-don’t need to bring it into scope explicitly. Its variants are also included in
-the prelude: you can use <code>Some</code> and <code>None</code> directly without the <code>Option::</code>
-prefix. The <code>Option&lt;T&gt;</code> enum is still just a regular enum, and <code>Some(T)</code> and
-<code>None</code> are still variants of type <code>Option&lt;T&gt;</code>.</p>
-<p>The <code>&lt;T&gt;</code> syntax is a feature of Rust we haven’t talked about yet. It’s a
-generic type parameter, and we’ll cover generics in more detail in Chapter 10.
-For now, all you need to know is that <code>&lt;T&gt;</code> means the <code>Some</code> variant of the
-<code>Option</code> enum can hold one piece of data of any type, and that each concrete
-type that gets used in place of <code>T</code> makes the overall <code>Option&lt;T&gt;</code> type a
-different type. Here are some examples of using <code>Option</code> values to hold number
-types and string types:</p>
+<p>Enum <code>Option&lt;T&gt;</code> rất hữu ích nên nó được bao gồm trong prelude; bạn không cần
+phải đưa nó vào scope một cách tường minh. Các biến thể của nó cũng được bao
+gồm trong prelude: bạn có thể sử dụng <code>Some</code> và <code>None</code> trực tiếp mà không cần
+tiền tố <code>Option::</code>. Enum <code>Option&lt;T&gt;</code> vẫn chỉ là một enum thông thường, và <code>Some(T)</code> và <code>None</code> vẫn là các biến thể của kiểu <code>Option&lt;T&gt;</code>.</p>
+<p><code>&lt;T&gt;</code> là syntax của Rust mà chúng ta chưa nói đến. Nó là một tham số kiểu
+generic, và chúng ta sẽ tìm hiểu về generic chi tiết hơn trong chương 10. Hiện
+tại, bạn chỉ cần biết rằng <code>&lt;T&gt;</code> có nghĩa là biến thể <code>Some</code> của enum <code>Option</code>
+có thể chứa một phần dữ liệu của bất kỳ kiểu nào, và mỗi kiểu cụ thể được sử
+dụng thay thế cho <code>T</code> làm cho kiểu <code>Option&lt;T&gt;</code> tổng thể trở thành một kiểu
+khác. Đây là một số ví dụ về việc sử dụng giá trị <code>Option</code> để chứa các kiểu số
+và các kiểu chuỗi:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_number = Some(5);
     let some_char = Some('e');
@@ -475,21 +470,21 @@ types and string types:</p>
     let absent_number: Option&lt;i32&gt; = None;
 <span class="boring">}
 </span></code></pre></pre>
-<p>The type of <code>some_number</code> is <code>Option&lt;i32&gt;</code>. The type of <code>some_char</code> is
-<code>Option&lt;char&gt;</code>, which is a different type. Rust can infer these types because
-we’ve specified a value inside the <code>Some</code> variant. For <code>absent_number</code>, Rust
-requires us to annotate the overall <code>Option</code> type: the compiler can’t infer the
-type that the corresponding <code>Some</code> variant will hold by looking only at a
-<code>None</code> value. Here, we tell Rust that we mean for <code>absent_number</code> to be of type
+<p>Kiểu của <code>some_number</code> là <code>Option&lt;i32&gt;</code>. Kiểu của <code>some_char</code> là
+<code>Option&lt;char&gt;</code>, đây là một kiểu khác. Rust có thể suy ra các kiểu này vì chúng
+ta đã chỉ định một giá trị bên trong biến thể <code>Some</code>. Đối với <code>absent_number</code>,
+Rust yêu cầu chúng ta phải gắn nhãn kiểu tổng thể <code>Option</code>: trình biên dịch
+không thể suy ra kiểu mà biến thể <code>Some</code> sẽ chứa bằng cách chỉ xem một giá trị
+<code>None</code>. Ở đây, chúng ta nói với Rust rằng chúng ta muốn <code>absent_number</code> có kiểu
 <code>Option&lt;i32&gt;</code>.</p>
-<p>When we have a <code>Some</code> value, we know that a value is present and the value is
-held within the <code>Some</code>. When we have a <code>None</code> value, in some sense, it means
-the same thing as null: we don’t have a valid value. So why is having
-<code>Option&lt;T&gt;</code> any better than having null?</p>
-<p>In short, because <code>Option&lt;T&gt;</code> and <code>T</code> (where <code>T</code> can be any type) are different
-types, the compiler won’t let us use an <code>Option&lt;T&gt;</code> value as if it were
-definitely a valid value. For example, this code won’t compile because it’s
-trying to add an <code>i8</code> to an <code>Option&lt;i8&gt;</code>:</p>
+<p>Khi chúng ta có một giá trị <code>Some</code>, chúng ta biết rằng có một giá trị hiện có
+và giá trị đó được giữ bên trong <code>Some</code>. Khi chúng ta có một giá trị <code>None</code>,
+một cách nào đó, nó có nghĩa giống như null: chúng ta không có một giá trị hợp
+lệ. Vậy tại sao  <code>Option&lt;T&gt;</code> tốt hơn null?</p>
+<p>Ngắn gọn mà nói, vì <code>Option&lt;T&gt;</code> và <code>T</code> (với <code>T</code> có thể là bất kỳ kiểu nào) là
+các kiểu khác nhau, trình biên dịch sẽ không cho phép chúng ta sử dụng một giá
+trị <code>Option&lt;T&gt;</code> như là một giá trị hợp lệ. Ví dụ, đoạn mã này sẽ không biên
+dịch được vì nó đang cố gắng cộng một <code>i8</code> với một <code>Option&lt;i8&gt;</code>:</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let x: i8 = 5;
     let y: Option&lt;i8&gt; = Some(5);
@@ -497,7 +492,8 @@ trying to add an <code>i8</code> to an <code>Option&lt;i8&gt;</code>:</p>
     let sum = x + y;
 <span class="boring">}
 </span></code></pre>
-<p>If we run this code, we get an error message like this:</p>
+<p>Nếu chúng ta chạy đoạn code này, chúng ta sẽ nhận được một thông báo lỗi như
+sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -521,39 +517,39 @@ error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `enums` due to previous error
 </code></pre>
-<p>Intense! In effect, this error message means that Rust doesn’t understand how
-to add an <code>i8</code> and an <code>Option&lt;i8&gt;</code>, because they’re different types. When we
-have a value of a type like <code>i8</code> in Rust, the compiler will ensure that we
-always have a valid value. We can proceed confidently without having to check
-for null before using that value. Only when we have an <code>Option&lt;i8&gt;</code> (or
-whatever type of value we’re working with) do we have to worry about possibly
-not having a value, and the compiler will make sure we handle that case before
-using the value.</p>
-<p>In other words, you have to convert an <code>Option&lt;T&gt;</code> to a <code>T</code> before you can
-perform <code>T</code> operations with it. Generally, this helps catch one of the most
-common issues with null: assuming that something isn’t null when it actually
-is.</p>
-<p>Eliminating the risk of incorrectly assuming a not-null value helps you to be
-more confident in your code. In order to have a value that can possibly be
-null, you must explicitly opt in by making the type of that value <code>Option&lt;T&gt;</code>.
-Then, when you use that value, you are required to explicitly handle the case
-when the value is null. Everywhere that a value has a type that isn’t an
-<code>Option&lt;T&gt;</code>, you <em>can</em> safely assume that the value isn’t null. This was a
-deliberate design decision for Rust to limit null’s pervasiveness and increase
-the safety of Rust code.</p>
-<p>So, how do you get the <code>T</code> value out of a <code>Some</code> variant when you have a value
-of type <code>Option&lt;T&gt;</code> so you can use that value? The <code>Option&lt;T&gt;</code> enum has a large
-number of methods that are useful in a variety of situations; you can check
-them out in <a href="../std/option/enum.Option.html">its documentation</a><!-- ignore -->. Becoming familiar with
-the methods on <code>Option&lt;T&gt;</code> will be extremely useful in your journey with Rust.</p>
-<p>In general, in order to use an <code>Option&lt;T&gt;</code> value, you want to have code that
-will handle each variant. You want some code that will run only when you have a
-<code>Some(T)</code> value, and this code is allowed to use the inner <code>T</code>. You want some
-other code to run if you have a <code>None</code> value, and that code doesn’t have a <code>T</code>
-value available. The <code>match</code> expression is a control flow construct that does
-just this when used with enums: it will run different code depending on which
-variant of the enum it has, and that code can use the data inside the matching
-value.</p>
+<p>Thông báo lỗi này có nghĩa là Rust không hiểu cách cộng một <code>i8</code> và một
+<code>Option&lt;i8&gt;</code>, vì chúng là các kiểu khác nhau. Khi chúng ta có một giá trị của
+một kiểu như <code>i8</code> trong Rust, trình biên dịch sẽ đảm bảo rằng chúng ta luôn có
+một giá trị hợp lệ. Chúng ta có thể tiến hành một cách tự tin mà không cần kiểm
+tra null trước khi sử dụng giá trị đó. Chỉ khi chúng ta có một <code>Option&lt;i8&gt;</code>
+(hoặc bất kỳ kiểu giá trị nào chúng ta đang làm việc với nó) thì chúng ta mới
+phải lo lắng về việc có thể không có một giá trị, và trình biên dịch sẽ đảm bảo
+rằng chúng ta xử lý trường hợp đó trước khi sử dụng giá trị.</p>
+<p>Nói cách khác, bạn phải chuyển đổi một <code>Option&lt;T&gt;</code> thành một <code>T</code> trước khi bạn
+có thể thực hiện các thao tác trên <code>T</code>. Thông thường, điều này giúp phát hiện
+một trong những vấn đề phổ biến nhất với null: giả định rằng một thứ gì đó
+không phải là null khi nó thực chất là null.</p>
+<p>Giảm thiểu rủi ro của những giả định không đúng về giá trị not-null giúp bạn
+tin tưởng hơn vào code của mình. Để có một giá trị có thể là null, bạn phải
+chọn lựa một cách rõ ràng bằng cách đặt kiểu của giá trị đó là <code>Option&lt;T&gt;</code>. Sau
+đó, khi bạn sử dụng giá trị đó, bạn sẽ buộc phải xử lý trường hợp khi giá trị
+là null. Mọi nơi mà một giá trị có một kiểu không phải là <code>Option&lt;T&gt;</code>, bạn <em>có
+thể</em> an toàn giả định rằng giá trị đó không phải là null. Đây là một quyết định
+thiết kế có chủ đích của Rust để giới hạn sự lan truyền của null và tăng tính
+an toàn của code Rust.</p>
+<p>Do đó, làm thế nào để bạn lấy giá trị <code>T</code> ra khỏi một biến thể <code>Some</code> khi bạn
+có một giá trị của kiểu <code>Option&lt;T&gt;</code> để bạn có thể sử dụng giá trị đó? Enum
+<code>Option&lt;T&gt;</code> có một số phương thức rất hữu ích trong một số tình huống; bạn có
+thể kiểm tra chúng trong <a href="../std/option/enum.Option.html">tài liệu của nó</a><!-- ignore -->. Quen thuộc với
+các phương thức trên <code>Option&lt;T&gt;</code> sẽ rất hữu ích trong hành trình của bạn với
+Rust.</p>
+<p>Tổng quan mà nói, để sử dụng một giá trị <code>Option&lt;T&gt;</code>, bạn cần có code để xử lý
+mỗi biến thể. Bạn cần một code để chạy chỉ khi bạn có một giá trị <code>Some(T)</code>, và
+code này được phép sử dụng <code>T</code> bên trong. Bạn cần một code khác để chạy nếu bạn
+có một giá trị <code>None</code> và code đó không có một giá trị <code>T</code> nào. Biểu thức
+<code>match</code> là một cấu trúc điều khiển sẽ giúp bạn làm điều này khi được sử dụng
+với enum: nó sẽ chạy code khác nhau tùy thuộc vào biến thể của enum mà nó có,
+và code đó có thể sử dụng dữ liệu bên trong giá trị khớp với nó.</p>
 
                     </main>
 

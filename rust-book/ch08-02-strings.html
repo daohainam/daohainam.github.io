@@ -211,7 +211,7 @@
 </span>    let mut s1 = String::from(&quot;foo&quot;);
     let s2 = &quot;bar&quot;;
     s1.push_str(s2);
-    println!(&quot;s2 is {}&quot;, s2);
+    println!(&quot;s2 is {s2}&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">Mục 8-16: Sử dụng lại một đoạn chuỗi sau khi thêm nội dung của nó vào một <code>String</code> khác</span></p>
@@ -255,7 +255,7 @@
     let s2 = String::from(&quot;tac&quot;);
     let s3 = String::from(&quot;toe&quot;);
 
-    let s = format!(&quot;{}-{}-{}&quot;, s1, s2, s3);
+    let s = format!(&quot;{s1}-{s2}-{s3}&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Mã này cũng thiết lập <code>s</code> thành <code>tic-tac-toe</code>. Macro <code>format!</code> hoạt động giống như <code>println!</code>, nhưng thay vì in kết quả ra màn hình, nó trả về một <code>String</code> kèm với nội dung. Phiên bản của đoạn mã sử dụng <code>format!</code> dễ đọc hơn nhiều và mã được tạo bởi macro <code>format!</code> sử dụng các tham chiếu để lệnh gọi này không chiếm quyền sở hữu bất kỳ tham số nào của nó.</p>
@@ -359,7 +359,7 @@ Trước đó, chúng tôi đã đề cập rằng mỗi ký tự này là 2 byt
    Compiling collections v0.1.0 (file:///projects/collections)
     Finished dev [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/collections`
-thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`', library/core/src/str/mod.rs:127:5
+thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`', src/main.rs:4:14
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
 <p>Bạn nên sử dụng các dãy phạm vi để tạo các đoạn chuỗi một cách thận trọng, vì làm như vậy có thể làm hỏng chương trình của bạn.</p>

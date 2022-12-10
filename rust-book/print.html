@@ -1138,7 +1138,7 @@ this version number, or the code examples in this tutorial may not work.</p>
 * ch14-03-cargo-workspaces.md
 -->
 <p><span class="filename">Filename: Cargo.toml</span></p>
-<pre><code class="language-toml">rand = &quot;0.8.3&quot;
+<pre><code class="language-toml">rand = &quot;0.8.5&quot;
 </code></pre>
 <p>In the <em>Cargo.toml</em> file, everything that follows a header is part of that
 section that continues until another section starts. In <code>[dependencies]</code> you
@@ -1419,16 +1419,19 @@ arm in this scenario.</p>
    Compiling ppv-lite86 v0.2.10
    Compiling rand_core v0.6.2
    Compiling rand_chacha v0.3.0
-   Compiling rand v0.8.3
+   Compiling rand v0.8.5
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
 error[E0308]: mismatched types
   --&gt; src/main.rs:22:21
    |
 22 |     match guess.cmp(&amp;secret_number) {
-   |                     ^^^^^^^^^^^^^^ expected struct `String`, found integer
+   |                 --- ^^^^^^^^^^^^^^ expected struct `String`, found integer
+   |                 |
+   |                 arguments to this function are incorrect
    |
    = note: expected reference `&amp;String`
               found reference `&amp;{integer}`
+note: associated function defined here
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `guessing_game` due to previous error
@@ -2061,7 +2064,12 @@ error[E0282]: type annotations needed
  --&gt; src/main.rs:2:9
   |
 2 |     let guess = &quot;42&quot;.parse().expect(&quot;Not a number!&quot;);
-  |         ^^^^^ consider giving `guess` a type
+  |         ^^^^^
+  |
+help: consider giving `guess` an explicit type
+  |
+2 |     let guess: _ = &quot;42&quot;.parse().expect(&quot;Not a number!&quot;);
+  |              +++
 
 For more information about this error, try `rustc --explain E0282`.
 error: could not compile `no_type_annotations` due to previous error
@@ -2182,7 +2190,7 @@ sau đây biểu diễn cách bạn sẽ dùng các toán tử trong một phát
 
     // division
     let quotient = 56.7 / 32.2;
-    let floored = 2 / 3; // Results in 0
+    let truncated = -5 / 3; // Results in -1
 
     // remainder
     let remainder = 43 % 5;
@@ -2388,14 +2396,13 @@ hợp lệ, vùng bộ nhớ không hợp lệ sẽ bị truy cập. Rust bảo 
 cách thoát ra ngay lập tức thay vì cho phép truy cập vào vùng nhớ và tiếp tục chạy. 
 Chương 9 sẽ thảo luận thêm về việc xử lý lỗi trong Rust, cách viết code dễ đọc, an toàn
 và tránh các lỗi panic hay truy cập vùng nhớ không hợp lệ.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
-<p>Functions are prevalent in Rust code. You’ve already seen one of the most
-important functions in the language: the <code>main</code> function, which is the entry
-point of many programs. You’ve also seen the <code>fn</code> keyword, which allows you to
-declare new functions.</p>
-<p>Rust code uses <em>snake case</em> as the conventional style for function and variable
-names, in which all letters are lowercase and underscores separate words.
-Here’s a program that contains an example function definition:</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="hàm---functions"><a class="header" href="#hàm---functions">Hàm - Functions</a></h2>
+<p>Các hàm khá phổ biến trong Rust. Bạn đã gặp một trong những hàm quan quan trọng
+nhất của ngôn ngữ: hàm <code>main</code>, vốn là điểm bắt đầu cho nhiều chương trình. Bạn cũng đã thấy 
+từ khóa <code>fn</code>, vốn cho phép bạn khai báo các hàm mới.</p>
+<p>Mã Rust dùng <em>snake case</em> như quy ước đặt tên hàm và biến, trong đó tất cả các ký tự
+được viết chữ thường, các từ cách nhau bởi dấu gạch dưới. Đây là một chương trình 
+chứa một ví dụ về cách khai báo hàm:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -2407,18 +2414,18 @@ fn another_function() {
     println!(&quot;Another function.&quot;);
 }
 </code></pre></pre>
-<p>We define a function in Rust by entering <code>fn</code> followed by a function name and a
-set of parentheses. The curly brackets tell the compiler where the function
-body begins and ends.</p>
-<p>We can call any function we’ve defined by entering its name followed by a set
-of parentheses. Because <code>another_function</code> is defined in the program, it can be
-called from inside the <code>main</code> function. Note that we defined <code>another_function</code>
-<em>after</em> the <code>main</code> function in the source code; we could have defined it before
-as well. Rust doesn’t care where you define your functions, only that they’re
-defined somewhere in a scope that can be seen by the caller.</p>
-<p>Let’s start a new binary project named <em>functions</em> to explore functions
-further. Place the <code>another_function</code> example in <em>src/main.rs</em> and run it. You
-should see the following output:</p>
+<p>Chúng ta định nghĩa một hàm trong Rust bằng cách dùng từ khóa <code>fn</code> theo sau bởi 
+tên hàm và một tập các dấu ngoặc tròn. Cặp dấu ngoặc nhọn theo sau đó chỉ ra vị 
+trí bắt đầu và kết thúc của thân hàm.</p>
+<p>Chúng ta có thể gọi bất kỳ hàm nào ta đã định nghĩa bằng cách gọi tên hàm, theo 
+sau bởi cặp dấu ngoặc tròn. Vì <code>another_function</code> được định nghĩa trong chương 
+trình, nó có thể được gọi từ hàm <code>main</code>. Lưu ý là chúng ta định nghĩa <code>another_function</code>
+<em>sau</em> hàm <code>main</code> trong file mã nguồn; nhưng tất nhiên ta cũng có thể định nghĩa 
+nó trước hàm <code>main</code>. Rust không quan tâm bạn định nghĩa hàm ở chỗ nào, miễn sao
+bạn viết nó trong phạm vi mà từ nơi gọi có thể truy cập đến được.</p>
+<p>Hãy tạo một dự án có tên <em>functions</em> để khám phá thêm về các hàm. Đặt hàm ví dụ 
+<code>another_function</code> trong file <em>src/main.rs</em> và chạy nó. Bạn sẽ thấy nội dung sau
+được xuất ra:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.28s
@@ -2426,18 +2433,16 @@ should see the following output:</p>
 Hello, world!
 Another function.
 </code></pre>
-<p>The lines execute in the order in which they appear in the <code>main</code> function.
-First, the “Hello, world!” message prints, and then <code>another_function</code> is
-called and its message is printed.</p>
-<h3 id="parameters"><a class="header" href="#parameters">Parameters</a></h3>
-<p>We can define functions to have <em>parameters</em>, which are special variables that
-are part of a function’s signature. When a function has parameters, you can
-provide it with concrete values for those parameters. Technically, the concrete
-values are called <em>arguments</em>, but in casual conversation, people tend to use
-the words <em>parameter</em> and <em>argument</em> interchangeably for either the variables
-in a function’s definition or the concrete values passed in when you call a
-function.</p>
-<p>In this version of <code>another_function</code> we add a parameter:</p>
+<p>Các dòng được thực thi theo thứ tự chúng xuất hiện trong hàm <code>main</code>. Đầu tiên,
+chuỗi &quot;Hello, world!&quot; được xuất ra màn hình, tiếp theo đó <code>another_function</code> 
+được gọi và nội dung của nó được in ra.</p>
+<h3 id="tham-số"><a class="header" href="#tham-số">Tham số</a></h3>
+<p>Chúng ta có thể định nghĩa hàm với các <em>parameters</em> (tham số), là những biến đặc biệt như là 
+một phần của chữ ký của hàm. Nếu một hàm có tham số, bạn có thể cung cấp cho nó
+các giá trị cụ thể khi gọi. Về mặt kỹ thuật, những giá trị cụ thể mà bạn cung cấp
+sẽ được gọi là các <em>argument</em> (đối số), tuy nhiên trong thực tế sử dụng, chúng 
+ta thường dùng hai từ này lẫn lộn với nhau.</p>
+<p>Trong phiên bản này của <code>another_function</code> chúng ta thêm một tham số:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     another_function(5);
@@ -2447,24 +2452,25 @@ fn another_function(x: i32) {
     println!(&quot;The value of x is: {x}&quot;);
 }
 </code></pre></pre>
-<p>Try running this program; you should get the following output:</p>
+<p>Khi thử chạy chương trình; bạn sẽ nhận được kết xuất sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 1.21s
      Running `target/debug/functions`
 The value of x is: 5
 </code></pre>
-<p>The declaration of <code>another_function</code> has one parameter named <code>x</code>. The type of
-<code>x</code> is specified as <code>i32</code>. When we pass <code>5</code> in to <code>another_function</code>, the
-<code>println!</code> macro puts <code>5</code> where the pair of curly brackets containing <code>x</code> was
-in the format string.</p>
-<p>In function signatures, you <em>must</em> declare the type of each parameter. This is
-a deliberate decision in Rust’s design: requiring type annotations in function
-definitions means the compiler almost never needs you to use them elsewhere in
-the code to figure out what type you mean. The compiler is also able to give
-more helpful error messages if it knows what types the function expects.</p>
-<p>When defining multiple parameters, separate the parameter declarations with
-commas, like this:</p>
+<p>Trong phần khai báo hàm <code>another_function</code> ta có thêm một tham số được đặt tên <code>x</code>. 
+Kiểu của <code>x</code> là <code>i32</code>. Khi truyền giá trị <code>5</code> cho <code>another_function</code>, macro 
+<code>println!</code> sẽ in ra giá trị <code>5</code> ngay tại vị trí chứa <code>x</code> được bao bởi cặp dấu ngoặc
+nhọn trong chuỗi định dạng.</p>
+<p>Trong chữ ký của hàm (thành phần phân biệt các hàm với nhau), bạn <em>phải</em> khai báo
+kiểu của mỗi tham số. Đây là một quyết định cẩn trọng trong thiết kế của Rust:
+yêu cầu khai báo kiểu khi định nghĩa hàm đồng nghĩa với việc trình biên dịch sẽ 
+không bao giờ cần bạn phải dùng một tham số để có thể xác định được kiểu dữ liệu 
+của tham số đó. Trình dịch cũng sẽ có thể đưa ra các thông báo hữu ích hơn khi nó 
+biết chính xác kiểu dữ liệu mà hàm đó cần.</p>
+<p>Khi định nghĩa nhiều tham số, bạn cần phân cách chúng bằng dấu phẩy, giống như 
+sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     print_labeled_measurement(5, 'h');
@@ -2474,51 +2480,56 @@ fn print_labeled_measurement(value: i32, unit_label: char) {
     println!(&quot;The measurement is: {value}{unit_label}&quot;);
 }
 </code></pre></pre>
-<p>This example creates a function named <code>print_labeled_measurement</code> with two
-parameters. The first parameter is named <code>value</code> and is an <code>i32</code>. The second is
-named <code>unit_label</code> and is type <code>char</code>. The function then prints text containing
-both the <code>value</code> and the <code>unit_label</code>.</p>
-<p>Let’s try running this code. Replace the program currently in your <em>functions</em>
-project’s <em>src/main.rs</em> file with the preceding example and run it using <code>cargo run</code>:</p>
+<p>Ví dụ này tạo ra một hàm có tên <code>print_labeled_measurement</code> với hai tham số.
+Tham số đầu tiên được đặt tên <code>value</code> và là một <code>i32</code>. Tham số thứ hai có tên 
+<code>unit_label</code> và có kiểu <code>char</code>. Hàm này sau đó in ra một dòng văn bản chứa cả hai
+<code>value</code> và <code>unit_label</code>.</p>
+<p>Hãy thử chạy đoạn code này. Thay thế chương trình <em>src/main.rs</em> hiện có trong 
+dự án <em>functions</em> với ví dụ phía trên và chạy dùng <code>cargo run</code>:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/functions`
 The measurement is: 5h
 </code></pre>
-<p>Because we called the function with <code>5</code> as the value for <code>value</code> and <code>'h'</code> as
-the value for <code>unit_label</code>, the program output contains those values.</p>
-<h3 id="statements-and-expressions"><a class="header" href="#statements-and-expressions">Statements and Expressions</a></h3>
-<p>Function bodies are made up of a series of statements optionally ending in an
-expression. So far, the functions we’ve covered haven’t included an ending
-expression, but you have seen an expression as part of a statement. Because
-Rust is an expression-based language, this is an important distinction to
-understand. Other languages don’t have the same distinctions, so let’s look at
-what statements and expressions are and how their differences affect the bodies
-of functions.</p>
-<p><em>Statements</em> are instructions that perform some action and do not return a
-value. <em>Expressions</em> evaluate to a resulting value. Let’s look at some examples.</p>
-<p>We’ve actually already used statements and expressions. Creating a variable and
-assigning a value to it with the <code>let</code> keyword is a statement. In Listing 3-1,
-<code>let y = 6;</code> is a statement.</p>
+<p>Vì chúng ta gọi hàm với <code>5</code> như là giá trị của <code>value</code> và <code>'h'</code> là giá trị của 
+<code>unit_label</code>, chương trình sẽ xuất ra các giá trị đó.</p>
+<h3 id="các-phát-biểu-statement-và-biểu-thức-expression"><a class="header" href="#các-phát-biểu-statement-và-biểu-thức-expression">Các phát biểu (statement) và biểu thức (expression)</a></h3>
+<p>Thân hàm được tạo bởi một chuỗi các phát biểu, và có thể kết thúc bằng một biểu thức.
+Cho tới hiện tại, các hàm chúng ta đã làm qua chưa bao gồm biểu thức kết thúc, 
+nhưng bạn cũng đã gặp các biểu thức là một phần của một phát biểu. Vì Rust là một
+ngôn ngữ dựa trên các phát biểu, đây là một sự phân biệt quan trọng để hiểu. Các ngôn
+ngữ khác không có sự phân biệt tương tự như vậy, do vậy ta hãy cùng xem qua các phát 
+biểu và biểu thức cũng như sự khác biệt giữa chúng đã ảnh hưởng đến thân các hàm như
+thế nào.</p>
+<p><em>Các phát biểu</em> là các câu lệnh mà nó sẽ thực hiện một số hành động nào đó và không 
+trả về giá trị. <em>Các biểu thức</em> có trả về giá trị. Hãy cũng xem qua một số ví dụ.</p>
+<p>Chúng ta đã từng thực sự dùng đến các phát biểu và biểu thức. Việc tạo ra một biến và gán một 
+giá trị cho nó với từ khóa <code>let</code> là một phát biểu. Trong Listing 3-1, <code>let y = 6;</code> là một
+phát biểu.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let y = 6;
 }
 </code></pre></pre>
-<p><span class="caption">Listing 3-1: A <code>main</code> function declaration containing one statement</span></p>
-<p>Function definitions are also statements; the entire preceding example is a
-statement in itself.</p>
-<p>Statements do not return values. Therefore, you can’t assign a <code>let</code> statement
-to another variable, as the following code tries to do; you’ll get an error:</p>
+<p><span class="caption">Listing 3-1: Một hàm <code>main</code> đang khai báo một phát biểu</span></p>
+<p>Các khai báo hàm cũng là các phát biểu; toàn bộ ví dụ trên bản thân nó cũng là một phát biểu.</p>
+<p>Các phát biểu không trả về giá trị. Do vậy, bạn không thể gán một phát biểu <code>let</code>
+cho một biến khác, bạn sẽ gặp lỗi nếu thử làm như trong ví dụ sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = (let y = 6);
 }
 </code></pre>
-<p>When you run this program, the error you’ll get looks like this:</p>
+<p>Khi chạy chương trình này, lỗi bạn gặp sẽ giống như sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
+error: expected expression, found `let` statement
+ --&gt; src/main.rs:2:14
+  |
+2 |     let x = (let y = 6);
+  |              ^^^
+
 error: expected expression, found statement (`let`)
  --&gt; src/main.rs:2:14
   |
@@ -2546,24 +2557,24 @@ help: remove these parentheses
   |
 2 -     let x = (let y = 6);
 2 +     let x = let y = 6;
-  | 
+  |
 
 For more information about this error, try `rustc --explain E0658`.
 warning: `functions` (bin &quot;functions&quot;) generated 1 warning
-error: could not compile `functions` due to 2 previous errors; 1 warning emitted
+error: could not compile `functions` due to 3 previous errors; 1 warning emitted
 </code></pre>
-<p>The <code>let y = 6</code> statement does not return a value, so there isn’t anything for
-<code>x</code> to bind to. This is different from what happens in other languages, such as
-C and Ruby, where the assignment returns the value of the assignment. In those
-languages, you can write <code>x = y = 6</code> and have both <code>x</code> and <code>y</code> have the value
-<code>6</code>; that is not the case in Rust.</p>
-<p>Expressions evaluate to a value and make up most of the rest of the code that
-you’ll write in Rust. Consider a math operation, such as <code>5 + 6</code>, which is an
-expression that evaluates to the value <code>11</code>. Expressions can be part of
-statements: in Listing 3-1, the <code>6</code> in the statement <code>let y = 6;</code> is an
-expression that evaluates to the value <code>6</code>. Calling a function is an
-expression. Calling a macro is an expression. A new scope block created with
-curly brackets is an expression, for example:</p>
+<p>Phát biểu <code>let y = 6</code> không trả về một giá trị, do vậy chẳng có gì để đưa vào
+biến <code>x</code>. Điều này khác với các ngôn ngữ khác như C hoặc Ruby, khi các một câu
+lệnh gán sẽ trả về giá trị bằng giá trị được gán. Trong các ngôn ngữ đó, bạn có 
+thể viết <code>x = y = 6</code> và làm cho cả hai <code>x</code> và <code>y</code> mang cùng giá trị <code>6</code>; điều 
+này không xảy ra trong Rust.</p>
+<p>Các biểu thức xác định giá trị và tạo nên hầu hết các đoạn lệnh bạn viết trong
+Rust. Hãy xem qua một phép toán, như <code>5 + 6</code>, đó là một biểu thức và trả về 
+giá trị <code>11</code>. Các biểu thức cũng có thể là một phần của các phát biểu: Trong 
+Listing 3-1, giá trị <code>6</code>  trong phát biểu <code>let y = 6;</code> là một biểu thức và trả
+về giá trị <code>6</code>. Việc gọi một hàm cũng là một biểu thức, gọi một macro cũng là
+một biểu thức. Một khối lệnh mới được tạo bởi một cặp ngoặc nhọn cũng là một 
+biểu thức, giống như trong ví dụ sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let y = {
@@ -2574,26 +2585,25 @@ curly brackets is an expression, for example:</p>
     println!(&quot;The value of y is: {y}&quot;);
 }
 </code></pre></pre>
-<p>This expression:</p>
+<p>Biểu thức này:</p>
 <pre><code class="language-rust ignore">{
     let x = 3;
     x + 1
 }
 </code></pre>
-<p>is a block that, in this case, evaluates to <code>4</code>. That value gets bound to <code>y</code>
-as part of the <code>let</code> statement. Note that the <code>x + 1</code> line doesn’t have a
-semicolon at the end, unlike most of the lines you’ve seen so far. Expressions
-do not include ending semicolons. If you add a semicolon to the end of an
-expression, you turn it into a statement, and it will then not return a value.
-Keep this in mind as you explore function return values and expressions next.</p>
-<h3 id="functions-with-return-values"><a class="header" href="#functions-with-return-values">Functions with Return Values</a></h3>
-<p>Functions can return values to the code that calls them. We don’t name return
-values, but we must declare their type after an arrow (<code>-&gt;</code>). In Rust, the
-return value of the function is synonymous with the value of the final
-expression in the block of the body of a function. You can return early from a
-function by using the <code>return</code> keyword and specifying a value, but most
-functions return the last expression implicitly. Here’s an example of a
-function that returns a value:</p>
+<p>là một khối lệnh, mà trong trường hợp này trả về giá trị <code>4</code>. Giá trị này được
+gán vào cho <code>y</code> như một phần của phát biểu <code>let</code>. Lưu ý là <code>x + 1</code> line không 
+có một dấu chấm phẩy (;) ở cuối, không như hầu hết các dòng lệnh bạn đã từng thấy.
+Các biểu thức không có dấu chấm phẩy kết thúc. Nếu bạn thêm dấu chấm phẩy, bạn sẽ
+biến nó thành một phát biểu, và nó sẽ không trả về giá trị. Hãy lưu ý điều này khi 
+bạn xem đến phần kế tiếp nói về giá trị và biểu thức trả về của hàm.</p>
+<h3 id="hàm-với-kết-quả-trả-về"><a class="header" href="#hàm-với-kết-quả-trả-về">Hàm với kết quả trả về</a></h3>
+<p>Các hàm có thể trả về các giá trị cho đoạn code gọi chúng. Chúng ta không cần đặt 
+tên cho kết quả trả về, nhưng ta phải khai báo kiểu dữ liệu của chúng phía sau dấu 
+mũi tên (<code>-&gt;</code>). Trong Rust, giá trị trả về của hàm đồng nghĩa với giá trị của biểu 
+thức cuối cùng trong thân hàm. Bạn có thể dùng từ khóa <code>return</code> để trả về một giá trị 
+sớm hơn, nhưng hầu hết các hàm sẽ lấy giá trị trả về là câu lệnh cuối cùng. Sau đây
+là một ví dụ về hàm có trả về giá trị:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn five() -&gt; i32 {
     5
@@ -2605,31 +2615,31 @@ fn main() {
     println!(&quot;The value of x is: {x}&quot;);
 }
 </code></pre></pre>
-<p>There are no function calls, macros, or even <code>let</code> statements in the <code>five</code>
-function—just the number <code>5</code> by itself. That’s a perfectly valid function in
-Rust. Note that the function’s return type is specified too, as <code>-&gt; i32</code>. Try
-running this code; the output should look like this:</p>
+<p>Không có các lời gọi hàm, macro, hay thậm chí phát biểu <code>let</code> trong hàm <code>five</code>
+ngoài chính số <code>5</code>. Đó hoàn toàn là một hàm hợp lệ trong Rust. Lưu ý là kiểu trả
+về của hàm cũng được chỉ định, là <code>-&gt; i32</code>. Thử chạy đoạn code; kết xuất sẽ giống
+như sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
      Running `target/debug/functions`
 The value of x is: 5
 </code></pre>
-<p>The <code>5</code> in <code>five</code> is the function’s return value, which is why the return type
-is <code>i32</code>. Let’s examine this in more detail. There are two important bits:
-first, the line <code>let x = five();</code> shows that we’re using the return value of a
-function to initialize a variable. Because the function <code>five</code> returns a <code>5</code>,
-that line is the same as the following:</p>
+<p>Số <code>5</code> trong <code>five</code> là giá trị trả về của hàm, đó là lý do vì sao hàm này phải có
+kiểu là <code>i32</code>. Hãy xem xét một cách chi tiết hơn. Có hai thông tin quan trọng:
+đầu tiên, dòng <code>let x = five();</code> cho thấy chúng ta đang dùng kết quả trả về của 
+một hàm để khởi tạo một biến. Vì hàm <code>five</code> trả về giá trị <code>5</code>, do vậy dòng lệnh 
+đó cũng tương tự như sau:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let x = 5;
 <span class="boring">}
 </span></code></pre></pre>
-<p>Second, the <code>five</code> function has no parameters and defines the type of the
-return value, but the body of the function is a lonely <code>5</code> with no semicolon
-because it’s an expression whose value we want to return.</p>
-<p>Let’s look at another example:</p>
+<p>Thứ hai, hàm <code>five</code> không có tham số và định nghĩa kiểu của giá trị trả về, mà
+thân hàm chỉ bao gồm một số <code>5</code> không có dấu chấm phẩy, vì đó chính là biểu thức 
+chúng ta muốn trả về.</p>
+<p>Hãy cùng xem một ví dụ khác:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let x = plus_one(5);
@@ -2641,9 +2651,9 @@ fn plus_one(x: i32) -&gt; i32 {
     x + 1
 }
 </code></pre></pre>
-<p>Running this code will print <code>The value of x is: 6</code>. But if we place a
-semicolon at the end of the line containing <code>x + 1</code>, changing it from an
-expression to a statement, we’ll get an error.</p>
+<p>Chạy đoạn code này sẽ in ra <code>The value of x is: 6</code>. Nhưng nếu ta thêm một dấu 
+chấm phẩy vào cuối dòng chứa <code>x + 1</code>, biến nó từ một biểu thức thành một phát
+biểu, chúng ta sẽ nhận được một lỗi.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = plus_one(5);
@@ -2655,7 +2665,7 @@ fn plus_one(x: i32) -&gt; i32 {
     x + 1;
 }
 </code></pre>
-<p>Compiling this code produces an error, as follows:</p>
+<p>Dịch đoạn code sinh ra lỗi, giống như sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
 error[E0308]: mismatched types
@@ -2671,63 +2681,63 @@ error[E0308]: mismatched types
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `functions` due to previous error
 </code></pre>
-<p>The main error message, “mismatched types,” reveals the core issue with this
-code. The definition of the function <code>plus_one</code> says that it will return an
-<code>i32</code>, but statements don’t evaluate to a value, which is expressed by <code>()</code>,
-the unit type. Therefore, nothing is returned, which contradicts the function
-definition and results in an error. In this output, Rust provides a message to
-possibly help rectify this issue: it suggests removing the semicolon, which
-would fix the error.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="comments"><a class="header" href="#comments">Comments</a></h2>
-<p>All programmers strive to make their code easy to understand, but sometimes
-extra explanation is warranted. In these cases, programmers leave <em>comments</em> in
-their source code that the compiler will ignore but people reading the source
-code may find useful.</p>
-<p>Here’s a simple comment:</p>
+<p>Thông báo lỗi chính, “mismatched types,”, cho thấy gốc rễ vấn đề của đoạn code. 
+Định nghĩa hàm <code>plus_one</code> nói rằng nó sẽ trả về một <code>i32</code>, nhưng các phát biểu 
+lại không trả về một giá trị, tương đương với việc trả về một giá trị rỗng <code>()</code>. 
+Do không có giá trị nào được trả về, điều này trái ngược với định nghĩa của 
+hàm và gây ra lỗi. Trong kết xuất này, Rust cũng cung cấp thêm một thông báo có 
+thể giúp sửa được lỗi: nó đề xuất việc xóa dấu chấm phẩy, và có thể loại bỏ được
+lỗi.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="ghi-chú"><a class="header" href="#ghi-chú">Ghi chú</a></h2>
+<p>Tất cả các lập trình viên khi viết code đều cố gắng viết sao cho dễ hiểu, nhưng 
+đôi khi vẫn cần các đoạn giải thích thêm. Trong trường hợp đo, họ sẽ để lại các 
+<em>ghi chú</em> trong mã nguồn, các ghi chú này sẽ bị bỏ qua bởi trình biên dịch nhưng 
+sẽ hữu ích cho người đọc code.</p>
+<p>Đây là một ghi chú đơn giản:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// hello, world
 <span class="boring">}
 </span></code></pre></pre>
-<p>In Rust, the idiomatic comment style starts a comment with two slashes, and the
-comment continues until the end of the line. For comments that extend beyond a
-single line, you’ll need to include <code>//</code> on each line, like this:</p>
+<p>Trong Rust, các ghi chú bắt đầu bằng cặp dấu slash (<code>//</code>), và ký hiệu ghi chú đó 
+sẽ có giá trị cho đến hết dòng. Với những ghi chú trên nhiều hàng, bạn sẽ cần 
+bao gồm <code>//</code> trên từng dòng ghi chú.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// So we’re doing something complicated here, long enough that we need
-// multiple lines of comments to do it! Whew! Hopefully, this comment will
-// explain what’s going on.
+</span>// Ở đây chúng ta đang làm một số điều phức tạp, dài đủ để ta phải cần nhiều 
+// dòng ghi chú để hoàn thành! Whew! Hi vọng là ghi chú này sẽ giải thích được 
+// về những điều đang diễn ra.
 <span class="boring">}
 </span></code></pre></pre>
-<p>Comments can also be placed at the end of lines containing code:</p>
+<p>Ghi chú cũng có thể được đặt ở cuối dòng code:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let lucky_number = 7; // I’m feeling lucky today
 }
 </code></pre></pre>
-<p>But you’ll more often see them used in this format, with the comment on a
-separate line above the code it’s annotating:</p>
+<p>Nhưng bạn sẽ thấy chúng được dùng ở dạng sau thường xuyên hơn, với ghi chú
+trên một dòng riêng biệt phía trên đoạn code nó đang giải thích:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     // I’m feeling lucky today
     let lucky_number = 7;
 }
 </code></pre></pre>
-<p>Rust also has another kind of comment, documentation comments, which we’ll
-discuss in the “Publishing a Crate to Crates.io” section of Chapter 14.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="control-flow"><a class="header" href="#control-flow">Control Flow</a></h2>
-<p>The ability to run some code depending on if a condition is true, or run some
-code repeatedly while a condition is true, are basic building blocks in most
-programming languages. The most common constructs that let you control the flow
-of execution of Rust code are <code>if</code> expressions and loops.</p>
-<h3 id="if-expressions"><a class="header" href="#if-expressions"><code>if</code> Expressions</a></h3>
-<p>An <code>if</code> expression allows you to branch your code depending on conditions. You
-provide a condition and then state, “If this condition is met, run this block
-of code. If the condition is not met, do not run this block of code.”</p>
-<p>Create a new project called <em>branches</em> in your <em>projects</em> directory to explore
-the <code>if</code> expression. In the <em>src/main.rs</em> file, input the following:</p>
+<p>Rust cũng có một kiểu ghi chú khác, được gọi là các ghi chú tài liệu, chúng
+ta sẽ thảo luận thêm trong phần “Publishing a Crate to Crates.io” ở chương 14.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="các-khối-điều-khiển"><a class="header" href="#các-khối-điều-khiển">Các khối điều khiển</a></h2>
+<p>Khả năng chạy một số đoạn lệnh dựa trên một điều kiện nào đó, hoặc chạy lặp lại một
+lệnh khi một điều kiện nào đó là đúng, là các khối điều khiển cơ bản có trong hầu 
+hết các ngôn ngữ lập trình. Khối điều khiển phổ biến nhất cho phép bạn kiểm soát việc
+thực thi các đoạn code trong Rust là các biểu thức <code>if</code> và các lệnh lặp.</p>
+<h3 id="biểu-thức-if"><a class="header" href="#biểu-thức-if">Biểu thức <code>if</code></a></h3>
+<p>Một biểu thức <code>if</code> cho phép bạn rẽ nhánh thực thi dựa trên các điều kiện nào đó.
+Bạn cung cấp một điều kiện và phát biểu: &quot;Nếu điều kiện này đúng, hãy chạy đoạn lệnh
+này. Nếu không đạt, đừng chạy nó&quot;.</p>
+<p>Tạo một dự án mới được gọi là <em>branches</em> trong thư mục <em>projects</em> để khảo sát biểu
+thức <code>if</code>. Trong file <em>src/main.rs</em>, hãy nhập vào nội dung sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number = 3;
@@ -2739,28 +2749,26 @@ the <code>if</code> expression. In the <em>src/main.rs</em> file, input the foll
     }
 }
 </code></pre></pre>
-<p>All <code>if</code> expressions start with the keyword <code>if</code>, followed by a condition. In
-this case, the condition checks whether or not the variable <code>number</code> has a
-value less than 5. We place the block of code to execute if the condition is true
-immediately after the condition inside curly brackets. Blocks of code
-associated with the conditions in <code>if</code> expressions are sometimes called <em>arms</em>,
-just like the arms in <code>match</code> expressions that we discussed in the <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparing
-the Guess to the Secret Number”</a><!--
+<p>Tất cả các phát biểu <code>if</code> sẽ bắt đầu bằng từ khóa <code>if</code>, theo sau bởi một điều kiện.
+Trong trường hợp này, điều kiện là kiểm tra xem liệu biến <code>number</code> có giá trị nhỏ
+hơn 5 hay không. Chúng ta đặt khối lệnh để thực thi nếu điều kiện là đúng ngay sau
+dấu ngoặc đóng của điều kiện. Các khối lệnh kết hợp với <code>if</code> đôi khi được gọi là 
+<em>arm</em>, giống như <em>arms</em> trong phát biểu <code>match</code> mà ta đã thảo luận trong phần 
+<a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparing the Guess to the Secret Number”</a><!--
 ignore --> section of Chapter 2.</p>
-<p>Optionally, we can also include an <code>else</code> expression, which we chose
-to do here, to give the program an alternative block of code to execute should
-the condition evaluate to false. If you don’t provide an <code>else</code> expression and
-the condition is false, the program will just skip the <code>if</code> block and move on
-to the next bit of code.</p>
-<p>Try running this code; you should see the following output:</p>
+<p>Chúng ta cũng có thể tùy chọn thêm một phát biểu <code>else</code>, giống như chúng ta đã
+làm ở đây, để cung cấp một đoạn code mà sẽ được thực thi nếu điều kiện trả về
+giá trị false. Nếu bạn không cung cấp <code>else</code>, chương trình sẽ chỉ đơn giản bỏ qua
+khối lệnh <code>if</code> và tiếp tục thực thi các lệnh tiếp sau đó.</p>
+<p>Thử chạy đoạn lệnh này, bạn sẽ thấy kết xuất như sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
 condition was true
 </code></pre>
-<p>Let’s try changing the value of <code>number</code> to a value that makes the condition
-<code>false</code> to see what happens:</p>
+<p>Hãy thử thay đổi <code>number</code> sang một giá trị làm cho điều kiện trả về kết quả false
+để xem điều gì xảy ra:</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span>    let number = 7;
 <span class="boring">
@@ -2771,16 +2779,16 @@ condition was true
 </span><span class="boring">    }
 </span><span class="boring">}
 </span></code></pre>
-<p>Run the program again, and look at the output:</p>
+<p>Chạy lại chương trình, và xem kết xuất:</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
 condition was false
 </code></pre>
-<p>It’s also worth noting that the condition in this code <em>must</em> be a <code>bool</code>. If
-the condition isn’t a <code>bool</code>, we’ll get an error. For example, try running the
-following code:</p>
+<p>Một điểm quan trọng cần lưu ý là điều kiện trong đoạn code này bắt buộc <em>phải</em> có 
+kiểu <code>bool</code>. Nếu điều kiện này không phải là bool, bạn sẽ nhận một lỗi. Ví dụ, thử 
+chạy đoạn lệnh sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let number = 3;
@@ -2790,8 +2798,8 @@ following code:</p>
     }
 }
 </code></pre>
-<p>The <code>if</code> condition evaluates to a value of <code>3</code> this time, and Rust throws an
-error:</p>
+<p>Trong trường hợp này biểu thức trong <code>if</code> trả về giá trị <code>3</code>, và Rust phát ra một
+lỗi:</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
 error[E0308]: mismatched types
@@ -2803,12 +2811,10 @@ error[E0308]: mismatched types
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `branches` due to previous error
 </code></pre>
-<p>The error indicates that Rust expected a <code>bool</code> but got an integer. Unlike
-languages such as Ruby and JavaScript, Rust will not automatically try to
-convert non-Boolean types to a Boolean. You must be explicit and always provide
-<code>if</code> with a Boolean as its condition. If we want the <code>if</code> code block to run
-only when a number is not equal to <code>0</code>, for example, we can change the <code>if</code>
-expression to the following:</p>
+<p>Lỗi này chỉ ra Rust cần một <code>bool</code> nhưng lại nhận được một integer. Không như
+các ngôn ngữ như Ruby hay JavaScript, Rust không tự động thử chuyển các giá trị
+không phải boolean sang boolean. Nếu bạn muốn đoạn <code>if</code> chỉ chạy khi một số bằng
+với <code>0</code>, bạn có thể viết lại như sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number = 3;
@@ -2818,10 +2824,10 @@ expression to the following:</p>
     }
 }
 </code></pre></pre>
-<p>Running this code will print <code>number was something other than zero</code>.</p>
-<h4 id="handling-multiple-conditions-with-else-if"><a class="header" href="#handling-multiple-conditions-with-else-if">Handling Multiple Conditions with <code>else if</code></a></h4>
-<p>You can use multiple conditions by combining <code>if</code> and <code>else</code> in an <code>else if</code>
-expression. For example:</p>
+<p>Chạy đoạn code này sẽ trả về kết xuất sau: <code>number was something other than zero</code>.</p>
+<h4 id="xử-lý-nhiều-điều-kiện-với-else-if"><a class="header" href="#xử-lý-nhiều-điều-kiện-với-else-if">Xử lý nhiều điều kiện với <code>else if</code></a></h4>
+<p>Bạn có thể dùng nhiều điều kiện khác nhau bằng cách kết hợp <code>if</code> với <code>else</code> trong
+một biểu thức <code>else if</code>. Ví dụ:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let number = 6;
@@ -2837,26 +2843,25 @@ expression. For example:</p>
     }
 }
 </code></pre></pre>
-<p>This program has four possible paths it can take. After running it, you should
-see the following output:</p>
+<p>Chương trình này có bốn nhánh có thể thực thi. Sau khi chạy bạn sẽ thấy kết xuất sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.31s
      Running `target/debug/branches`
 number is divisible by 3
 </code></pre>
-<p>When this program executes, it checks each <code>if</code> expression in turn and executes
-the first body for which the condition holds true. Note that even though 6 is
-divisible by 2, we don’t see the output <code>number is divisible by 2</code>, nor do we
-see the <code>number is not divisible by 4, 3, or 2</code> text from the <code>else</code> block.
-That’s because Rust only executes the block for the first true condition, and
-once it finds one, it doesn’t even check the rest.</p>
-<p>Using too many <code>else if</code> expressions can clutter your code, so if you have more
-than one, you might want to refactor your code. Chapter 6 describes a powerful
-Rust branching construct called <code>match</code> for these cases.</p>
-<h4 id="using-if-in-a-let-statement"><a class="header" href="#using-if-in-a-let-statement">Using <code>if</code> in a <code>let</code> Statement</a></h4>
-<p>Because <code>if</code> is an expression, we can use it on the right side of a <code>let</code>
-statement to assign the outcome to a variable, as in Listing 3-2.</p>
+<p>Khi chạy chương trình này, nó sẽ kiểm tra lần lượt mỗi biểu thức <code>if</code> và thực
+thi thân <code>if</code> đầu tiên mà biểu thức trả về <code>true</code>. Lưu ý rằng tuy 6 chia hết cho 2, 
+chúng ta vẫn không thấy câu <code>number is divisible by 2</code> được in ra, cũng như không
+thấy câu <code>number is not divisible by 4, 3, or 2</code> trong khối <code>else</code>. Đó là vì Rust 
+chỉ thực thi đoạn lệnh trong thân <code>if</code> đầu tiên mà nó thấy trả về true, và một khi
+tìm thấy, nó sẽ thậm chí không kiểm tra các biểu thức phía sau.</p>
+<p>Sử dụng quá nhiều <code>else if</code> làm cho code của bạn lộn xộn, do vậy nếu bạn có nhiều 
+hơn một, bạn có thể sẽ cần refactor code. Chương 6 mô tả một cấu trúc rẽ nhánh mạnh
+mẽ trong Rust được gọi là <code>match</code> phù hợp với trường hợp này.</p>
+<h4 id="sử-dụng-if-bên-trong-phát-biểu-let"><a class="header" href="#sử-dụng-if-bên-trong-phát-biểu-let">Sử dụng <code>if</code> bên trong phát biểu <code>let</code></a></h4>
+<p>Vì <code>if</code> là một biểu thức, vậy nên ta có thể dùng nó bên phải của một phát biểu <code>let</code>
+để gán giá trị trả về cho một biến, như trong Listing 3-2.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let condition = true;
@@ -2865,23 +2870,21 @@ statement to assign the outcome to a variable, as in Listing 3-2.</p>
     println!(&quot;The value of number is: {number}&quot;);
 }
 </code></pre></pre>
-<p><span class="caption">Listing 3-2: Assigning the result of an <code>if</code> expression
-to a variable</span></p>
-<p>The <code>number</code> variable will be bound to a value based on the outcome of the <code>if</code>
-expression. Run this code to see what happens:</p>
+<p><span class="caption">Listing 3-2: Gán kết quả của một biểu thức <code>if</code> vào một biến</span></p>
+<p>Biến <code>number</code> sẽ được gán một giá trị dựa trên kết quả của một biểu thức <code>if</code>. Chạy 
+đoạn code sau để xem điều gì xảy ra:</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
     Finished dev [unoptimized + debuginfo] target(s) in 0.30s
      Running `target/debug/branches`
 The value of number is: 5
 </code></pre>
-<p>Remember that blocks of code evaluate to the last expression in them, and
-numbers by themselves are also expressions. In this case, the value of the
-whole <code>if</code> expression depends on which block of code executes. This means the
-values that have the potential to be results from each arm of the <code>if</code> must be
-the same type; in Listing 3-2, the results of both the <code>if</code> arm and the <code>else</code>
-arm were <code>i32</code> integers. If the types are mismatched, as in the following
-example, we’ll get an error:</p>
+<p>Hãy nhớ là các khối lệnh sẽ được định giá trị bằng với giá trị của biểu thức cuối
+cùng bên trong nó, và bản thân các con số cũng là các biểu thức. Trong trường hợp này,
+giá trị của toàn bộ biểu thức <code>if</code> phụ thuộc vào nhánh nào được thực thi. Có nghĩa là
+các nhánh của <code>if</code> phải có cùng kiểu; trong Listing 3-2, kết quả của cả hai nhánh 
+của <code>if</code> đều có kiểu số nguyên <code>i32</code>. Nếu các kiểu không khớp nhau, như trong ví dụ 
+dưới đây, chúng ta sẽ nhận về một lỗi.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let condition = true;
@@ -2891,9 +2894,9 @@ example, we’ll get an error:</p>
     println!(&quot;The value of number is: {number}&quot;);
 }
 </code></pre>
-<p>When we try to compile this code, we’ll get an error. The <code>if</code> and <code>else</code> arms
-have value types that are incompatible, and Rust indicates exactly where to
-find the problem in the program:</p>
+<p>Khi chúng ta thử dịch đoạn code này, chúng ta sẽ nhận về một lỗi. Các nhánh <code>if</code>
+và <code>else</code> có các kiểu không tương thích, và Rust chỉ ra chính xác vị trí nơi phát 
+sinh lỗi trong chương trình:</p>
 <pre><code class="language-console">$ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
 error[E0308]: `if` and `else` have incompatible types
@@ -2907,25 +2910,25 @@ error[E0308]: `if` and `else` have incompatible types
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `branches` due to previous error
 </code></pre>
-<p>The expression in the <code>if</code> block evaluates to an integer, and the expression in
-the <code>else</code> block evaluates to a string. This won’t work because variables must
-have a single type, and Rust needs to know at compile time what type the
-<code>number</code> variable is, definitively. Knowing the type of <code>number</code> lets the
-compiler verify the type is valid everywhere we use <code>number</code>. Rust wouldn’t be
-able to do that if the type of <code>number</code> was only determined at runtime; the
-compiler would be more complex and would make fewer guarantees about the code
-if it had to keep track of multiple hypothetical types for any variable.</p>
-<h3 id="repetition-with-loops"><a class="header" href="#repetition-with-loops">Repetition with Loops</a></h3>
-<p>It’s often useful to execute a block of code more than once. For this task,
-Rust provides several <em>loops</em>, which will run through the code inside the loop
-body to the end and then start immediately back at the beginning. To
-experiment with loops, let’s make a new project called <em>loops</em>.</p>
-<p>Rust has three kinds of loops: <code>loop</code>, <code>while</code>, and <code>for</code>. Let’s try each one.</p>
-<h4 id="repeating-code-with-loop"><a class="header" href="#repeating-code-with-loop">Repeating Code with <code>loop</code></a></h4>
-<p>The <code>loop</code> keyword tells Rust to execute a block of code over and over again
-forever or until you explicitly tell it to stop.</p>
-<p>As an example, change the <em>src/main.rs</em> file in your <em>loops</em> directory to look
-like this:</p>
+<p>Biểu thức trong khối <code>if</code> trả về một giá trị integer, trong khi biểu thức trong khối <code>else</code> 
+trả về một string. Điều này không thể hoạt động được vì các biến chỉ có thể có một kiểu
+duy nhất, và Rust cần biết kiểu của biến <code>number</code> là gì ngay khi dịch. Việc biết 
+kiểu của biến <code>number</code> cho phép trình dịch xác định tính hợp lệ về kiểu bất cứ khi nào
+ta truy xuất đến nó. Rust sẽ không thể làm được điều này nếu nó chỉ có thể xác định kiểu
+của <code>number</code> vào lúc chạy chương trình; trình dịch có lẽ sẽ phức tạp hơn nhiều cũng như
+khó đảm bảo về đoạn code hơn nếu nó phải lưu giữ thông tin về tất cả các kiểu dữ liệu 
+<code>giả tưởng</code> cho bất kỳ biến nào.</p>
+<h3 id="sử-dụng-vòng-lặp-loops"><a class="header" href="#sử-dụng-vòng-lặp-loops">Sử dụng vòng lặp (loops)</a></h3>
+<p>Chúng ta thường xuyên phải thực thi một đoạn code nào đó nhiều lần. Để làm điều này,
+Rust cung cấp một số dạng <em>vòng lặp</em>, nó cho phép chạy đến cuối đoạn code bên trong 
+thân vòng lặp , sau đó quay trở lại vị trí bắt đầu. Để trải nghiệm thử các vòng lặp,
+chúng ta sẽ cùng tạo một dự án mới có tên <em>loops</em>.</p>
+<p>Rust có ba dạng lặp: <code>loop</code>, <code>while</code>, và <code>for</code>. Hãy cùng thử qua từng cái.</p>
+<h4 id="lặp-lại-một-đoạn-code-sử-dụng-loop"><a class="header" href="#lặp-lại-một-đoạn-code-sử-dụng-loop">Lặp lại một đoạn code sử dụng <code>loop</code></a></h4>
+<p>Từ khóa <code>loop</code> sẽ yêu cầu Rust thực thi một đoạn code lặp đi lặp lại cho đến 
+khi bạn yêu cầu nó kết thúc.</p>
+<p>Để ví dụ, hãy thay đổi file <em>src/main.rs</em> trong thư mục <em>loops</em> của bạn để nó trông
+như sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore">fn main() {
     loop {
@@ -2933,10 +2936,10 @@ like this:</p>
     }
 }
 </code></pre>
-<p>When we run this program, we’ll see <code>again!</code> printed over and over continuously
-until we stop the program manually. Most terminals support the keyboard shortcut
-<span class="keystroke">ctrl-c</span> to interrupt a program that is stuck in
-a continual loop. Give it a try:</p>
+<p>Khi chạy chương trình này, chúng ta sẽ thấy dòng <code>again!</code> được in lên màn hình
+liên tục cho đến khi bạn ngừng chạy chương trình. Hầu hết các terminal hỗ trợ 
+tổ hợp phím <span class="keystroke">ctrl-c</span> để ngắt một chương trình đang 
+bị kẹt trong một vòng lặp. Hãy cùng chạy thử:</p>
 <!-- manual-regeneration
 cd listings/ch03-common-programming-concepts/no-listing-32-loop
 cargo run
@@ -2952,26 +2955,25 @@ again!
 again!
 ^Cagain!
 </code></pre>
-<p>The symbol <code>^C</code> represents where you pressed <span class="keystroke">ctrl-c
-</span>. You may or may not see the word <code>again!</code> printed after the <code>^C</code>,
-depending on where the code was in the loop when it received the interrupt
-signal.</p>
-<p>Fortunately, Rust also provides a way to break out of a loop using code. You
-can place the <code>break</code> keyword within the loop to tell the program when to stop
-executing the loop. Recall that we did this in the guessing game in the
-<a href="ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess">“Quitting After a Correct Guess”</a><!-- ignore
---> section of Chapter 2 to exit the program when the user won the game by
-guessing the correct number.</p>
-<p>We also used <code>continue</code> in the guessing game, which in a loop tells the program
-to skip over any remaining code in this iteration of the loop and go to the
-next iteration.</p>
+<p>Ký hiệu <code>^C</code> đại diện cho vị trí bạn nhấn <span class="keystroke">ctrl-c
+</span>. Bạn có thể nhìn thấy dòng <code>again!</code> được in phía sau <code>^C</code> hoặc không,
+phụ thuộc vào nơi đoạn code đang thực thi bên trong vòng lặp khi nó nhận được
+tín hiệu ngắt.</p>
+<p>May mắn là Rust cũng cung cấp một cách để thoát khỏi vòng lặp bằng code. Bạn có 
+thể đặt một từ khóa <code>break</code> bên trong vòng lặp để nói với chương trình khi nào 
+cần thoát khỏi vòng lặp. Hãy nhớ lại chúng ta đã làm điều này trong <a href="ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess">“Quitting 
+After a Correct Guess”</a><!-- ignore --> trong 
+chương 2 để thoát khỏi chương trình khi người dùng chiến thắng bằng cách đoán đúng
+con số.</p>
+<p>Chúng ta cũng dùng <code>continue</code> trong trò chơi đoán số, để yêu cầu chương trình bỏ
+qua phần còn lại trong thân vòng lặp hiện tại và bắt đầu một vòng lặp mới.</p>
 <h4 id="returning-values-from-loops"><a class="header" href="#returning-values-from-loops">Returning Values from Loops</a></h4>
-<p>One of the uses of a <code>loop</code> is to retry an operation you know might fail, such
-as checking whether a thread has completed its job. You might also need to pass
-the result of that operation out of the loop to the rest of your code. To do
-this, you can add the value you want returned after the <code>break</code> expression you
-use to stop the loop; that value will be returned out of the loop so you can
-use it, as shown here:</p>
+<p>Một trong những lý do dùng <code>loop</code> là để thực thi lại một tác vụ nào đó bạn biết
+có thể sẽ thất bại, kiểu như khi kiểm tra xem một thread đã hoàn thành công việc
+hay chưa. Bạn cũng cần trả về kết quả của tác vụ đó cho phần còn lại của chương 
+trình khi kết thúc vòng lặp. Để làm điểu này bạn có thể thêm giá trị muốn trả về 
+sau phát biểu <code>break</code> mà bạn dùng để kết thúc vòng lặp; giá trị đó sẽ được trả 
+về ra ngoài vòng lặp và bạn có thể dùng được nó như trong ví dụ dưới đây:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut counter = 0;
 
@@ -2986,19 +2988,19 @@ use it, as shown here:</p>
     println!(&quot;The result is {result}&quot;);
 }
 </code></pre></pre>
-<p>Before the loop, we declare a variable named <code>counter</code> and initialize it to
-<code>0</code>. Then we declare a variable named <code>result</code> to hold the value returned from
-the loop. On every iteration of the loop, we add <code>1</code> to the <code>counter</code> variable,
-and then check whether the counter is equal to <code>10</code>. When it is, we use the
-<code>break</code> keyword with the value <code>counter * 2</code>. After the loop, we use a
-semicolon to end the statement that assigns the value to <code>result</code>. Finally, we
-print the value in <code>result</code>, which in this case is 20.</p>
-<h4 id="loop-labels-to-disambiguate-between-multiple-loops"><a class="header" href="#loop-labels-to-disambiguate-between-multiple-loops">Loop Labels to Disambiguate Between Multiple Loops</a></h4>
-<p>If you have loops within loops, <code>break</code> and <code>continue</code> apply to the innermost
-loop at that point. You can optionally specify a <em>loop label</em> on a loop that we
-can then use with <code>break</code> or <code>continue</code> to specify that those keywords apply to
-the labeled loop instead of the innermost loop. Loop labels must begin with a
-single quote. Here’s an example with two nested loops:</p>
+<p>Trước khi lặp, bạn khai báo một biến tên <code>counter</code> và khởi tạo giá trị của nó là
+<code>0</code>. Sau đó bạn khai báo tiếp một biến tên là <code>result</code> để lưu lại giá trị trả về 
+từ vòng lặp. Cứ mỗi lần lặp ta lại cộng thêm <code>1</code> vào biến <code>counter</code> và kiểm tra 
+giá trị của <code>counter</code> với <code>10</code>, khi điểu này xảy ra, ta dùng từ khóa <code>break</code> với
+giá trị trả về là <code>counter </code>* 2<code>. Sau vòng lặp, ta dùng một dấu chấm phẩy để kết  thúc phát biểu gán giá trị vào cho </code>result<code>. Cuối cùng, ta in ra giá trị của </code>result`,
+trong trường hợp này sẽ là 20.</p>
+<h4 id="gán-nhãn-để-phân-biệt-giữa-các-vòng-lặp"><a class="header" href="#gán-nhãn-để-phân-biệt-giữa-các-vòng-lặp">Gán nhãn để phân biệt giữa các vòng lặp</a></h4>
+<p>Nếu bạn có nhiều vòng lặp lồng nhau, <code>break</code> và <code>continue</code> được áp dụng cho vòng 
+lặp bên trong nhất tại nơi bạn gọi. Bạn cũng có thể đặt <em>nhãn</em> cho một vòng lặp
+để sau đó khi gọi <code>break</code> hoặc <code>continue</code>, ta có thể chỉ ra chính xác ta muốn
+áp dụng những từ khóa đó cho vòng lặp đã được gán nhãn thay vì vòng lặp trong cùng.
+Các nhãn vòng lặp phải bắt đầu với một dấu nháy đơn. Sau đây là một ví dụ về hai
+vòng lặp lồng nhau:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut count = 0;
     'counting_up: loop {
@@ -3021,9 +3023,10 @@ single quote. Here’s an example with two nested loops:</p>
     println!(&quot;End count = {count}&quot;);
 }
 </code></pre></pre>
-<p>The outer loop has the label <code>'counting_up</code>, and it will count up from 0 to 2.
-The inner loop without a label counts down from 10 to 9. The first <code>break</code> that
-doesn’t specify a label will exit the inner loop only. The <code>break 'counting_up;</code> statement will exit the outer loop. This code prints:</p>
+<p>Vòng lặp bên ngoài có nhãn <code>'counting_up</code>, và nó sẽ đếm từ 0 đến 2. Vòng lặp bên trong
+không có nhãn và đếm ngược từ 10 xuống 9. Phát biểu <code>break</code> đầu tiên không chỉ ra nhãn 
+nên chỉ thoát ra khỏi vòng lặp bên trong. Trong khi đó, phát biểu <code>break 'counting_up;</code>
+sẽ thoát ra vòng lặp bên ngoài. Đoạn code này sẽ in ra:</p>
 <pre><code class="language-console">$ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.58s
@@ -3038,15 +3041,15 @@ count = 2
 remaining = 10
 End count = 2
 </code></pre>
-<h4 id="conditional-loops-with-while"><a class="header" href="#conditional-loops-with-while">Conditional Loops with <code>while</code></a></h4>
-<p>A program will often need to evaluate a condition within a loop. While the
-condition is true, the loop runs. When the condition ceases to be true, the
-program calls <code>break</code>, stopping the loop. It’s possible to implement behavior
-like this using a combination of <code>loop</code>, <code>if</code>, <code>else</code>, and <code>break</code>; you could
-try that now in a program, if you’d like. However, this pattern is so common
-that Rust has a built-in language construct for it, called a <code>while</code> loop. In
-Listing 3-3, we use <code>while</code> to loop the program three times, counting down each
-time, and then, after the loop, print a message and exit.</p>
+<h4 id="lặp-theo-điều-kiện-với-while"><a class="header" href="#lặp-theo-điều-kiện-với-while">Lặp theo điều kiện với <code>while</code></a></h4>
+<p>Một chương trình sẽ thường phải kiểm tra điều kiện bên trong một vòng lặp. Khi điều
+kiện là true, tiếp tục vòng lặp. Khi điều kiện không còn là true, chương trình sẽ
+gọi <code>break</code> và ngưng vòng lặp. Bạn hoàn toàn có thể làm những điều trên bằng việc
+kết hợp <code>loop</code>, <code>if</code>, <code>else</code> và <code>break</code>; bạn có thể thử ngay nếu muốn. Tuy nhiên,
+cấu trúc này rất phổ biến, do vậy Rust tạo ra một cấu trúc lặp riêng cho nó, gọi 
+vòng lặp <code>while</code>. Trong Listing 3-3, chúng ta sẽ dùng <code>while</code> để lặp chương trình
+3 lần, đếm ngược mỗi lần lặp, in ra một thông báo và kết thúc sau khi hoàn thành 
+vòng lặp.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut number = 3;
@@ -3060,15 +3063,15 @@ time, and then, after the loop, print a message and exit.</p>
     println!(&quot;LIFTOFF!!!&quot;);
 }
 </code></pre></pre>
-<p><span class="caption">Listing 3-3: Using a <code>while</code> loop to run code while a
-condition holds true</span></p>
-<p>This construct eliminates a lot of nesting that would be necessary if you used
-<code>loop</code>, <code>if</code>, <code>else</code>, and <code>break</code>, and it’s clearer. While a condition holds
-true, the code runs; otherwise, it exits the loop.</p>
-<h4 id="looping-through-a-collection-with-for"><a class="header" href="#looping-through-a-collection-with-for">Looping Through a Collection with <code>for</code></a></h4>
-<p>You can choose to use the <code>while</code> construct to loop over the elements of a
-collection, such as an array. For example, the loop in Listing 3-4 prints each
-element in the array <code>a</code>.</p>
+<p><span class="caption">Listing 3-3: Dùng một vòng lặp <code>while</code> để chạy code trong khi một
+điều kiện vẫn còn đúng</span></p>
+<p>Vòng lặp này cho phép loại bỏ nhiều cấu trúc lồng nhau như khi bạn kết hợp
+<code>loop</code>, <code>if</code>, <code>else</code>, và <code>break</code>, giúp code của bạn sáng sủa hơn. Trong khi một
+điều kiện vẫn là <code>true</code>, chạy vòng lặp; ngược lại, kết thúc vòng lặp.</p>
+<h4 id="lặp-qua-một-tập-hợp-với-for"><a class="header" href="#lặp-qua-một-tập-hợp-với-for">Lặp qua một tập hợp với <code>for</code></a></h4>
+<p>Bạn có thể chọn dùng <code>while</code> để duyệt qua các thành phần của một tập hợp, kiểu 
+như một mảng. Ví dụ, vòng lặp trong Listing 3-4 in ra các phần tử có trong mảng
+<code>a</code>.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [10, 20, 30, 40, 50];
@@ -3081,12 +3084,11 @@ element in the array <code>a</code>.</p>
     }
 }
 </code></pre></pre>
-<p><span class="caption">Listing 3-4: Looping through each element of a collection
-using a <code>while</code> loop</span></p>
-<p>Here, the code counts up through the elements in the array. It starts at index
-<code>0</code>, and then loops until it reaches the final index in the array (that is,
-when <code>index &lt; 5</code> is no longer true). Running this code will print every element
-in the array:</p>
+<p><span class="caption">Listing 3-4: Lặp qua từng phần tử trong một tập hợp sử dụng 
+vòng lặp <code>while</code></span></p>
+<p>Ở đây, đoạn code đếm qua các phần tử có trong mảng. Nó bắt đầu từ chỉ số <code>0</code>, và 
+tiếp tục lặp cho đến khi gặp chỉ số cuối cùng của mảng (là khi <code>index &lt; 5</code> không 
+còn trả về true). Chạy đoạn code này sẽ in ra tất cả các phần tử trong mảng:</p>
 <pre><code class="language-console">$ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
     Finished dev [unoptimized + debuginfo] target(s) in 0.32s
@@ -3097,17 +3099,18 @@ the value is: 30
 the value is: 40
 the value is: 50
 </code></pre>
-<p>All five array values appear in the terminal, as expected. Even though <code>index</code>
-will reach a value of <code>5</code> at some point, the loop stops executing before trying
-to fetch a sixth value from the array.</p>
-<p>However, this approach is error prone; we could cause the program to panic if
-the index value or test condition are incorrect. For example, if you changed
-the definition of the <code>a</code> array to have four elements but forgot to update the
-condition to <code>while index &lt; 4</code>, the code would panic. It’s also slow, because
-the compiler adds runtime code to perform the conditional check of whether the
-index is within the bounds of the array on every iteration through the loop.</p>
-<p>As a more concise alternative, you can use a <code>for</code> loop and execute some code
-for each item in a collection. A <code>for</code> loop looks like the code in Listing 3-5.</p>
+<p>Tất cả năm giá trị trong mảng đều được xuất ra cửa sổ chạy chương trình. Mặc dù
+<code>index</code> sẽ đạt giá trị <code>5</code> vào một thời điểm nào đó, vòng lặp sẽ ngừng thực thi 
+trước khi cố lấy giá trị thứ sáu (không tồn tại) từ mảng.</p>
+<p>Tuy nhiên, các tiếp cận này ẩn chứa lỗi; chúng ta có thể làm chương trình về trạng
+thái panic nếu giá trị chỉ số hay điều kiện lặp không chính xác. Ví dụ, nếu bạn 
+thay đổi định nghĩa mảng <code>a</code> thành một mảng chỉ có bốn phần tử nhưng lại quên thay
+đổi điều kiện thành <code>while index &lt; 4</code>, đoạn code sẽ bị lỗi. Và nó cũng chạy chậm
+bởi trình dịch phải thêm code để kiểm tra mỗi lần lặp xem chỉ số có nằm trong 
+phạm vi hợp lệ hay không.</p>
+<p>Như một cách tiếp cận chính xác hơn, bạn có thể dùng một vòng <code>for</code> và thực thi
+code cho mỗi phần tử trong tập hợp. Một vòng lặp <code>for</code> sẽ trông như đoạn code 
+trong Listing 3-5.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [10, 20, 30, 40, 50];
@@ -3119,22 +3122,20 @@ for each item in a collection. A <code>for</code> loop looks like the code in Li
 </code></pre></pre>
 <p><span class="caption">Listing 3-5: Looping through each element of a collection
 using a <code>for</code> loop</span></p>
-<p>When we run this code, we’ll see the same output as in Listing 3-4. More
-importantly, we’ve now increased the safety of the code and eliminated the
-chance of bugs that might result from going beyond the end of the array or not
-going far enough and missing some items.</p>
-<p>Using the <code>for</code> loop, you wouldn’t need to remember to change any other code if
-you changed the number of values in the array, as you would with the method
-used in Listing 3-4.</p>
-<p>The safety and conciseness of <code>for</code> loops make them the most commonly used loop
-construct in Rust. Even in situations in which you want to run some code a
-certain number of times, as in the countdown example that used a <code>while</code> loop
-in Listing 3-3, most Rustaceans would use a <code>for</code> loop. The way to do that
-would be to use a <code>Range</code>, provided by the standard library, which generates
-all numbers in sequence starting from one number and ending before another
-number.</p>
-<p>Here’s what the countdown would look like using a <code>for</code> loop and another method
-we’ve not yet talked about, <code>rev</code>, to reverse the range:</p>
+<p>Khi chạy đoạn code này, bạn sẽ thấy cùng kết xuất như trong Listing 3-4. Quan trọng
+hơn, giờ độ an toàn của code cao hơn và loại bỏ cơ hội phát sinh bug khi cố truy
+cập một phần tử vượt ra ngoài phạm vi của mảng.</p>
+<p>Sử dụng vòng <code>for</code>, bạn cũng không cần phải nhớ thay đổi các đoạn code khác nếu bạn thay
+đổi số giá trị có trong mảng, như cách bạn cần làm nếu sử dụng cách thức trong 
+Listing 3-4.</p>
+<p>Sự an toàn và chính xác của các vòng <code>for</code> làm cho chúng trở thành cấu trúc lặp
+phổ biến nhất trong Rust. Ngay cả khi bạn muốn chạy một số code một số lần nhất
+định, giống trong ví dụ đếm ngược mà chúng ta dùng vòng lặp <code>while</code>trong Listing 3-3,
+hầu hết Rustaceans sẽ chọn dùng <code>for</code>. Để làm điều này ta có thể dùng một <code>Range</code>,
+vốn được cung cấp bởi thư viện chuẩn, và sẽ tạo ra tất cả các con số tuần tự bắt 
+đầu từ một giá trị và kết thúc trước một giá trị khác.</p>
+<p>Đây là ví dụ countdown được viết lại dùng vòng <code>for</code> và một phương thức khác ta chưa 
+nhắc đến, <code>rev</code>, để đảo ngược <code>Range</code>:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     for number in (1..4).rev() {
@@ -3143,20 +3144,19 @@ we’ve not yet talked about, <code>rev</code>, to reverse the range:</p>
     println!(&quot;LIFTOFF!!!&quot;);
 }
 </code></pre></pre>
-<p>This code is a bit nicer, isn’t it?</p>
-<h2 id="summary-1"><a class="header" href="#summary-1">Summary</a></h2>
-<p>You made it! That was a sizable chapter: you learned about variables, scalar
-and compound data types, functions, comments, <code>if</code> expressions, and loops!
-To practice with the concepts discussed in this chapter, try building
-programs to do the following:</p>
+<p>Đoạn code này trông rõ ràng sáng sủa hơn phải không?</p>
+<h2 id="tổng-kết-1"><a class="header" href="#tổng-kết-1">Tổng kết</a></h2>
+<p>Bạn đã làm được! Đây thật là một chương với rất nhiều thông tin: bạn học về biến,
+các kiểu dữ liệu vô hướng và kết hợp, hàm, ghi chú, phát biểu <code>if</code>, và cả các
+vòng lặp! Để thực hành với các khái niệm được giới thiệu trong chương này, hãy thử
+viết một chương trình làm những việc sau:</p>
 <ul>
-<li>Convert temperatures between Fahrenheit and Celsius.</li>
-<li>Generate the nth Fibonacci number.</li>
-<li>Print the lyrics to the Christmas carol “The Twelve Days of Christmas,”
-taking advantage of the repetition in the song.</li>
+<li>Chuyển đổi nhiệt độ giữa các hệ Fahrenheit và Celsius.</li>
+<li>Tạo số Fibonacci thứ n.</li>
+<li>In ra lời bài hát “The Twelve Days of Christmas,”, ứng dụng các vòng lặp để in ra những đoạn lặp lại trong bài hát.</li>
 </ul>
-<p>When you’re ready to move on, we’ll talk about a concept in Rust that <em>doesn’t</em>
-commonly exist in other programming languages: ownership.</p>
+<p>Khi bạn đã sẵn sàng để tiếp tục, chúng ta sẽ nói về một khái niệm <em>không</em> tồn tại 
+trong hầu hết các ngôn ngữ khác: ownership.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="understanding-ownership"><a class="header" href="#understanding-ownership">Understanding Ownership</a></h1>
 <p>Ownership is Rust’s most unique feature and has deep implications for the rest
 of the language. It enables Rust to make memory safety guarantees without
@@ -3463,11 +3463,11 @@ error[E0382]: borrow of moved value: `s1`
   |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
 3 |     let s2 = s1;
   |              -- value moved here
-4 | 
+4 |
 5 |     println!(&quot;{}, world!&quot;, s1);
   |                            ^^ value borrowed here after move
   |
-  = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
+  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `ownership` due to previous error
@@ -3796,7 +3796,7 @@ error[E0499]: cannot borrow `s` as mutable more than once at a time
   |              ------ first mutable borrow occurs here
 5 |     let r2 = &amp;mut s;
   |              ^^^^^^ second mutable borrow occurs here
-6 | 
+6 |
 7 |     println!(&quot;{}, {}&quot;, r1, r2);
   |                        -- first borrow later used here
 
@@ -3857,7 +3857,7 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 5 |     let r2 = &amp;s; // no problem
 6 |     let r3 = &amp;mut s; // BIG PROBLEM
   |              ^^^^^^ mutable borrow occurs here
-7 | 
+7 |
 8 |     println!(&quot;{}, {}, and {}&quot;, r1, r2, r3);
   |                                -- immutable borrow later used here
 
@@ -3930,7 +3930,7 @@ error[E0106]: missing lifetime specifier
 help: consider using the `'static` lifetime
   |
 5 | fn dangle() -&gt; &amp;'static String {
-  |                ~~~~~~~~
+  |                 +++++++
 
 For more information about this error, try `rustc --explain E0106`.
 error: could not compile `ownership` due to previous error
@@ -4255,10 +4255,10 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
    |
 16 |     let word = first_word(&amp;s);
    |                           -- immutable borrow occurs here
-17 | 
+17 |
 18 |     s.clear(); // error!
    |     ^^^^^^^^^ mutable borrow occurs here
-19 | 
+19 |
 20 |     println!(&quot;the first word is: {}&quot;, word);
    |                                       ---- immutable borrow later used here
 
@@ -4394,7 +4394,7 @@ assert_eq!(slice, &amp;[2, 3]);
 storing a reference to the first element and a length. You’ll use this kind of
 slice for all sorts of other collections. We’ll discuss these collections in
 detail when we talk about vectors in Chapter 8.</p>
-<h2 id="summary-2"><a class="header" href="#summary-2">Summary</a></h2>
+<h2 id="summary-1"><a class="header" href="#summary-1">Summary</a></h2>
 <p>The concepts of ownership, borrowing, and slices ensure memory safety in Rust
 programs at compile time. The Rust language gives you control over your memory
 usage in the same way as other systems programming languages, but having the
@@ -4454,9 +4454,9 @@ example, we can declare a particular user as shown in Listing 5-2.</p>
 </span><span class="boring">
 </span>fn main() {
     let user1 = User {
-        email: String::from(&quot;someone@example.com&quot;),
-        username: String::from(&quot;someusername123&quot;),
         active: true,
+        username: String::from(&quot;someusername123&quot;),
+        email: String::from(&quot;someone@example.com&quot;),
         sign_in_count: 1,
     };
 }
@@ -4477,9 +4477,9 @@ field of a mutable <code>User</code> instance.</p>
 </span><span class="boring">
 </span>fn main() {
     let mut user1 = User {
-        email: String::from(&quot;someone@example.com&quot;),
-        username: String::from(&quot;someusername123&quot;),
         active: true,
+        username: String::from(&quot;someusername123&quot;),
+        email: String::from(&quot;someone@example.com&quot;),
         sign_in_count: 1,
     };
 
@@ -4504,9 +4504,9 @@ the <code>sign_in_count</code> gets a value of <code>1</code>.</p>
 </span><span class="boring">
 </span>fn build_user(email: String, username: String) -&gt; User {
     User {
-        email: email,
-        username: username,
         active: true,
+        username: username,
+        email: email,
         sign_in_count: 1,
     }
 }
@@ -4539,9 +4539,9 @@ repetition of <code>email</code> and <code>username</code>, as shown in Listing 
 </span><span class="boring">
 </span>fn build_user(email: String, username: String) -&gt; User {
     User {
-        email,
-        username,
         active: true,
+        username,
+        email,
         sign_in_count: 1,
     }
 }
@@ -5375,7 +5375,7 @@ blocks</span></p>
 <p>There’s no reason to separate these methods into multiple <code>impl</code> blocks here,
 but this is valid syntax. We’ll see a case in which multiple <code>impl</code> blocks are
 useful in Chapter 10, where we discuss generic types and traits.</p>
-<h2 id="summary-3"><a class="header" href="#summary-3">Summary</a></h2>
+<h2 id="summary-2"><a class="header" href="#summary-2">Summary</a></h2>
 <p>Structs let you create custom types that are meaningful for your domain. By
 using structs, you can keep associated pieces of data connected to each other
 and name each piece to make your code clear. In <code>impl</code> blocks, you can define
@@ -5385,36 +5385,38 @@ structs have.</p>
 <p>But structs aren’t the only way you can create custom types: let’s turn to
 Rust’s enum feature to add another tool to your toolbox.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums-and-pattern-matching"><a class="header" href="#enums-and-pattern-matching">Enums and Pattern Matching</a></h1>
-<p>In this chapter we’ll look at <em>enumerations</em>, also referred to as <em>enums</em>.
-Enums allow you to define a type by enumerating its possible <em>variants</em>. First,
-we’ll define and use an enum to show how an enum can encode meaning along with
-data. Next, we’ll explore a particularly useful enum, called <code>Option</code>, which
-expresses that a value can be either something or nothing. Then we’ll look at
-how pattern matching in the <code>match</code> expression makes it easy to run different
-code for different values of an enum. Finally, we’ll cover how the <code>if let</code>
-construct is another convenient and concise idiom available to handle enums in
-your code.</p>
+<p>Trong chương này, chúng ta sẽ xem xét <em>enumerations</em>, còn được gọi là <em>enums</em>.
+Enum cho phép định nghĩa một kiểu dữ liệu bằng cách liệt kê các biến thể 
+(variant) có thể xảy ra. Đầu tiên, chúng ta sẽ định nghĩa và sử dụng một enum
+qua đó sẽ cho thấy cách một enum có thể mã hóa dữ liệu. Tiếp theo, chúng ta sẽ
+khám phá một enum đặc biệt, gọi là <code>Option</code>, thể hiện có thể có giá trị hoặc
+không có giá trị. Sau đó, chúng ta sẽ xem xét cách các mẫu (pattern) được khớp
+(match) với nhau trong biểu thức <code>match</code> qua đó cho phép chúng ta có thể chạy
+các code khác nhau phụ thuộc vào giá trị của enum. Cuối cùng, chúng ta sẽ tìm
+hiểu cách cấu trúc <code>if let</code> là một idiom tiện lợi và ngắn gọn khác có sẵn để xử
+lý các enum trong code.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="defining-an-enum"><a class="header" href="#defining-an-enum">Defining an Enum</a></h2>
-<p>Where structs give you a way of grouping together related fields and data, like
-a <code>Rectangle</code> with its <code>width</code> and <code>height</code>, enums give you a way of saying a
-value is one of a possible set of values. For example, we may want to say that
-<code>Rectangle</code> is one of a set of possible shapes that also includes <code>Circle</code> and
-<code>Triangle</code>. To do this, Rust allows us to encode these possibilities as an enum.</p>
-<p>Let’s look at a situation we might want to express in code and see why enums
-are useful and more appropriate than structs in this case. Say we need to work
-with IP addresses. Currently, two major standards are used for IP addresses:
-version four and version six. Because these are the only possibilities for an
-IP address that our program will come across, we can <em>enumerate</em> all possible
-variants, which is where enumeration gets its name.</p>
-<p>Any IP address can be either a version four or a version six address, but not
-both at the same time. That property of IP addresses makes the enum data
-structure appropriate, because an enum value can only be one of its variants.
-Both version four and version six addresses are still fundamentally IP
-addresses, so they should be treated as the same type when the code is handling
-situations that apply to any kind of IP address.</p>
-<p>We can express this concept in code by defining an <code>IpAddrKind</code> enumeration and
-listing the possible kinds an IP address can be, <code>V4</code> and <code>V6</code>. These are the
-variants of the enum:</p>
+<p>Trong khi struct cho phép bạn nhóm các trường dữ liệu liên quan lại với nhau,
+ví dụ như <code>Rectangle</code> (hình chữ nhật) sẽ có <code>width</code> (chiều rộng) và <code>height</code> 
+(chiều dài), enum cho phép bạn miêu tả một tập hợp chứa các giá trị có thể xảy
+ra. Ví dụ, chúng ta có thể muốn nói rằng <code>Rectangle</code> là một hình trong một tập
+hợp các hình, bao gồm <code>Circle</code> (hình tròn) và <code>Triangle</code> (tam giác). Rust cho
+phép chúng ta định nghĩa kiểu dữ liệu này bằng một enum.</p>
+<p>Hãy xem xét một trường hợp mà chúng ta có thể muốn biểu diễn trong code và xem
+tại sao enum là hữu ích và phù hợp hơn struct trong trường hợp này. Hãy nói
+rằng chúng ta cần làm việc với địa chỉ IP. Hiện tại, có hai tiêu chuẩn chính
+được sử dụng cho địa chỉ IP: IPv4 và IPv6. Vì đây là những lựa chọn duy nhất
+cho địa chỉ IP mà chương trình của chúng ta sẽ gặp phải, chúng ta có thể <em>liệt
+kê</em> (enumerate) tất cả các biến thể có thể xảy ra, tên <code>enum</code> cũng được đặt ra
+từ enumerate.</p>
+<p>Bất kỳ địa chỉ IP nào đều có thể là địa chỉ IPv4 hoặc địa chỉ IPv6, nhưng không
+thể là cả hai cùng một lúc. Đặc tính này của địa chỉ IP khiến cho kiểu dữ liệu
+enum phù hợp, vì một giá trị enum chỉ có thể là một trong các biến thể của nó.
+Cả địa chỉ IPv4 và địa chỉ IPv6 vẫn là địa chỉ cơ bản đều là địa chỉ IP, vì vậy
+chúng nên được xem như cùng một kiểu dữ liệu khi code cần xử lý địa chỉ IP.</p>
+<p>Chúng ta có thể biểu diễn khái niệm này trong code bằng cách định nghĩa một
+enum <code>IpAddrKind</code> và liệt kê các loại có thể có của địa chỉ IP, <code>V4</code> và <code>V6</code>.
+Đây là các biến thể của enum:</p>
 <pre><pre class="playground"><code class="language-rust">enum IpAddrKind {
     V4,
     V6,
@@ -5430,9 +5432,11 @@ variants of the enum:</p>
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p><code>IpAddrKind</code> is now a custom data type that we can use elsewhere in our code.</p>
+<p><code>IpAddrKind</code> là một kiểu dữ liệu tùy chỉnh mà chúng ta có thể sử dụng ở bất kỳ
+đâu trong code của mình.</p>
 <h3 id="enum-values"><a class="header" href="#enum-values">Enum Values</a></h3>
-<p>We can create instances of each of the two variants of <code>IpAddrKind</code> like this:</p>
+<p>Chúng ta có thể tạo các thể hiện (instance) của mỗi biến thể của <code>IpAddrKind</code>
+như sau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
@@ -5448,10 +5452,11 @@ variants of the enum:</p>
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>Note that the variants of the enum are namespaced under its identifier, and we
-use a double colon to separate the two. This is useful because now both values
-<code>IpAddrKind::V4</code> and <code>IpAddrKind::V6</code> are of the same type: <code>IpAddrKind</code>. We
-can then, for instance, define a function that takes any <code>IpAddrKind</code>:</p>
+<p>Lưu ý rằng các biến thể của enum được đặt trong namepsace của nó, và chúng ta
+sử dụng hai dấu hai chấm để phân tách chúng. Điều này rất hữu ích bởi vì giờ cả
+hai giá trị <code>IpAddrKind::V4</code> và <code>IpAddrKind::V6</code> đều là cùng một kiểu:
+<code>IpAddrKind</code>. Chúng ta có thể, ví dụ, định nghĩa một hàm nhận bất kỳ
+<code>IpAddrKind</code> nào:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
@@ -5467,7 +5472,7 @@ can then, for instance, define a function that takes any <code>IpAddrKind</code>
 </span><span class="boring">
 </span>fn route(ip_kind: IpAddrKind) {}
 </code></pre></pre>
-<p>And we can call this function with either variant:</p>
+<p>Và chúng ta có thể gọi hàm này với bất kỳ biến thể nào:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
@@ -5483,11 +5488,11 @@ can then, for instance, define a function that takes any <code>IpAddrKind</code>
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}
 </span></code></pre></pre>
-<p>Using enums has even more advantages. Thinking more about our IP address type,
-at the moment we don’t have a way to store the actual IP address <em>data</em>; we
-only know what <em>kind</em> it is. Given that you just learned about structs in
-Chapter 5, you might be tempted to tackle this problem with structs as shown in
-Listing 6-1.</p>
+<p>Sử dụng enum có nhiều lợi ích khác. Nghĩ về kiểu địa chỉ IP của chúng ta, hiện
+tại chúng ta không có cách nào để lưu trữ <em>dữ liệu</em> thực sự của địa chỉ IP;
+chúng ta chỉ biết nó là <em>loại</em> gì. Vì bạn mới học về struct trong chương 5, bạn
+có thể muốn giải quyết vấn đề này bằng cách sử dụng struct như trong Listing
+6-1.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,
@@ -5510,20 +5515,20 @@ Listing 6-1.</p>
     };
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-1: Storing the data and <code>IpAddrKind</code> variant of
-an IP address using a <code>struct</code></span></p>
-<p>Here, we’ve defined a struct <code>IpAddr</code> that has two fields: a <code>kind</code> field that
-is of type <code>IpAddrKind</code> (the enum we defined previously) and an <code>address</code> field
-of type <code>String</code>. We have two instances of this struct. The first is <code>home</code>,
-and it has the value <code>IpAddrKind::V4</code> as its <code>kind</code> with associated address
-data of <code>127.0.0.1</code>. The second instance is <code>loopback</code>. It has the other
-variant of <code>IpAddrKind</code> as its <code>kind</code> value, <code>V6</code>, and has address <code>::1</code>
-associated with it. We’ve used a struct to bundle the <code>kind</code> and <code>address</code>
-values together, so now the variant is associated with the value.</p>
-<p>However, representing the same concept using just an enum is more concise:
-rather than an enum inside a struct, we can put data directly into each enum
-variant. This new definition of the <code>IpAddr</code> enum says that both <code>V4</code> and <code>V6</code>
-variants will have associated <code>String</code> values:</p>
+<p><span class="caption">Listing 6-1: Lưu trữ dữ liệu và biến thể <code>IpAddrKind</code> của
+một địa chỉ IP bằng cách sử dụng một <code>struct</code></span></p>
+<p>Ở đây, chúng ta đã định nghĩa một struct <code>IpAddr</code> có hai trường: một trường
+<code>kind</code> có kiểu <code>IpAddrKind</code> (enum mà chúng ta đã định nghĩa trước đó) và một
+trường <code>address</code> có kiểu <code>String</code>. Chúng ta có hai thể hiện của struct này. Thứ
+nhất là <code>home</code>, và nó có giá trị <code>IpAddrKind::V4</code> làm giá trị <code>kind</code> với dữ
+liệu địa chỉ liên quan là <code>127.0.0.1</code>. Thể hiện thứ hai là <code>loopback</code>. Nó có
+biến thể khác của <code>IpAddrKind</code> làm giá trị <code>kind</code>, <code>V6</code>, và có địa chỉ <code>::1</code>.
+Chúng ta đã sử dụng một struct để gói gọn các giá trị <code>kind</code> và <code>address</code> lại
+với nhau, vì vậy giờ biến thể được liên kết với giá trị.</p>
+<p>Tuy nhiên, biểu diễn cùng một khái niệm bằng cách sử dụng chỉ một enum sẽ ngắn
+gọn hơn: thay vì một enum bên trong một struct, chúng ta có thể đặt dữ liệu
+trực tiếp vào mỗi biến thể enum. Định nghĩa mới của enum <code>IpAddr</code> nói rằng cả
+biến thể <code>V4</code> và <code>V6</code> sẽ có các giá trị <code>String</code> liên quan:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(String),
@@ -5535,19 +5540,18 @@ variants will have associated <code>String</code> values:</p>
     let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
 <span class="boring">}
 </span></code></pre></pre>
-<p>We attach data to each variant of the enum directly, so there is no need for an
-extra struct. Here it’s also easier to see another detail of how enums work:
-the name of each enum variant that we define also becomes a function that
-constructs an instance of the enum. That is, <code>IpAddr::V4()</code> is a function call
-that takes a <code>String</code> argument and returns an instance of the <code>IpAddr</code> type. We
-automatically get this constructor function defined as a result of defining the
-enum.</p>
-<p>There’s another advantage to using an enum rather than a struct: each variant
-can have different types and amounts of associated data. Version four type IP
-addresses will always have four numeric components that will have values
-between 0 and 255. If we wanted to store <code>V4</code> addresses as four <code>u8</code> values but
-still express <code>V6</code> addresses as one <code>String</code> value, we wouldn’t be able to with
-a struct. Enums handle this case with ease:</p>
+<p>Chúng ta gắn dữ liệu vào mỗi biến thể enum trực tiếp, vì vậy không cần một
+struct bổ sung. Ở đây cũng dễ dàng hơn để thấy một chi tiết khác về cách hoạt
+động của enum: tên của mỗi biến thể enum mà chúng ta định nghĩa cũng trở thành
+constructor tạo ra một instance của enum. Trong đó, <code>IpAddr::V4()</code> là
+constructor nhận một đối số <code>String</code> và trả về một instance của kiểu <code>IpAddr</code>. Constructor này được tự động định nghĩa khi định nghĩa enum.</p>
+<p>Một lợi ích khác của việc sử dụng enum thay vì struct là mỗi biến thể có thể có
+các kiểu và số lượng dữ liệu liên quan khác nhau (ở đây nói về kiểủ của dữ liệu
+được gắn vào enum, không phải kiểu dữ liệu mà enum thể hiện). Địa chỉ IP phiên
+bản 4 sẽ luôn có 4 thành phần số có giá trị từ 0 đến 255. Nếu chúng ta muốn lưu
+trữ địa chỉ <code>V4</code> dưới dạng 4 giá trị <code>u8</code> nhưng vẫn muốn biểu diễn địa chỉ <code>V6</code>
+dưới dạng một giá trị <code>String</code>, chúng ta sẽ không thể làm được với một struct.
+Enum xử lý trường hợp này một cách dễ dàng:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(u8, u8, u8, u8),
@@ -5559,14 +5563,12 @@ a struct. Enums handle this case with ease:</p>
     let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
 <span class="boring">}
 </span></code></pre></pre>
-<p>We’ve shown several different ways to define data structures to store version
-four and version six IP addresses. However, as it turns out, wanting to store
-IP addresses and encode which kind they are is so common that <a href="../std/net/enum.IpAddr.html">the standard
-library has a definition we can use!</a><!-- ignore --> Let’s look at how
-the standard library defines <code>IpAddr</code>: it has the exact enum and variants that
-we’ve defined and used, but it embeds the address data inside the variants in
-the form of two different structs, which are defined differently for each
-variant:</p>
+<p>Chúng ta đã có thể dùng nhiều cách khác nhau để định nghĩa cấu trúc dữ liệu để
+lưu trữ địa chỉ IPv4 và IPv6. Tuy nhiên, việc lưu trữ địa chỉ IP và mã hóa loại
+địa chỉ đó là rất phổ biến nên <a href="../std/net/enum.IpAddr.html">thư viện chuẩn có một định nghĩa cho chúng mà chúng ta có thể sử dụng!</a><!-- ignore --> Hãy xem cách thư viện chuẩn
+định nghĩa <code>IpAddr</code>: nó có enum và các biến thể mà chúng ta đã định nghĩa và sử
+dụng, nhưng nó nhúng dữ liệu địa chỉ bên trong các biến thể dưới dạng hai
+struct khác nhau, được định nghĩa khác nhau cho mỗi biến thể:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5584,16 +5586,16 @@ enum IpAddr {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>This code illustrates that you can put any kind of data inside an enum variant:
-strings, numeric types, or structs, for example. You can even include another
-enum! Also, standard library types are often not much more complicated than
-what you might come up with.</p>
-<p>Note that even though the standard library contains a definition for <code>IpAddr</code>,
-we can still create and use our own definition without conflict because we
-haven’t brought the standard library’s definition into our scope. We’ll talk
-more about bringing types into scope in Chapter 7.</p>
-<p>Let’s look at another example of an enum in Listing 6-2: this one has a wide
-variety of types embedded in its variants.</p>
+<p>Đoạn code này minh họa rằng bạn có thể đặt bất kỳ loại dữ liệu nào bên trong
+một biến thể enum: chuỗi, kiểu số, hoặc struct. Bạn cũng có thể bao gồm một
+enum khác! Ngoài ra, các loại thư viện chuẩn thường không phức tạp hơn những gì
+bạn có thể tạo ra.</p>
+<p>Lưu ý rằng ngay cả khi thư viện chuẩn chứa một định nghĩa cho <code>IpAddr</code>, chúng
+ta vẫn có thể tạo và sử dụng định nghĩa của riêng mình mà không xung đột vì
+chúng ta chưa đưa định nghĩa của thư viện chuẩn vào phạm vi (scope) của mình.
+Chúng ta sẽ nói thêm về việc đưa các loại vào phạm vi trong Chương 7.</p>
+<p>Hãy cùng nhìn vào một ví dụ khác về enum trong Listing 6-2: một enum <code>Message</code>
+có các biến thể lưu trữ các loại và số lượng khác nhau của giá trị.</p>
 <pre><pre class="playground"><code class="language-rust">enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -5603,20 +5605,16 @@ variety of types embedded in its variants.</p>
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-2: A <code>Message</code> enum whose variants each store
-different amounts and types of values</span></p>
-<p>This enum has four variants with different types:</p>
+<p>Enum này có 4 biến thể với các loại khác nhau:</p>
 <ul>
-<li><code>Quit</code> has no data associated with it at all.</li>
-<li><code>Move</code> has named fields like a struct does.</li>
-<li><code>Write</code> includes a single <code>String</code>.</li>
-<li><code>ChangeColor</code> includes three <code>i32</code> values.</li>
+<li><code>Quit</code> không có dữ liệu nào được gắn với nó.</li>
+<li><code>Move</code> có các trường được đặt tên giống như một struct.</li>
+<li><code>Write</code> bao gồm một chuỗi <code>String</code>.</li>
+<li><code>ChangeColor</code> bao gồm 3 giá trị <code>i32</code>.</li>
 </ul>
-<p>Defining an enum with variants such as the ones in Listing 6-2 is similar to
-defining different kinds of struct definitions, except the enum doesn’t use the
-<code>struct</code> keyword and all the variants are grouped together under the <code>Message</code>
-type. The following structs could hold the same data that the preceding enum
-variants hold:</p>
+<p>Định nghĩa một enum với các biến thể như trong Listing 6-2 tương tự như định
+nghĩa các loại struct khác, ngoại trừ enum không sử dụng từ khóa <code>struct</code> và
+tất cả các biến thể được nhóm lại dưới loại <code>Message</code>. Các struct sau có thể chứa cùng dữ liệu với các biến thể enum trước đó:</p>
 <pre><pre class="playground"><code class="language-rust">struct QuitMessage; // unit struct
 struct MoveMessage {
     x: i32,
@@ -5627,12 +5625,14 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p>But if we used the different structs, which each have their own type, we
-couldn’t as easily define a function to take any of these kinds of messages as
-we could with the <code>Message</code> enum defined in Listing 6-2, which is a single type.</p>
-<p>There is one more similarity between enums and structs: just as we’re able to
-define methods on structs using <code>impl</code>, we’re also able to define methods on
-enums. Here’s a method named <code>call</code> that we could define on our <code>Message</code> enum:</p>
+<p>Nhưng nếu chúng ta sử dụng các struct khác, mỗi struct có loại riêng, chúng ta
+sẽ không thể dễ dàng định nghĩa một hàm nhận bất kỳ loại tin nhắn nào như chúng
+ta có thể với enum <code>Message</code> được định nghĩa trong Listing 6-2, một loại duy
+nhất.</p>
+<p>Có một điểm tương đồng nữa giữa enum và struct: giống như chúng ta có thể định
+nghĩa các phương thức trên struct sử dụng <code>impl</code>, chúng ta cũng có thể định
+nghĩa các phương thức trên enum. Đây là một phương thức có tên <code>call</code> mà chúng
+ta có thể định nghĩa trên enum <code>Message</code> của chúng ta:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    enum Message {
 </span><span class="boring">        Quit,
@@ -5651,49 +5651,46 @@ enums. Here’s a method named <code>call</code> that we could define on our <co
     m.call();
 <span class="boring">}
 </span></code></pre></pre>
-<p>The body of the method would use <code>self</code> to get the value that we called the
-method on. In this example, we’ve created a variable <code>m</code> that has the value
-<code>Message::Write(String::from(&quot;hello&quot;))</code>, and that is what <code>self</code> will be in the
-body of the <code>call</code> method when <code>m.call()</code> runs.</p>
-<p>Let’s look at another enum in the standard library that is very common and
-useful: <code>Option</code>.</p>
+<p>Phần thân của phương thức sẽ sử dụng <code>self</code> để lấy giá trị mà chúng ta khởi
+tạo. Trong ví dụ này, chúng ta đã tạo một biến <code>m</code> có giá trị <code>Message::Write(String::from(&quot;hello&quot;))</code>, và giá trị này cũng sẽ là giá trị của <code>self</code> mà
+phương thức <code>call</code> sẽ lấy ra khi <code>m.call()</code> chạy.</p>
+<p>Hãy xem một enum khác trong thư viện chuẩn rất phổ biến và hữu ích: <code>Option</code>.</p>
+<hr />
 <h3 id="the-option-enum-and-its-advantages-over-null-values"><a class="header" href="#the-option-enum-and-its-advantages-over-null-values">The <code>Option</code> Enum and Its Advantages Over Null Values</a></h3>
-<p>This section explores a case study of <code>Option</code>, which is another enum defined
-by the standard library. The <code>Option</code> type encodes the very common scenario in
-which a value could be something or it could be nothing.</p>
-<p>For example, if you request the first of a list containing items, you would get
-a value. If you request the first item of an empty list, you would get nothing.
-Expressing this concept in terms of the type system means the compiler can
-check whether you’ve handled all the cases you should be handling; this
-functionality can prevent bugs that are extremely common in other programming
-languages.</p>
-<p>Programming language design is often thought of in terms of which features you
-include, but the features you exclude are important too. Rust doesn’t have the
-null feature that many other languages have. <em>Null</em> is a value that means there
-is no value there. In languages with null, variables can always be in one of
-two states: null or not-null.</p>
-<p>In his 2009 presentation “Null References: The Billion Dollar Mistake,” Tony
-Hoare, the inventor of null, has this to say:</p>
+<p>Phần này sẽ khám phá một trường hợp sử dụng của <code>Option</code>, một enum được định
+nghĩa bởi thư viện chuẩn. Kiểu <code>Option</code> có thể được dùng trong nhiều tình huống
+mà dữ liệu có thể là một giá trị hoặc không có giá trị.</p>
+<p>Ví dụ, nếu bạn yêu cầu phần tử đầu tiên của một danh sách, bạn sẽ nhận được một
+giá trị. Nếu bạn yêu cầu phần tử đầu tiên của một danh sách rỗng, bạn sẽ không
+nhận được gì. Biểu diễn khái niệm này trong hệ thống kiểu có nghĩa là trình
+biên dịch có thể kiểm tra xem bạn có xử lý tất cả các trường hợp mà bạn nên xử
+lý hay không; tính năng này có thể ngăn chặn các lỗi rất phổ biến trong các
+ngôn ngữ lập trình khác.</p>
+<p>Thiết kế ngôn ngữ lập trình thường được xem như là việc bạn sẽ thêm vào các
+tính năng nào, nhưng các tính năng bạn loại bỏ cũng quan trọng. Rust không có
+tính năng null mà nhiều ngôn ngữ khác có. <em>Null</em> là một giá trị có nghĩa là
+không có giá trị nào ở đó. Trong các ngôn ngữ có null, các biến luôn có thể ở
+một trong hai trạng thái: null hoặc không null.</p>
+<p>Vào năm 2009, trong bài trình bày &quot;Null References: The Billion Dollar
+Mistake&quot;, Tony Hoare, người sáng chế null, nói như sau:</p>
 <blockquote>
-<p>I call it my billion-dollar mistake. At that time, I was designing the first
-comprehensive type system for references in an object-oriented language. My
-goal was to ensure that all use of references should be absolutely safe, with
-checking performed automatically by the compiler. But I couldn’t resist the
-temptation to put in a null reference, simply because it was so easy to
-implement. This has led to innumerable errors, vulnerabilities, and system
-crashes, which have probably caused a billion dollars of pain and damage in
-the last forty years.</p>
+<p>Tôi gọi nó là sai lầm đắt đỏ hàng tỷ đô la của tôi. Tại thời điểm đó, tôi
+đang thiết kế hệ thống kiểu tham chiếu đầu tiên cho một ngôn ngữ lập trình
+hướng đối tượng. Mục tiêu của tôi là đảm bảo rằng tất cả các tham chiếu sẽ được
+an toàn, với kiểm tra được thực hiện tự động bởi trình biên dịch. Nhưng tôi
+không thể cưỡng lại nỗi nản lòng của tôi để thêm vào một tham chiếu null, chỉ
+vì nó rất dễ để triển khai. Điều này đã dẫn đến hàng ngàn lỗi, thiệt hại và
+hỏng hóc hệ thống, có thể đã gây ra hàng tỷ đô la sự cố trong 40 năm qua.</p>
 </blockquote>
-<p>The problem with null values is that if you try to use a null value as a
-not-null value, you’ll get an error of some kind. Because this null or not-null
-property is pervasive, it’s extremely easy to make this kind of error.</p>
-<p>However, the concept that null is trying to express is still a useful one: a
-null is a value that is currently invalid or absent for some reason.</p>
-<p>The problem isn’t really with the concept but with the particular
-implementation. As such, Rust does not have nulls, but it does have an enum
-that can encode the concept of a value being present or absent. This enum is
-<code>Option&lt;T&gt;</code>, and it is <a href="../std/option/enum.Option.html">defined by the standard library</a><!-- ignore -->
-as follows:</p>
+<p>Vấn đề với các giá trị null là nếu bạn cố gắng sử dụng một giá trị null như một
+giá trị not-null, bạn sẽ nhận được một loại lỗi nào đó. Bởi vì tính chất này
+null hoặc not-null rất phổ biến, nó rất dễ để gây ra loại lỗi này.</p>
+<p>Tuy nhiên, khái niệm mà null đang cố gắng biểu thị vẫn là một khái niệm hữu
+ích: một null là một giá trị hiện tại không hợp lệ hoặc vắng mặt vì một lý do
+nào đó.</p>
+<p>Vấn đề thực sự không phải là với khái niệm mà là với cách hiện thực cụ thể của
+null. Vì vậy, Rust không có null, nhưng nó có một dạng enum có thể  thể hiện
+rằng giá trị đang vắng mặt. Enum này là <code>Option&lt;T&gt;</code>, và nó được <a href="../std/option/enum.Option.html">định nghĩa bởi thư viện chuẩn</a><!-- ignore --> như sau:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5703,18 +5700,17 @@ as follows:</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>Option&lt;T&gt;</code> enum is so useful that it’s even included in the prelude; you
-don’t need to bring it into scope explicitly. Its variants are also included in
-the prelude: you can use <code>Some</code> and <code>None</code> directly without the <code>Option::</code>
-prefix. The <code>Option&lt;T&gt;</code> enum is still just a regular enum, and <code>Some(T)</code> and
-<code>None</code> are still variants of type <code>Option&lt;T&gt;</code>.</p>
-<p>The <code>&lt;T&gt;</code> syntax is a feature of Rust we haven’t talked about yet. It’s a
-generic type parameter, and we’ll cover generics in more detail in Chapter 10.
-For now, all you need to know is that <code>&lt;T&gt;</code> means the <code>Some</code> variant of the
-<code>Option</code> enum can hold one piece of data of any type, and that each concrete
-type that gets used in place of <code>T</code> makes the overall <code>Option&lt;T&gt;</code> type a
-different type. Here are some examples of using <code>Option</code> values to hold number
-types and string types:</p>
+<p>Enum <code>Option&lt;T&gt;</code> rất hữu ích nên nó được bao gồm trong prelude; bạn không cần
+phải đưa nó vào scope một cách tường minh. Các biến thể của nó cũng được bao
+gồm trong prelude: bạn có thể sử dụng <code>Some</code> và <code>None</code> trực tiếp mà không cần
+tiền tố <code>Option::</code>. Enum <code>Option&lt;T&gt;</code> vẫn chỉ là một enum thông thường, và <code>Some(T)</code> và <code>None</code> vẫn là các biến thể của kiểu <code>Option&lt;T&gt;</code>.</p>
+<p><code>&lt;T&gt;</code> là syntax của Rust mà chúng ta chưa nói đến. Nó là một tham số kiểu
+generic, và chúng ta sẽ tìm hiểu về generic chi tiết hơn trong chương 10. Hiện
+tại, bạn chỉ cần biết rằng <code>&lt;T&gt;</code> có nghĩa là biến thể <code>Some</code> của enum <code>Option</code>
+có thể chứa một phần dữ liệu của bất kỳ kiểu nào, và mỗi kiểu cụ thể được sử
+dụng thay thế cho <code>T</code> làm cho kiểu <code>Option&lt;T&gt;</code> tổng thể trở thành một kiểu
+khác. Đây là một số ví dụ về việc sử dụng giá trị <code>Option</code> để chứa các kiểu số
+và các kiểu chuỗi:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let some_number = Some(5);
     let some_char = Some('e');
@@ -5722,21 +5718,21 @@ types and string types:</p>
     let absent_number: Option&lt;i32&gt; = None;
 <span class="boring">}
 </span></code></pre></pre>
-<p>The type of <code>some_number</code> is <code>Option&lt;i32&gt;</code>. The type of <code>some_char</code> is
-<code>Option&lt;char&gt;</code>, which is a different type. Rust can infer these types because
-we’ve specified a value inside the <code>Some</code> variant. For <code>absent_number</code>, Rust
-requires us to annotate the overall <code>Option</code> type: the compiler can’t infer the
-type that the corresponding <code>Some</code> variant will hold by looking only at a
-<code>None</code> value. Here, we tell Rust that we mean for <code>absent_number</code> to be of type
+<p>Kiểu của <code>some_number</code> là <code>Option&lt;i32&gt;</code>. Kiểu của <code>some_char</code> là
+<code>Option&lt;char&gt;</code>, đây là một kiểu khác. Rust có thể suy ra các kiểu này vì chúng
+ta đã chỉ định một giá trị bên trong biến thể <code>Some</code>. Đối với <code>absent_number</code>,
+Rust yêu cầu chúng ta phải gắn nhãn kiểu tổng thể <code>Option</code>: trình biên dịch
+không thể suy ra kiểu mà biến thể <code>Some</code> sẽ chứa bằng cách chỉ xem một giá trị
+<code>None</code>. Ở đây, chúng ta nói với Rust rằng chúng ta muốn <code>absent_number</code> có kiểu
 <code>Option&lt;i32&gt;</code>.</p>
-<p>When we have a <code>Some</code> value, we know that a value is present and the value is
-held within the <code>Some</code>. When we have a <code>None</code> value, in some sense, it means
-the same thing as null: we don’t have a valid value. So why is having
-<code>Option&lt;T&gt;</code> any better than having null?</p>
-<p>In short, because <code>Option&lt;T&gt;</code> and <code>T</code> (where <code>T</code> can be any type) are different
-types, the compiler won’t let us use an <code>Option&lt;T&gt;</code> value as if it were
-definitely a valid value. For example, this code won’t compile because it’s
-trying to add an <code>i8</code> to an <code>Option&lt;i8&gt;</code>:</p>
+<p>Khi chúng ta có một giá trị <code>Some</code>, chúng ta biết rằng có một giá trị hiện có
+và giá trị đó được giữ bên trong <code>Some</code>. Khi chúng ta có một giá trị <code>None</code>,
+một cách nào đó, nó có nghĩa giống như null: chúng ta không có một giá trị hợp
+lệ. Vậy tại sao  <code>Option&lt;T&gt;</code> tốt hơn null?</p>
+<p>Ngắn gọn mà nói, vì <code>Option&lt;T&gt;</code> và <code>T</code> (với <code>T</code> có thể là bất kỳ kiểu nào) là
+các kiểu khác nhau, trình biên dịch sẽ không cho phép chúng ta sử dụng một giá
+trị <code>Option&lt;T&gt;</code> như là một giá trị hợp lệ. Ví dụ, đoạn mã này sẽ không biên
+dịch được vì nó đang cố gắng cộng một <code>i8</code> với một <code>Option&lt;i8&gt;</code>:</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let x: i8 = 5;
     let y: Option&lt;i8&gt; = Some(5);
@@ -5744,7 +5740,8 @@ trying to add an <code>i8</code> to an <code>Option&lt;i8&gt;</code>:</p>
     let sum = x + y;
 <span class="boring">}
 </span></code></pre>
-<p>If we run this code, we get an error message like this:</p>
+<p>Nếu chúng ta chạy đoạn code này, chúng ta sẽ nhận được một thông báo lỗi như
+sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -5768,57 +5765,57 @@ error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `enums` due to previous error
 </code></pre>
-<p>Intense! In effect, this error message means that Rust doesn’t understand how
-to add an <code>i8</code> and an <code>Option&lt;i8&gt;</code>, because they’re different types. When we
-have a value of a type like <code>i8</code> in Rust, the compiler will ensure that we
-always have a valid value. We can proceed confidently without having to check
-for null before using that value. Only when we have an <code>Option&lt;i8&gt;</code> (or
-whatever type of value we’re working with) do we have to worry about possibly
-not having a value, and the compiler will make sure we handle that case before
-using the value.</p>
-<p>In other words, you have to convert an <code>Option&lt;T&gt;</code> to a <code>T</code> before you can
-perform <code>T</code> operations with it. Generally, this helps catch one of the most
-common issues with null: assuming that something isn’t null when it actually
-is.</p>
-<p>Eliminating the risk of incorrectly assuming a not-null value helps you to be
-more confident in your code. In order to have a value that can possibly be
-null, you must explicitly opt in by making the type of that value <code>Option&lt;T&gt;</code>.
-Then, when you use that value, you are required to explicitly handle the case
-when the value is null. Everywhere that a value has a type that isn’t an
-<code>Option&lt;T&gt;</code>, you <em>can</em> safely assume that the value isn’t null. This was a
-deliberate design decision for Rust to limit null’s pervasiveness and increase
-the safety of Rust code.</p>
-<p>So, how do you get the <code>T</code> value out of a <code>Some</code> variant when you have a value
-of type <code>Option&lt;T&gt;</code> so you can use that value? The <code>Option&lt;T&gt;</code> enum has a large
-number of methods that are useful in a variety of situations; you can check
-them out in <a href="../std/option/enum.Option.html">its documentation</a><!-- ignore -->. Becoming familiar with
-the methods on <code>Option&lt;T&gt;</code> will be extremely useful in your journey with Rust.</p>
-<p>In general, in order to use an <code>Option&lt;T&gt;</code> value, you want to have code that
-will handle each variant. You want some code that will run only when you have a
-<code>Some(T)</code> value, and this code is allowed to use the inner <code>T</code>. You want some
-other code to run if you have a <code>None</code> value, and that code doesn’t have a <code>T</code>
-value available. The <code>match</code> expression is a control flow construct that does
-just this when used with enums: it will run different code depending on which
-variant of the enum it has, and that code can use the data inside the matching
-value.</p>
+<p>Thông báo lỗi này có nghĩa là Rust không hiểu cách cộng một <code>i8</code> và một
+<code>Option&lt;i8&gt;</code>, vì chúng là các kiểu khác nhau. Khi chúng ta có một giá trị của
+một kiểu như <code>i8</code> trong Rust, trình biên dịch sẽ đảm bảo rằng chúng ta luôn có
+một giá trị hợp lệ. Chúng ta có thể tiến hành một cách tự tin mà không cần kiểm
+tra null trước khi sử dụng giá trị đó. Chỉ khi chúng ta có một <code>Option&lt;i8&gt;</code>
+(hoặc bất kỳ kiểu giá trị nào chúng ta đang làm việc với nó) thì chúng ta mới
+phải lo lắng về việc có thể không có một giá trị, và trình biên dịch sẽ đảm bảo
+rằng chúng ta xử lý trường hợp đó trước khi sử dụng giá trị.</p>
+<p>Nói cách khác, bạn phải chuyển đổi một <code>Option&lt;T&gt;</code> thành một <code>T</code> trước khi bạn
+có thể thực hiện các thao tác trên <code>T</code>. Thông thường, điều này giúp phát hiện
+một trong những vấn đề phổ biến nhất với null: giả định rằng một thứ gì đó
+không phải là null khi nó thực chất là null.</p>
+<p>Giảm thiểu rủi ro của những giả định không đúng về giá trị not-null giúp bạn
+tin tưởng hơn vào code của mình. Để có một giá trị có thể là null, bạn phải
+chọn lựa một cách rõ ràng bằng cách đặt kiểu của giá trị đó là <code>Option&lt;T&gt;</code>. Sau
+đó, khi bạn sử dụng giá trị đó, bạn sẽ buộc phải xử lý trường hợp khi giá trị
+là null. Mọi nơi mà một giá trị có một kiểu không phải là <code>Option&lt;T&gt;</code>, bạn <em>có
+thể</em> an toàn giả định rằng giá trị đó không phải là null. Đây là một quyết định
+thiết kế có chủ đích của Rust để giới hạn sự lan truyền của null và tăng tính
+an toàn của code Rust.</p>
+<p>Do đó, làm thế nào để bạn lấy giá trị <code>T</code> ra khỏi một biến thể <code>Some</code> khi bạn
+có một giá trị của kiểu <code>Option&lt;T&gt;</code> để bạn có thể sử dụng giá trị đó? Enum
+<code>Option&lt;T&gt;</code> có một số phương thức rất hữu ích trong một số tình huống; bạn có
+thể kiểm tra chúng trong <a href="../std/option/enum.Option.html">tài liệu của nó</a><!-- ignore -->. Quen thuộc với
+các phương thức trên <code>Option&lt;T&gt;</code> sẽ rất hữu ích trong hành trình của bạn với
+Rust.</p>
+<p>Tổng quan mà nói, để sử dụng một giá trị <code>Option&lt;T&gt;</code>, bạn cần có code để xử lý
+mỗi biến thể. Bạn cần một code để chạy chỉ khi bạn có một giá trị <code>Some(T)</code>, và
+code này được phép sử dụng <code>T</code> bên trong. Bạn cần một code khác để chạy nếu bạn
+có một giá trị <code>None</code> và code đó không có một giá trị <code>T</code> nào. Biểu thức
+<code>match</code> là một cấu trúc điều khiển sẽ giúp bạn làm điều này khi được sử dụng
+với enum: nó sẽ chạy code khác nhau tùy thuộc vào biến thể của enum mà nó có,
+và code đó có thể sử dụng dữ liệu bên trong giá trị khớp với nó.</p>
 <div style="break-before: page; page-break-before: always;"></div><p><a id="the-match-control-flow-operator"></a></p>
 <h2 id="the-match-control-flow-construct"><a class="header" href="#the-match-control-flow-construct">The <code>match</code> Control Flow Construct</a></h2>
-<p>Rust has an extremely powerful control flow construct called <code>match</code> that allows
-you to compare a value against a series of patterns and then execute code based
-on which pattern matches. Patterns can be made up of literal values, variable
-names, wildcards, and many other things; Chapter 18 covers all the different
-kinds of patterns and what they do. The power of <code>match</code> comes from the
-expressiveness of the patterns and the fact that the compiler confirms that all
-possible cases are handled.</p>
-<p>Think of a <code>match</code> expression as being like a coin-sorting machine: coins slide
-down a track with variously sized holes along it, and each coin falls through
-the first hole it encounters that it fits into. In the same way, values go
-through each pattern in a <code>match</code>, and at the first pattern the value “fits,”
-the value falls into the associated code block to be used during execution.</p>
-<p>Speaking of coins, let’s use them as an example using <code>match</code>! We can write a
-function that takes an unknown United States coin and, in a similar way as the
-counting machine, determines which coin it is and return its value in cents, as
-shown here in Listing 6-3.</p>
+<p>Rust có một cấu trúc điều khiển rất mạnh gọi là <code>match</code> cho phép bạn so sánh
+một giá trị với một chuỗi các mẫu (pattern) và sau đó thực thi mã dựa trên mẫu
+nào khớp. Các pattern có thể được tạo thành từ các giá trị literal, tên biến,
+wildcard và nhiều thứ khác; Chương 18 bao gồm tất cả các loại pattern khác nhau
+và những gì chúng làm. Sức mạnh của <code>match</code> đến từ sự biểu diễn của các mẫu và
+sự chắc chắn của trình biên dịch rằng tất cả các trường hợp có thể được xử lý.</p>
+<p>Hãy nghĩ về <code>match</code> giống như một máy sắp xếp tiền xu: các đồng xu sẽ trượt
+xuống một đường với các lỗ có kích thước khác nhau dọc theo đường, và mỗi tiền
+xu sẽ rơi vào lỗ đầu tiên nó gặp mà nó vừa vặn vào. Tương tự như vậy, các giá
+trị đi qua lần lượt các pattern trong <code>match</code>, và ở pattern đầu tiên giá trị
+“vừa vặn”, giá trị sẽ rơi vào code liên quan để được sử dụng trong quá trình
+thực thi.</p>
+<p>Nói về những đồng xu, hãy sử dụng chúng làm ví dụ với <code>match</code>! Chúng ta có thể
+viết một hàm mà nhận vào một đồng xu của Hoa Kỳ bất kỳ, tương tự như máy đếm
+tiền xu, hàm này sẽ xác định đồng xu đó có mệnh giá là gì và trả về mệnh giá
+của đồng xu, với đơn vị là cent, như được hiển thị ở đây trong Listing 6-3.</p>
 <pre><pre class="playground"><code class="language-rust">enum Coin {
     Penny,
     Nickel,
@@ -5837,32 +5834,35 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-3: An enum and a <code>match</code> expression that has
-the variants of the enum as its patterns</span></p>
-<p>Let’s break down the <code>match</code> in the <code>value_in_cents</code> function. First, we list
-the <code>match</code> keyword followed by an expression, which in this case is the value
-<code>coin</code>. This seems very similar to an expression used with <code>if</code>, but there’s a
-big difference: with <code>if</code>, the expression needs to return a Boolean value, but
-here, it can return any type. The type of <code>coin</code> in this example is the <code>Coin</code>
-enum that we defined on the first line.</p>
-<p>Next are the <code>match</code> arms. An arm has two parts: a pattern and some code. The
-first arm here has a pattern that is the value <code>Coin::Penny</code> and then the <code>=&gt;</code>
-operator that separates the pattern and the code to run. The code in this case
-is just the value <code>1</code>. Each arm is separated from the next with a comma.</p>
-<p>When the <code>match</code> expression executes, it compares the resulting value against
-the pattern of each arm, in order. If a pattern matches the value, the code
-associated with that pattern is executed. If that pattern doesn’t match the
-value, execution continues to the next arm, much as in a coin-sorting machine.
-We can have as many arms as we need: in Listing 6-3, our <code>match</code> has four arms.</p>
-<p>The code associated with each arm is an expression, and the resulting value of
-the expression in the matching arm is the value that gets returned for the
-entire <code>match</code> expression.</p>
-<p>We don’t typically use curly brackets if the match arm code is short, as it is
-in Listing 6-3 where each arm just returns a value. If you want to run multiple
-lines of code in a match arm, you must use curly brackets, and the comma
-following the arm is then optional. For example, the following code prints
-“Lucky penny!” every time the method is called with a <code>Coin::Penny</code>, but still
-returns the last value of the block, <code>1</code>:</p>
+<p><span class="caption">Listing 6-3: Một enum và một biểu thức <code>match</code> nhận các
+biến thể của enum như là các pattern của nó</span></p>
+<p>Cùng làm rõ <code>match</code> trong hàm <code>value_in_cents</code>. Đầu tiên, chúng ta sẽ liệt kê
+từ khóa (keyword) <code>match</code> theo sau là một biểu thức, trong trường hợp này là
+giá trị <code>coin</code>. Điều này có vẻ rất giống với biểu thức được sử dụng với <code>if</code>,
+nhưng có một sự khác biệt lớn: với <code>if</code>, biểu thức cần trả về một giá trị
+Boolean, nhưng ở đây, nó có thể trả về bất kỳ kiểu dữ liệu nào. Kiểu dữ liệu
+của <code>coin</code> trong ví dụ này là enum <code>Coin</code> mà chúng ta đã định nghĩa ở dòng đầu
+tiên.</p>
+<p>Tiếp theo đó là các nhánh (arm) của <code>match</code>. Mỗi nhánh này đều có hai thành
+phần: pattern và code. Thành phần đầu tiên ở đây là pattern có giá trị là
+<code>Coin::Penny</code> và sau đó là toán tử <code>=&gt;</code> phân tách giữa pattern và code để chạy.
+Code trong trường hợp này chỉ là giá trị <code>1</code>. Mỗi nhánh được phân tách với
+nhánh tiếp theo bằng dấu phẩy.</p>
+<p>Khi biểu thức <code>match</code> được thực thi, nó sẽ so sánh giá trị kết quả với pattern
+của mỗi nhánh, theo thứ tự. Nếu một pattern khớp với giá trị, code liên quan
+đến pattern đó sẽ được thực thi. Nếu pattern đó không khớp với giá trị, thực
+thi sẽ tiếp tục đến nhánh tiếp theo, giống như trong một máy sắp xếp tiền.
+Chúng ta có thể có bao nhiêu nhánh cần thiết: trong Listing 6-3, <code>match</code> của
+chúng ta có 4 nhánh.</p>
+<p>Đoạn code liên quan với mỗi nhánh là một biểu thức (expression), và giá trị kết
+quả của biểu thức trong nhánh được khớp sẽ là giá trị được trả về cho toàn bộ
+biểu thức <code>match</code>.</p>
+<p>Chúng ta thường không sử dụng dấu ngoặc nhọn nếu nhánh của match có đoạn code
+ngắn, như trong Listing 6-3, mỗi nhánh chỉ trả về một giá trị. Nếu bạn muốn
+chạy nhiều dòng code trong một nhánh của match, bạn phải sử dụng dấu ngoặc
+nhọn, và dấu phẩy sau nhánh là tùy chọn. Ví dụ, đoạn code sau in ra “Lucky
+penny!” mỗi khi phương thức được gọi với một <code>Coin::Penny</code>, nhưng vẫn trả về
+giá trị cuối cùng của khối, <code>1</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum Coin {
 </span><span class="boring">    Penny,
 </span><span class="boring">    Nickel,
@@ -5871,55 +5871,58 @@ returns the last value of the block, <code>1</code>:</p>
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn value_in_cents(coin: Coin) -&gt; u8 {
-    match coin {
-        Coin::Penny =&gt; {
-            println!(&quot;Lucky penny!&quot;);
-            1
-        }
-        Coin::Nickel =&gt; 5,
-        Coin::Dime =&gt; 10,
-        Coin::Quarter =&gt; 25,
-    }
+  match coin {
+      Coin::Penny =&gt; {
+          println!(&quot;Lucky penny!&quot;);
+          1
+      }
+      Coin::Nickel =&gt; 5,
+      Coin::Dime =&gt; 10,
+      Coin::Quarter =&gt; 25,
+  }
 }
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
+<hr />
 <h3 id="patterns-that-bind-to-values"><a class="header" href="#patterns-that-bind-to-values">Patterns that Bind to Values</a></h3>
-<p>Another useful feature of match arms is that they can bind to the parts of the
-values that match the pattern. This is how we can extract values out of enum
-variants.</p>
-<p>As an example, let’s change one of our enum variants to hold data inside it.
-From 1999 through 2008, the United States minted quarters with different
-designs for each of the 50 states on one side. No other coins got state
-designs, so only quarters have this extra value. We can add this information to
-our <code>enum</code> by changing the <code>Quarter</code> variant to include a <code>UsState</code> value stored
-inside it, which we’ve done here in Listing 6-4.</p>
+<p>Một tính năng hữu ích khác của các nhánh của match là chúng có thể gắn với giá
+trị khi khớp của pattern. Đây là cách chúng ta có thể trích xuất các giá trị từ
+các biến thể của enum.</p>
+<p>Lấy ví dụ, hãy thay đổi một trong các biến thể của enum để chứa dữ liệu bên
+trong nó. Từ năm 1999 đến năm 2008, Hoa Kỳ đúc các đồng 25 cent (Quater) cho 50
+tiều bang với các thiết kết mặt bên khác nhau. Các loại xu khác không có thiết
+kế riêng theo tiểu bang, vì vậy chỉ có bội đồng 25 cent mới có giá trị bổ sung
+này. Chúng ta có thể thêm thông tin này vào <code>enum</code> bằng cách thay đổi biến thể
+<code>Quarter</code> để bao gồm một giá trị <code>UsState</code> được lưu trữ bên trong nó, như chúng
+ta đã làm ở đây trong Listing 6-4.</p>
 <pre><pre class="playground"><code class="language-rust">#[derive(Debug)] // so we can inspect the state in a minute
 enum UsState {
-    Alabama,
-    Alaska,
-    // --snip--
+  Alabama,
+  Alaska,
+  // --snip--
 }
 
 enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter(UsState),
+  Penny,
+  Nickel,
+  Dime,
+  Quarter(UsState),
 }
 <span class="boring">
 </span><span class="boring">fn main() {}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-4: A <code>Coin</code> enum in which the <code>Quarter</code> variant
-also holds a <code>UsState</code> value</span></p>
-<p>Let’s imagine that a friend is trying to collect all 50 state quarters. While
-we sort our loose change by coin type, we’ll also call out the name of the
-state associated with each quarter so if it’s one our friend doesn’t have, they
-can add it to their collection.</p>
-<p>In the match expression for this code, we add a variable called <code>state</code> to the
-pattern that matches values of the variant <code>Coin::Quarter</code>. When a
-<code>Coin::Quarter</code> matches, the <code>state</code> variable will bind to the value of that
-quarter’s state. Then we can use <code>state</code> in the code for that arm, like so:</p>
+<p><span class="caption">Listing 6-4: Một <code>Coin</code> enum trong đó biến thể <code>Quarter</code> cũng chứa một giá trị <code>UsState</code></span></p>
+<p>Hãy tưởng tượng rằng một người bạn đang cố gắng thu thập tất cả 50 dạng đồng 25
+cent này. Trong khi chúng ta chỉ sắp xếp theo loại đồng, chúng ta cũng sẽ gọi
+tên của tiểu bang liên quan trên đồng 25 cent để nếu đó là một trong những đồng
+25 cent mà người bạn của chúng ta không có, anh ấy có thể thêm vào bộ sưu tập
+của mình.</p>
+<p>Bên trong biểu thức <code>match</code> cho đoạn code này, chúng ta thêm một biến gọi là
+<code>state</code> vào pattern khớp với các giá trị của biến thể <code>Coin::Quarter</code>. Khi một
+<code>Coin::Quarter</code> khớp, biến <code>state</code> sẽ được gắn với giá trị của tiểu bang của
+đồng 25 cent đó. Sau đó, chúng ta có thể sử dụng <code>state</code> trong code strong
+nhánh này, như sau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
@@ -5935,39 +5938,38 @@ quarter’s state. Then we can use <code>state</code> in the code for that arm, 
 </span><span class="boring">}
 </span><span class="boring">
 </span>fn value_in_cents(coin: Coin) -&gt; u8 {
-    match coin {
-        Coin::Penny =&gt; 1,
-        Coin::Nickel =&gt; 5,
-        Coin::Dime =&gt; 10,
-        Coin::Quarter(state) =&gt; {
-            println!(&quot;State quarter from {:?}!&quot;, state);
-            25
-        }
-    }
+  match coin {
+      Coin::Penny =&gt; 1,
+      Coin::Nickel =&gt; 5,
+      Coin::Dime =&gt; 10,
+      Coin::Quarter(state) =&gt; {
+          println!(&quot;State quarter from {:?}!&quot;, state);
+          25
+      }
+  }
 }
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    value_in_cents(Coin::Quarter(UsState::Alaska));
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>If we were to call <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code>, <code>coin</code>
-would be <code>Coin::Quarter(UsState::Alaska)</code>. When we compare that value with each
-of the match arms, none of them match until we reach <code>Coin::Quarter(state)</code>. At
-that point, the binding for <code>state</code> will be the value <code>UsState::Alaska</code>. We can
-then use that binding in the <code>println!</code> expression, thus getting the inner
-state value out of the <code>Coin</code> enum variant for <code>Quarter</code>.</p>
+<p>Nếu chung ta gọi hàm <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code>, <code>coin</code>
+sẽ là <code>Coin::Quarter(UsState::Alaska)</code>. Khi chúng ta so sánh giá trị này với
+mỗi nhánh trong biểu thức <code>match</code>, không có nhánh nào khớp cho đến khi chúng ta
+đến <code>Coin::Quarter(state)</code>. Tại thời điểm đó, biến <code>state</code> sẽ là giá trị
+<code>UsState::Alaska</code>. Chúng ta có thể sử dụng biến này trong biểu thức <code>println!</code>,
+vì vậy chúng ta có thể lấy ra giá trị của tiểu bang bên trong biến thể
+<code>Quarter</code> của <code>Coin</code> enum.</p>
 <h3 id="matching-with-optiont"><a class="header" href="#matching-with-optiont">Matching with <code>Option&lt;T&gt;</code></a></h3>
-<p>In the previous section, we wanted to get the inner <code>T</code> value out of the <code>Some</code>
-case when using <code>Option&lt;T&gt;</code>; we can also handle <code>Option&lt;T&gt;</code> using <code>match</code> as we
-did with the <code>Coin</code> enum! Instead of comparing coins, we’ll compare the
-variants of <code>Option&lt;T&gt;</code>, but the way that the <code>match</code> expression works remains
-the same.</p>
-<p>Let’s say we want to write a function that takes an <code>Option&lt;i32&gt;</code> and, if
-there’s a value inside, adds 1 to that value. If there isn’t a value inside,
-the function should return the <code>None</code> value and not attempt to perform any
-operations.</p>
-<p>This function is very easy to write, thanks to <code>match</code>, and will look like
-Listing 6-5.</p>
+<p>Trong phần trước, chúng ta muốn lấy ra giá trị <code>T</code> bên trong <code>Some</code> khi sử dụng
+<code>Option&lt;T&gt;</code>; chúng ta cũng có thể xử lý <code>Option&lt;T&gt;</code> bằng cách sử dụng <code>match</code>
+như chúng ta đã làm với <code>Coin</code> enum! Thay vì so sánh các đồng, chúng ta sẽ so
+sánh các biến thể của <code>Option&lt;T&gt;</code>, nhưng cách thức hoạt động của biểu thức
+<code>match</code> vẫn giữ nguyên.</p>
+<p>Giả sử chúng ta muốn viết một hàm mà nhận vào một <code>Option&lt;i32&gt;</code> và nếu có một
+giá trị bên trong, nó sẽ cộng thêm 1 vào giá trị đó. Nếu không có giá trị bên
+trong, hàm sẽ trả về giá trị <code>None</code> và không thực hiện bất kỳ thao tác nào.</p>
+<p>Hàm này rất dễ để viết, cảm ơn <code>match</code>, và sẽ trông như trong Listing 6-5.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
         match x {
@@ -5981,11 +5983,9 @@ Listing 6-5.</p>
     let none = plus_one(None);
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-5: A function that uses a <code>match</code> expression on
-an <code>Option&lt;i32&gt;</code></span></p>
-<p>Let’s examine the first execution of <code>plus_one</code> in more detail. When we call
-<code>plus_one(five)</code>, the variable <code>x</code> in the body of <code>plus_one</code> will have the
-value <code>Some(5)</code>. We then compare that against each match arm.</p>
+<p>Hãy xem xét kỹ hơn về lần đầu tiên chúng ta gọi <code>plus_one</code>. Khi chúng ta gọi
+<code>plus_one(five)</code>, biến <code>x</code> trong thân hàm <code>plus_one</code> sẽ có giá trị <code>Some(5)</code>.
+Chúng ta sau đó so sánh nó với mỗi nhánh trong biểu thức <code>match</code>.</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -5999,8 +5999,8 @@ value <code>Some(5)</code>. We then compare that against each match arm.</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>The <code>Some(5)</code> value doesn’t match the pattern <code>None</code>, so we continue to the
-next arm.</p>
+<p>Giá trị <code>Some(5)</code> không khớp với mẫu <code>None</code>, vì vậy chúng ta tiếp tục đến nhánh
+tiếp theo.</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -6014,12 +6014,12 @@ next arm.</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>Does <code>Some(5)</code> match <code>Some(i)</code>? Why yes it does! We have the same variant. The
-<code>i</code> binds to the value contained in <code>Some</code>, so <code>i</code> takes the value <code>5</code>. The
-code in the match arm is then executed, so we add 1 to the value of <code>i</code> and
-create a new <code>Some</code> value with our total <code>6</code> inside.</p>
-<p>Now let’s consider the second call of <code>plus_one</code> in Listing 6-5, where <code>x</code> is
-<code>None</code>. We enter the <code>match</code> and compare to the first arm.</p>
+<p><code>Some(5)</code> có khớp với <code>Some(i)</code> không? Vâng, nó khớp! Chúng ta có cùng một biến
+thể. <code>i</code> được gắn với giá trị bên trong <code>Some</code>, vì vậy <code>i</code> có giá trị là <code>5</code>.
+Sau đó, code trong nhánh <code>match</code> được thực thi, vì vậy chúng ta cộng thêm 1 vào
+giá trị của <code>i</code> và tạo ra một giá trị <code>Some</code> mới với tổng <code>6</code> bên trong.</p>
+<p>Giờ hãy xem xét lần gọi thứ hai của <code>plus_one</code> trong Listing 6-5, khi <code>x</code> là
+<code>None</code>. Chúng ta vào <code>match</code> và so sánh với nhánh đầu tiên.</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
 </span><span class="boring">    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
 </span><span class="boring">        match x {
@@ -6033,18 +6033,18 @@ create a new <code>Some</code> value with our total <code>6</code> inside.</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>It matches! There’s no value to add to, so the program stops and returns the
-<code>None</code> value on the right side of <code>=&gt;</code>. Because the first arm matched, no other
-arms are compared.</p>
-<p>Combining <code>match</code> and enums is useful in many situations. You’ll see this
-pattern a lot in Rust code: <code>match</code> against an enum, bind a variable to the
-data inside, and then execute code based on it. It’s a bit tricky at first, but
-once you get used to it, you’ll wish you had it in all languages. It’s
-consistently a user favorite.</p>
+<p>Nó khớp! Không có giá trị để cộng thêm, vì vậy chương trình dừng lại và trả về
+giá trị <code>None</code> bên phải của <code>=&gt;</code>. Vì nhánh đầu tiên khớp, nên các nhánh khác
+không được so sánh.</p>
+<p>Kết hợp <code>match</code> và enums rất hữu ích trong nhiều tình huống. Bạn sẽ thấy
+pattern này nhiều trong mã Rust: <code>match</code> với một enum, gắn một biến với dữ liệu
+bên trong, và sau đó thực thi code dựa trên nó. Đầu tiên nó có vẻ khó khăn,
+nhưng một khi bạn quen với nó, bạn sẽ muốn có nó trong tất cả các ngôn ngữ. Nó
+luôn được người dùng ưa thích.</p>
 <h3 id="matches-are-exhaustive"><a class="header" href="#matches-are-exhaustive">Matches Are Exhaustive</a></h3>
-<p>There’s one other aspect of <code>match</code> we need to discuss: the arms’ patterns must
-cover all possibilities. Consider this version of our <code>plus_one</code> function,
-which has a bug and won’t compile:</p>
+<p>Có một khía cạnh khác của <code>match</code> mà chúng ta cần thảo luận: các pattern thuộc
+các nhánh phải bao phủ tất cả các khả năng. Hãy xem xét phiên bản lỗi của hàm
+<code>plus_one</code> của chúng ta, nó sẽ không biên dịch được:</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
         match x {
@@ -6057,44 +6057,47 @@ which has a bug and won’t compile:</p>
 </span><span class="boring">    let none = plus_one(None);
 </span><span class="boring">}
 </span></code></pre>
-<p>We didn’t handle the <code>None</code> case, so this code will cause a bug. Luckily, it’s
-a bug Rust knows how to catch. If we try to compile this code, we’ll get this
-error:</p>
+<p>Chúng ta đã không xử lý trường hợp <code>None</code>, vì vậy mã này sẽ gây ra một lỗi. May
+mắn thay, đó là một lỗi mà Rust biết cách phát hiện. Nếu chúng ta cố gắng biên
+dịch mã này, chúng ta sẽ nhận được lỗi này:</p>
 <pre><code class="language-console">$ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
-   --&gt; src/main.rs:3:15
-    |
-3   |         match x {
-    |               ^ pattern `None` not covered
-    |
+ --&gt; src/main.rs:3:15
+  |
+3 |         match x {
+  |               ^ pattern `None` not covered
+  |
 note: `Option&lt;i32&gt;` defined here
-    = note: the matched value is of type `Option&lt;i32&gt;`
+  = note: the matched value is of type `Option&lt;i32&gt;`
 help: ensure that all possible cases are being handled by adding a match arm with a wildcard pattern or an explicit pattern as shown
-    |
-4   ~             Some(i) =&gt; Some(i + 1),
-5   ~             None =&gt; todo!(),
-    |
+  |
+4 ~             Some(i) =&gt; Some(i + 1),
+5 ~             None =&gt; todo!(),
+  |
 
 For more information about this error, try `rustc --explain E0004`.
 error: could not compile `enums` due to previous error
 </code></pre>
-<p>Rust knows that we didn’t cover every possible case and even knows which
-pattern we forgot! Matches in Rust are <em>exhaustive</em>: we must exhaust every last
-possibility in order for the code to be valid. Especially in the case of
-<code>Option&lt;T&gt;</code>, when Rust prevents us from forgetting to explicitly handle the
-<code>None</code> case, it protects us from assuming that we have a value when we might
-have null, thus making the billion-dollar mistake discussed earlier impossible.</p>
+<p>Rust biết rằng chúng ta không bao phủ (cover) tất cả các trường hợp có thể và
+cũng biết pattern nào chúng ta quên! Các <code>match</code> trong Rust là <em>đầy đủ</em>
+(exhaustive): chúng ta phải bao phủ tất cả các trường hợp để mã có thể hợp lệ.
+Đặc biệt trong trường hợp của <code>Option&lt;T&gt;</code>, khi Rust ngăn chúng ta quên xử lý
+trường hợp <code>None</code> một cách rõ ràng, nó bảo vệ chúng ta khỏi việc giả định rằng
+chúng ta có một giá trị khi chúng ta có thể có null, vì vậy lỗi tỷ đô đầu tiên
+được thảo luận ở trên là không thể xảy ra.</p>
 <h3 id="catch-all-patterns-and-the-_-placeholder"><a class="header" href="#catch-all-patterns-and-the-_-placeholder">Catch-all Patterns and the <code>_</code> Placeholder</a></h3>
-<p>Using enums, we can also take special actions for a few particular values, but
-for all other values take one default action. Imagine we’re implementing a game
-where, if you roll a 3 on a dice roll, your player doesn’t move, but instead
-gets a new fancy hat. If you roll a 7, your player loses a fancy hat. For all
-other values, your player moves that number of spaces on the game board. Here’s
-a <code>match</code> that implements that logic, with the result of the dice roll
-hardcoded rather than a random value, and all other logic represented by
-functions without bodies because actually implementing them is out of scope for
-this example:</p>
+<p>Khi dùng với enum, chúng ta cũng có thể thực hiện các hành động đặc biệt cho
+một vài giá trị cụ thể, nhưng với tất cả các giá trị khác, chúng ta sẽ thực
+hiện một hành động mặc định. Hãy tưởng tượng chúng ta đang triển khai một trò
+chơi, nếu bạn tung xúc xắc và nhận được 3, người chơi của bạn sẽ không di
+chuyển, mà thay vào đó sẽ nhận được một chiếc mũ đẹp. Nếu bạn tung xúc xắc và
+nhận được 7, người chơi của bạn sẽ mất một chiếc mũ đẹp. Với tất cả các giá trị
+khác, người chơi của bạn sẽ di chuyển số lượng ô trên bàn cờ tương ứng với giá
+trị của xúc xắc. Đây là một <code>match</code> thực hiện logic này, với kết quả của xúc
+xắc được cố định thay vì một giá trị ngẫu nhiên, và tất cả các logic khác được
+biểu diễn bởi các hàm mà không có thân hàm vì thực sự triển khai chúng nằm
+ngoài phạm vi của ví dụ này:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let dice_roll = 9;
     match dice_roll {
@@ -6108,23 +6111,26 @@ this example:</p>
     fn move_player(num_spaces: u8) {}
 <span class="boring">}
 </span></code></pre></pre>
-<p>For the first two arms, the patterns are the literal values 3 and 7. For the
-last arm that covers every other possible value, the pattern is the variable
-we’ve chosen to name <code>other</code>. The code that runs for the <code>other</code> arm uses the
-variable by passing it to the <code>move_player</code> function.</p>
-<p>This code compiles, even though we haven’t listed all the possible values a
-<code>u8</code> can have, because the last pattern will match all values not specifically
-listed. This catch-all pattern meets the requirement that <code>match</code> must be
-exhaustive. Note that we have to put the catch-all arm last because the
-patterns are evaluated in order. If we put the catch-all arm earlier, the other
-arms would never run, so Rust will warn us if we add arms after a catch-all!</p>
-<p>Rust also has a pattern we can use when we want a catch-all but don’t want to
-<em>use</em> the value in the catch-all pattern: <code>_</code> is a special pattern that matches
-any value and does not bind to that value. This tells Rust we aren’t going to
-use the value, so Rust won’t warn us about an unused variable.</p>
-<p>Let’s change the rules of the game: now, if you roll anything other than a 3 or
-a 7, you must roll again. We no longer need to use the catch-all value, so we
-can change our code to use <code>_</code> instead of the variable named <code>other</code>:</p>
+<p>Với hai nhánh đầu tiên, các pattern là các giá trị chính xác 3 và 7. Với nhánh
+cuối cùng bao gồm tất cả các giá trị khác có thể, pattern là biến mà chúng ta
+đã chọn để đặt tên là <code>other</code>. Code chạy cho nhánh <code>other</code> sử dụng biến bằng
+cách truyền nó cho hàm <code>move_player</code>.</p>
+<p>Code này sẽ được biên dịch, ngay cả khi chúng ta không liệt kê tất cả các giá
+trị có thể có của một <code>u8</code>, vì nhánh cuối cùng sẽ khớp với tất cả các giá trị
+không được liệt kê cụ thể. Pattern này đáp ứng yêu cầu rằng <code>match</code> phải là đầy
+đủ. Lưu ý rằng chúng ta phải đặt nhánh cuối cùng ở cuối vì các pattern được
+khớp theo thứ tự. Nếu chúng ta đặt nhánh cuối cùng ở trước, các nhánh khác sẽ
+không bao giờ chạy, vì vậy Rust sẽ cảnh báo chúng ta nếu chúng ta thêm các
+nhánh sau một nhánh cuối cùng!</p>
+<p>Rust cũng có một pattern mà chúng ta có thể sử dụng khi chúng ta muốn một
+pattern cuối cùng nhưng không muốn <em>sử dụng</em> giá trị trong pattern cuối cùng:
+<code>_</code> là một pattern đặc biệt mà khớp với bất kỳ giá trị nào và không liên kết
+với giá trị đó. Điều này cho Rust biết chúng ta không sẽ sử dụng giá trị, vì
+vậy Rust sẽ không cảnh báo chúng ta về một biến không được sử dụng.</p>
+<p>Cùng thay đổi quy tắc của trò chơi: bây giờ, nếu bạn tung xúc xắc và nhận được
+bất kỳ giá trị nào khác ngoài 3 hoặc 7, bạn phải quay lại. Chúng ta không cần
+nữa sử dụng giá trị cuối cùng, vì vậy chúng ta có thể thay đổi code của chúng
+ta để sử dụng <code>_</code> thay vì biến có tên là <code>other</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let dice_roll = 9;
     match dice_roll {
@@ -6138,12 +6144,12 @@ can change our code to use <code>_</code> instead of the variable named <code>ot
     fn reroll() {}
 <span class="boring">}
 </span></code></pre></pre>
-<p>This example also meets the exhaustiveness requirement because we’re explicitly
-ignoring all other values in the last arm; we haven’t forgotten anything.</p>
-<p>Finally, we’ll change the rules of the game one more time, so that nothing else
-happens on your turn if you roll anything other than a 3 or a 7. We can express
-that by using the unit value (the empty tuple type we mentioned in <a href="ch03-02-data-types.html#the-tuple-type">“The Tuple
-Type”</a><!-- ignore --> section) as the code that goes with the <code>_</code> arm:</p>
+<p>Ví dụ này cũng đáp ứng yêu cầu đầy đủ vì chúng ta đang tường minh bỏ qua tất cả
+các giá trị khác trong nhánh cuối cùng; chúng ta không bỏ sót bất kỳ thứ gì.</p>
+<p>Cuối cùng, chúng ta sẽ thay đổi quy tắc của trò chơi một lần nữa, sẽ không có
+gì khác xảy ra trong lượt của bạn nếu bạn tung xúc xắc và nhận được bất kỳ giá
+trị nào khác ngoài 3 hoặc 7. Chúng ta có thể biểu diễn bằng cách sử dụng giá
+trị đơn vị (kiểu tuple trống mà chúng ta đã nói ở phần <a href="ch03-02-data-types.html#the-tuple-type">“The Tuple Type”</a><!-- ignore -->) làm mã cho nhánh <code>_</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let dice_roll = 9;
     match dice_roll {
@@ -6156,18 +6162,18 @@ Type”</a><!-- ignore --> section) as the code that goes with the <code>_</code
     fn remove_fancy_hat() {}
 <span class="boring">}
 </span></code></pre></pre>
-<p>Here, we’re telling Rust explicitly that we aren’t going to use any other value
-that doesn’t match a pattern in an earlier arm, and we don’t want to run any
-code in this case.</p>
-<p>There’s more about patterns and matching that we’ll cover in <a href="ch18-00-patterns.html">Chapter
-18</a><!-- ignore -->. For now, we’re going to move on to the
-<code>if let</code> syntax, which can be useful in situations where the <code>match</code> expression
-is a bit wordy.</p>
+<p>Ở đây, chúng ta đang nói với Rust rõ ràng rằng chúng ta sẽ không sử dụng bất kỳ
+giá trị nào khác không khớp với mẫu trong nhánh trước đó, và chúng ta không
+muốn chạy bất kỳ mã nào trong trường hợp này.</p>
+<p>Để có thêm về các pattern và matching, chúng ta sẽ tìm hiểu trong <a href="ch18-00-patterns.html">Chapter 18</a><!-- ignore -->. Bây giờ, chúng ta sẽ tiếp tục với cú pháp
+<code>if let</code>, nó có thể hữu ích trong các tình huống mà biểu thức <code>match</code> có vẻ quá
+dài.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="concise-control-flow-with-if-let"><a class="header" href="#concise-control-flow-with-if-let">Concise Control Flow with <code>if let</code></a></h2>
-<p>The <code>if let</code> syntax lets you combine <code>if</code> and <code>let</code> into a less verbose way to
-handle values that match one pattern while ignoring the rest. Consider the
-program in Listing 6-6 that matches on an <code>Option&lt;u8&gt;</code> value in the <code>config_max</code>
-variable but only wants to execute code if the value is the <code>Some</code> variant.</p>
+<p>Cú pháp <code>if let</code> cho phép bạn kết hợp <code>if</code> và <code>let</code> theo một cách ngắn gọn hơn
+để xử lý các giá trị khớp với một pattern nhất định trong khi bỏ qua các
+pattern còn lại. Hãy xem xét chương trình trong Listing 6-6 với giá trị được
+khớp là kiểu <code>Option &lt;u8&gt;</code> trong biến <code>config_max</code> nhưng chúng ta chỉ muốn thực
+thi code nếu giá trị là biến thể <code>Some</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let config_max = Some(3u8);
     match config_max {
@@ -6176,14 +6182,14 @@ variable but only wants to execute code if the value is the <code>Some</code> va
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p><span class="caption">Listing 6-6: A <code>match</code> that only cares about executing
-code when the value is <code>Some</code></span></p>
-<p>If the value is <code>Some</code>, we print out the value in the <code>Some</code> variant by binding
-the value to the variable <code>max</code> in the pattern. We don’t want to do anything
-with the <code>None</code> value. To satisfy the <code>match</code> expression, we have to add <code>_ =&gt; ()</code> after processing just one variant, which is annoying boilerplate code to
-add.</p>
-<p>Instead, we could write this in a shorter way using <code>if let</code>. The following
-code behaves the same as the <code>match</code> in Listing 6-6:</p>
+<p><span class="caption">Listing 6-6: Một <code>match</code> chỉ quan tâm đến việc thực thi
+code khi giá trị là <code>Some</code></span></p>
+<p>Nếu giá trị là <code>Some</code>, chúng ta sẽ in ra giá trị trong biến thể <code>Some</code> bằng
+cách gán giá trị cho biến <code>max</code> trong pattern. Chúng ta không muốn làm gì với
+giá trị <code>None</code>. Để thoả mãn biểu thức <code>match</code>, chúng ta phải thêm <code>_ =&gt; ()</code> sau
+dù chỉ xử lý một biến thể, điều này thật phiền phức khi thêm vào code.</p>
+<p>Thay vào đó, chúng ta có thể viết code ngắn gọn hơn bằng cách sử dụng <code>if let</code>.
+Code dưới đây sẽ hoạt động tương tự như <code>match</code> trong Listing 6-6:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let config_max = Some(3u8);
     if let Some(max) = config_max {
@@ -6191,27 +6197,25 @@ code behaves the same as the <code>match</code> in Listing 6-6:</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The syntax <code>if let</code> takes a pattern and an expression separated by an equal
-sign. It works the same way as a <code>match</code>, where the expression is given to the
-<code>match</code> and the pattern is its first arm. In this case, the pattern is
-<code>Some(max)</code>, and the <code>max</code> binds to the value inside the <code>Some</code>. We can then
-use <code>max</code> in the body of the <code>if let</code> block in the same way as we used <code>max</code> in
-the corresponding <code>match</code> arm. The code in the <code>if let</code> block isn’t run if the
-value doesn’t match the pattern.</p>
-<p>Using <code>if let</code> means less typing, less indentation, and less boilerplate code.
-However, you lose the exhaustive checking that <code>match</code> enforces. Choosing
-between <code>match</code> and <code>if let</code> depends on what you’re doing in your particular
-situation and whether gaining conciseness is an appropriate trade-off for
-losing exhaustive checking.</p>
-<p>In other words, you can think of <code>if let</code> as syntax sugar for a <code>match</code> that
-runs code when the value matches one pattern and then ignores all other values.</p>
-<p>We can include an <code>else</code> with an <code>if let</code>. The block of code that goes with the
-<code>else</code> is the same as the block of code that would go with the <code>_</code> case in the
-<code>match</code> expression that is equivalent to the <code>if let</code> and <code>else</code>. Recall the
-<code>Coin</code> enum definition in Listing 6-4, where the <code>Quarter</code> variant also held a
-<code>UsState</code> value. If we wanted to count all non-quarter coins we see while also
-announcing the state of the quarters, we could do that with a <code>match</code>
-expression like this:</p>
+<p>Cú pháp <code>if let</code> sẽ nhận một pattern và một biểu thức được phân tách bằng dấu
+bằng. Nó hoạt động tương như <code>match</code>, trong đó biểu thức được gửi vào <code>match</code>
+và pattern là nhánh đầu tiên của nó. Trong trường hợp này, pattern là <code>Some(max)</code>, và <code>max</code> được gán cho giá trị bên trong <code>Some</code>. Chúng ta sau đó có thể sử
+dụng <code>max</code> trong thân của code block, <code>if let</code> cũng hoạt đọng theo cách tương
+tự như chúng ta sử dụng <code>max</code> trong nhánh của <code>match</code>. Code trong block <code>if let</code> sẽ không được chạy nếu giá trị không khớp với pattern.</p>
+<p>Sử dụng <code>if let</code> sẽ ít phải gõ, ít phải thụt lề, và ít code dài dòng kiểu mẫu
+hơn. Tuy nhiên, bạn sẽ không đảm bảo tính kiểm tra đầy đủ như <code>match</code>. Lựa chọn
+giữa <code>match</code> và <code>if let</code> phụ thuộc vào bạn đang làm gì trong trường hợp cụ thể
+của bạn và liệu có đáng để giảm thiểu code bằng cách bỏ qua việc kiểm tra đầy
+đủ hay không.</p>
+<p>Nói cách khác, bạn có thể coi <code>if let</code> như là cú pháp bổ sung cho một <code>match</code>
+có thể chạy code khi giá trị khớp với một pattern và sau đó bỏ qua tất cả các
+giá trị khác.</p>
+<p>Chúng ta có thể thêm một <code>else</code> với một <code>if let</code>. Block code của <code>else</code> sẽ
+giống như block code của <code>_</code> trong <code>match</code>. Nhớ lại định nghĩa enum <code>Coin</code>
+trong Listing 6-4, trong đó biến thể <code>Quarter</code> cũng có một giá trị <code>UsState</code>.
+Nếu chúng ta muốn đếm tất cả các xu không phải là 25 cent mà chúng ta thấy
+trong khi cũng gọi tên tiểu bang của các xu 25 cent, chúng ta có thể làm được
+điều đó với một biểu thức <code>match</code> như sau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
@@ -6235,7 +6239,7 @@ expression like this:</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Or we could use an <code>if let</code> and <code>else</code> expression like this:</p>
+<p>Hoặc chúng ta có thể sử dụng một biểu thức <code>if let</code> và <code>else</code> như sau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#[derive(Debug)]
 </span><span class="boring">enum UsState {
 </span><span class="boring">    Alabama,
@@ -6260,21 +6264,22 @@ expression like this:</p>
     }
 <span class="boring">}
 </span></code></pre></pre>
-<p>If you have a situation in which your program has logic that is too verbose to
-express using a <code>match</code>, remember that <code>if let</code> is in your Rust toolbox as well.</p>
-<h2 id="summary-4"><a class="header" href="#summary-4">Summary</a></h2>
-<p>We’ve now covered how to use enums to create custom types that can be one of a
-set of enumerated values. We’ve shown how the standard library’s <code>Option&lt;T&gt;</code>
-type helps you use the type system to prevent errors. When enum values have
-data inside them, you can use <code>match</code> or <code>if let</code> to extract and use those
-values, depending on how many cases you need to handle.</p>
-<p>Your Rust programs can now express concepts in your domain using structs and
-enums. Creating custom types to use in your API ensures type safety: the
-compiler will make certain your functions get only values of the type each
-function expects.</p>
-<p>In order to provide a well-organized API to your users that is straightforward
-to use and only exposes exactly what your users will need, let’s now turn to
-Rust’s modules.</p>
+<p>Nếu bạn có một trường hợp trong đó chương trình của bạn có logic quá dài dòng
+để biểu diễn bằng một <code>match</code>, hãy nhớ đến <code>if let</code>.</p>
+<h2 id="summary-3"><a class="header" href="#summary-3">Summary</a></h2>
+<p>Chúng ta đã đi qua cách sử dụng enum để tạo ra một kiểu dữ liệu tùy chỉnh thể
+hiện một giá trị có thể có bên trong một tập các giá trị được liệt kê. Chúng ta
+đã thấy cách thư viện chuẩn <code>Option&lt;T&gt;</code> giúp bạn sử dụng hệ thống kiểu (type
+system) để ngăn chặn lỗi. Khi các giá trị enum có dữ liệu bên trong chúng, bạn
+có thể sử dụng <code>match</code> hoặc <code>if let</code> để trích xuất và sử dụng các giá trị đó,
+tùy thuộc vào số lượng trường hợp bạn cần xử lý.</p>
+<p>Chương trình Rust của bạn có thể biểu diễn các khái niệm trong lĩnh vực của bạn
+bằng cách sử dụng struct và enum. Tạo kiểu dữ liệu tùy chỉnh để sử dụng trong
+API và đảm bảo an toàn kiểu dữ liệu: trình biên dịch sẽ đảm bảo rằng các hàm
+của bạn chỉ nhận được các giá trị của kiểu mà mỗi hàm mong đợi.</p>
+<p>Để cung cấp một API được tổ chức tốt cho người dùng, dễ sử dụng và chỉ tiết lộ
+chính xác những gì người dùng của bạn sẽ cần, chúng ta sẽ bây giờ chuyển sang
+Rust module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="managing-growing-projects-with-packages-crates-and-modules"><a class="header" href="#managing-growing-projects-with-packages-crates-and-modules">Managing Growing Projects with Packages, Crates, and Modules</a></h1>
 <p>As you write large programs, organizing your code will become increasingly
 important. By grouping related functionality and separating code with distinct
@@ -7115,7 +7120,7 @@ added this line to <em>Cargo.toml</em>:</p>
 * ch14-03-cargo-workspaces.md
 -->
 <p><span class="filename">Filename: Cargo.toml</span></p>
-<pre><code class="language-toml">rand = &quot;0.8.3&quot;
+<pre><code class="language-toml">rand = &quot;0.8.5&quot;
 </code></pre>
 <p>Adding <code>rand</code> as a dependency in <em>Cargo.toml</em> tells Cargo to download the
 <code>rand</code> package and any dependencies from <a href="https://crates.io/">crates.io</a> and
@@ -7373,7 +7378,7 @@ technique lets you move modules to new files as they grow in size.</p>
 are compiled as part of the crate. The <code>mod</code> keyword declares modules, and Rust
 looks in a file with the same name as the module for the code that goes into
 that module.</p>
-<h2 id="summary-5"><a class="header" href="#summary-5">Summary</a></h2>
+<h2 id="summary-4"><a class="header" href="#summary-4">Summary</a></h2>
 <p>Rust lets you split a package into multiple crates and a crate into modules
 so you can refer to items defined in one module from another module. You can do
 this by specifying absolute or relative paths. These paths can be brought into
@@ -7449,11 +7454,11 @@ giá trị được trả về từ các hàm này để làm rõ nghĩa hơn.</
 </span>    let v = vec![1, 2, 3, 4, 5];
 
     let third: &amp;i32 = &amp;v[2];
-    println!(&quot;The third element is {}&quot;, third);
+    println!(&quot;The third element is {third}&quot;);
 
     let third: Option&lt;&amp;i32&gt; = v.get(2);
     match third {
-        Some(third) =&gt; println!(&quot;The third element is {}&quot;, third),
+        Some(third) =&gt; println!(&quot;The third element is {third}&quot;),
         None =&gt; println!(&quot;There is no third element.&quot;),
     }
 <span class="boring">}
@@ -7486,7 +7491,7 @@ muốn chương trình của bạn gặp sự cố nếu có nỗ lực truy c�
 
     v.push(6);
 
-    println!(&quot;The first element is: {}&quot;, first);
+    println!(&quot;The first element is: {first}&quot;);
 <span class="boring">}
 </span></code></pre>
 <p><span class="caption">Mục 8-6: Cố gắng thêm một phần tử vào vector trong khi đang giữ tham chiếu đến một phần tử </span></p>
@@ -7498,12 +7503,12 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
   |
 4 |     let first = &amp;v[0];
   |                  - immutable borrow occurs here
-5 | 
+5 |
 6 |     v.push(6);
   |     ^^^^^^^^^ mutable borrow occurs here
-7 | 
-8 |     println!(&quot;The first element is: {}&quot;, first);
-  |                                          ----- immutable borrow later used here
+7 |
+8 |     println!(&quot;The first element is: {first}&quot;);
+  |                                      ----- immutable borrow later used here
 
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `collections` due to previous error
@@ -7518,7 +7523,7 @@ Rustonomicon”</a>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![100, 32, 57];
     for i in &amp;v {
-        println!(&quot;{}&quot;, i);
+        println!(&quot;{i}&quot;);
     }
 <span class="boring">}
 </span></code></pre></pre>
@@ -7633,7 +7638,7 @@ Rustonomicon”</a>.</p>
 </span>    let mut s1 = String::from(&quot;foo&quot;);
     let s2 = &quot;bar&quot;;
     s1.push_str(s2);
-    println!(&quot;s2 is {}&quot;, s2);
+    println!(&quot;s2 is {s2}&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p><span class="caption">Mục 8-16: Sử dụng lại một đoạn chuỗi sau khi thêm nội dung của nó vào một <code>String</code> khác</span></p>
@@ -7677,7 +7682,7 @@ Rustonomicon”</a>.</p>
     let s2 = String::from(&quot;tac&quot;);
     let s3 = String::from(&quot;toe&quot;);
 
-    let s = format!(&quot;{}-{}-{}&quot;, s1, s2, s3);
+    let s = format!(&quot;{s1}-{s2}-{s3}&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Mã này cũng thiết lập <code>s</code> thành <code>tic-tac-toe</code>. Macro <code>format!</code> hoạt động giống như <code>println!</code>, nhưng thay vì in kết quả ra màn hình, nó trả về một <code>String</code> kèm với nội dung. Phiên bản của đoạn mã sử dụng <code>format!</code> dễ đọc hơn nhiều và mã được tạo bởi macro <code>format!</code> sử dụng các tham chiếu để lệnh gọi này không chiếm quyền sở hữu bất kỳ tham số nào của nó.</p>
@@ -7781,7 +7786,7 @@ Trước đó, chúng tôi đã đề cập rằng mỗi ký tự này là 2 byt
    Compiling collections v0.1.0 (file:///projects/collections)
     Finished dev [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/collections`
-thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`', library/core/src/str/mod.rs:127:5
+thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`', src/main.rs:4:14
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
 <p>Bạn nên sử dụng các dãy phạm vi để tạo các đoạn chuỗi một cách thận trọng, vì làm như vậy có thể làm hỏng chương trình của bạn.</p>
@@ -7864,7 +7869,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
     scores.insert(String::from(&quot;Yellow&quot;), 50);
 
     for (key, value) in &amp;scores {
-        println!(&quot;{}: {}&quot;, key, value);
+        println!(&quot;{key}: {value}&quot;);
     }
 <span class="boring">}
 </span></code></pre></pre>
@@ -8449,8 +8454,7 @@ don't want to include it for rustdoc testing purposes. -->
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
-use std::io;
-use std::io::Read;
+use std::io::{self, Read};
 
 fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
     let mut username_file = File::open(&quot;hello.txt&quot;)?;
@@ -8500,8 +8504,7 @@ don't want to include it for rustdoc testing purposes. -->
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
-use std::io;
-use std::io::Read;
+use std::io::{self, Read};
 
 fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
     let mut username = String::new();
@@ -8575,11 +8578,10 @@ message:</p>
 error[E0277]: the `?` operator can only be used in a function that returns `Result` or `Option` (or another type that implements `FromResidual`)
  --&gt; src/main.rs:4:48
   |
-3 | / fn main() {
-4 | |     let greeting_file = File::open(&quot;hello.txt&quot;)?;
-  | |                                                ^ cannot use the `?` operator in a function that returns `()`
-5 | | }
-  | |_- this function should return `Result` or `Option` to accept `?`
+3 | fn main() {
+  | --------- this function should return `Result` or `Option` to accept `?`
+4 |     let greeting_file = File::open(&quot;hello.txt&quot;)?;
+  |                                                ^ cannot use the `?` operator in a function that returns `()`
   |
   = help: the trait `FromResidual&lt;Result&lt;Infallible, std::io::Error&gt;&gt;` is not implemented for `()`
 
@@ -8925,7 +8927,7 @@ hasn’t been checked by the conditions in the <code>Guess::new</code> function.
 <p>A function that has a parameter or returns only numbers between 1 and 100 could
 then declare in its signature that it takes or returns a <code>Guess</code> rather than an
 <code>i32</code> and wouldn’t need to do any additional checks in its body.</p>
-<h2 id="summary-6"><a class="header" href="#summary-6">Summary</a></h2>
+<h2 id="summary-5"><a class="header" href="#summary-5">Summary</a></h2>
 <p>Rust’s error handling features are designed to help you write more robust code.
 The <code>panic!</code> macro signals that your program is in a state it can’t handle and
 lets you tell the process to stop instead of trying to proceed with invalid or
@@ -10129,7 +10131,7 @@ error[E0597]: `x` does not live long enough
   |             ^^ borrowed value does not live long enough
 7 |     }
   |     - `x` dropped here while still borrowed
-8 | 
+8 |
 9 |     println!(&quot;r: {}&quot;, r);
   |                       - borrow later used here
 
@@ -10785,7 +10787,7 @@ using <code>{}</code>, which is why the <code>Display</code> trait bound is nece
 lifetimes are a type of generic, the declarations of the lifetime parameter
 <code>'a</code> and the generic type parameter <code>T</code> go in the same list inside the angle
 brackets after the function name.</p>
-<h2 id="summary-7"><a class="header" href="#summary-7">Summary</a></h2>
+<h2 id="summary-6"><a class="header" href="#summary-6">Summary</a></h2>
 <p>We covered a lot in this chapter! Now that you know about generic type
 parameters, traits and trait bounds, and generic lifetime parameters, you’re
 ready to write code without repetition that works in many different situations.
@@ -11010,7 +11012,7 @@ failures:
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p><span class="caption">Listing 11-4: Test results when one test passes and one
 test fails</span></p>
@@ -11263,7 +11265,7 @@ failures:
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>Our tests caught the bug! Because <code>larger.width</code> is 8 and <code>smaller.width</code> is
 5, the comparison of the widths in <code>can_hold</code> now returns <code>false</code>: 8 is not
@@ -11357,7 +11359,7 @@ failures:
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>Our test caught the bug! The <code>it_adds_two</code> test failed, and the message tells
 us that the assertion that fails was <code>assertion failed: `(left == right)`</code>
@@ -11464,7 +11466,7 @@ failures:
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>This result just indicates that the assertion failed and which line the
 assertion is on. A more useful failure message would print the value from the
@@ -11511,7 +11513,7 @@ failures:
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>We can see the value we actually got in the test output, which would help us
 debug what happened instead of what we were expecting to happen.</p>
@@ -11622,7 +11624,7 @@ failures:
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>We don’t get a very helpful message in this case, but when we look at the test
 function, we see that it’s annotated with <code>#[should_panic]</code>. The failure we got
@@ -11739,7 +11741,7 @@ failures:
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>The failure message indicates that this test did indeed panic as we expected,
 but the panic message did not include the expected string <code>'Guess value must be less than or equal to 100'</code>. The panic message that we did get in this case was
@@ -11869,7 +11871,7 @@ failures:
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>Note that nowhere in this output do we see <code>I got the value 4</code>, which is what
 is printed when the test that passes runs. That output has been captured. The
@@ -11914,7 +11916,7 @@ failures:
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <h3 id="running-a-subset-of-tests-by-name"><a class="header" href="#running-a-subset-of-tests-by-name">Running a Subset of Tests by Name</a></h3>
 <p>Sometimes, running a full test suite can take a long time. If you’re working on
@@ -12353,7 +12355,7 @@ library crate with <code>use</code> to make the important functionality availabl
 If the important functionality works, the small amount of code in the
 <em>src/main.rs</em> file will work as well, and that small amount of code doesn’t
 need to be tested.</p>
-<h2 id="summary-8"><a class="header" href="#summary-8">Summary</a></h2>
+<h2 id="summary-7"><a class="header" href="#summary-7">Summary</a></h2>
 <p>Rust’s testing features provide a way to specify how code should function to
 ensure it continues to work as you expect, even as you make changes. Unit tests
 exercise different parts of a library separately and can test private
@@ -13610,7 +13612,7 @@ failures:
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>Great, the test fails, exactly as we expected. Let’s get the test to pass!</p>
 <h3 id="writing-code-to-pass-the-test"><a class="header" href="#writing-code-to-pass-the-test">Writing Code to Pass the Test</a></h3>
@@ -14654,7 +14656,7 @@ How dreary to be somebody!
 </code></pre>
 <p>This demonstrates that we’re now using standard output for successful output
 and standard error for error output as appropriate.</p>
-<h2 id="summary-9"><a class="header" href="#summary-9">Summary</a></h2>
+<h2 id="summary-8"><a class="header" href="#summary-8">Summary</a></h2>
 <p>This chapter recapped some of the major concepts you’ve learned so far and
 covered how to perform common I/O operations in Rust. By using command line
 arguments, files, environment variables, and the <code>eprintln!</code> macro for printing
@@ -14890,9 +14892,16 @@ error[E0308]: mismatched types
  --&gt; src/main.rs:5:29
   |
 5 |     let n = example_closure(5);
-  |                             ^- help: try using a conversion method: `.to_string()`
-  |                             |
-  |                             expected struct `String`, found integer
+  |             --------------- ^- help: try using a conversion method: `.to_string()`
+  |             |               |
+  |             |               expected struct `String`, found integer
+  |             arguments to this function are incorrect
+  |
+note: closure parameter defined here
+ --&gt; src/main.rs:2:28
+  |
+2 |     let example_closure = |x| x;
+  |                            ^
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `closure-example` due to previous error
@@ -15135,16 +15144,13 @@ implement <code>FnMut</code>:</p>
 error[E0507]: cannot move out of `value`, a captured variable in an `FnMut` closure
   --&gt; src/main.rs:18:30
    |
-15 |       let value = String::from(&quot;by key called&quot;);
-   |           ----- captured outer variable
-16 | 
-17 |       list.sort_by_key(|r| {
-   |  ______________________-
-18 | |         sort_operations.push(value);
-   | |                              ^^^^^ move occurs because `value` has type `String`, which does not implement the `Copy` trait
-19 | |         r.width
-20 | |     });
-   | |_____- captured by this `FnMut` closure
+15 |     let value = String::from(&quot;by key called&quot;);
+   |         ----- captured outer variable
+16 |
+17 |     list.sort_by_key(|r| {
+   |                      --- captured by this `FnMut` closure
+18 |         sort_operations.push(value);
+   |                              ^^^^^ move occurs because `value` has type `String`, which does not implement the `Copy` trait
 
 For more information about this error, try `rustc --explain E0507`.
 error: could not compile `rectangles` due to previous error
@@ -16163,7 +16169,7 @@ All these optimizations that Rust is able to apply make the resulting code
 extremely efficient. Now that you know this, you can use iterators and closures
 without fear! They make code seem like it’s higher level but don’t impose a
 runtime performance penalty for doing so.</p>
-<h2 id="summary-10"><a class="header" href="#summary-10">Summary</a></h2>
+<h2 id="summary-9"><a class="header" href="#summary-9">Summary</a></h2>
 <p>Closures and iterators are Rust features inspired by functional programming
 language ideas. They contribute to Rust’s capability to clearly express
 high-level ideas at low-level performance. The implementations of closures and
@@ -16856,7 +16862,7 @@ so we can use the <code>rand</code> crate in the <code>add_one</code> crate:</p>
 -->
 <p><span class="filename">Filename: add_one/Cargo.toml</span></p>
 <pre><code class="language-toml">[dependencies]
-rand = &quot;0.8.3&quot;
+rand = &quot;0.8.5&quot;
 </code></pre>
 <p>We can now add <code>use rand;</code> to the <em>add_one/src/lib.rs</em> file, and building the
 whole workspace by running <code>cargo build</code> in the <em>add</em> directory will bring in
@@ -17046,7 +17052,7 @@ run it as if it was a Cargo subcommand by running <code>cargo something</code>. 
 commands like this are also listed when you run <code>cargo --list</code>. Being able to
 use <code>cargo install</code> to install extensions and then run them just like the
 built-in Cargo tools is a super convenient benefit of Cargo’s design!</p>
-<h2 id="summary-11"><a class="header" href="#summary-11">Summary</a></h2>
+<h2 id="summary-10"><a class="header" href="#summary-10">Summary</a></h2>
 <p>Sharing code with Cargo and <a href="https://crates.io/">crates.io</a><!-- ignore --> is
 part of what makes the Rust ecosystem useful for many different tasks. Rust’s
 standard library is small and stable, but crates are easy to share, use, and
@@ -17238,18 +17244,8 @@ help: insert some indirection (e.g., a `Box`, `Rc`, or `&amp;`) to make `List` r
 2 |     Cons(i32, Box&lt;List&gt;),
   |               ++++    +
 
-error[E0391]: cycle detected when computing drop-check constraints for `List`
- --&gt; src/main.rs:1:1
-  |
-1 | enum List {
-  | ^^^^^^^^^
-  |
-  = note: ...which immediately requires computing drop-check constraints for `List` again
-  = note: cycle used when computing dropck types for `Canonical { max_universe: U0, variables: [], value: ParamEnvAnd { param_env: ParamEnv { caller_bounds: [], reveal: UserFacing, constness: NotConst }, value: List } }`
-
-Some errors have detailed explanations: E0072, E0391.
-For more information about an error, try `rustc --explain E0072`.
-error: could not compile `cons-list` due to 2 previous errors
+For more information about this error, try `rustc --explain E0072`.
+error: could not compile `cons-list` due to previous error
 </code></pre>
 <p><span class="caption">Listing 15-4: The error we get when attempting to define
 a recursive enum</span></p>
@@ -18583,7 +18579,7 @@ failures:
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-error: test failed, to rerun pass '--lib'
+error: test failed, to rerun pass `--lib`
 </code></pre>
 <p>Notice that the code panicked with the message <code>already borrowed: BorrowMutError</code>. This is how <code>RefCell&lt;T&gt;</code> handles violations of the borrowing
 rules at runtime.</p>
@@ -19112,7 +19108,7 @@ specifying that the relationship from a child to its parent should be a
 <code>Weak&lt;T&gt;</code> reference in the definition of <code>Node</code>, you’re able to have parent
 nodes point to child nodes and vice versa without creating a reference cycle
 and memory leaks.</p>
-<h2 id="summary-12"><a class="header" href="#summary-12">Summary</a></h2>
+<h2 id="summary-11"><a class="header" href="#summary-11">Summary</a></h2>
 <p>This chapter covered how to use smart pointers to make different guarantees and
 trade-offs from those Rust makes by default with regular references. The
 <code>Box&lt;T&gt;</code> type has a known size and points to data allocated on the heap. The
@@ -19487,7 +19483,7 @@ error[E0382]: use of moved value: `v`
    |
 4  |     let v = vec![1, 2, 3];
    |         - move occurs because `v` has type `Vec&lt;i32&gt;`, which does not implement the `Copy` trait
-5  | 
+5  |
 6  |     let handle = thread::spawn(move || {
    |                                ------- value moved into closure here
 7  |         println!(&quot;Here's a vector: {:?}&quot;, v);
@@ -19681,7 +19677,7 @@ error[E0382]: borrow of moved value: `val`
 10 |         println!(&quot;val is {}&quot;, val);
    |                               ^^^ value borrowed here after move
    |
-   = note: this error originates in the macro `$crate::format_args_nl` (in Nightly builds, run with -Z macro-backtrace for more info)
+   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `message-passing` due to previous error
@@ -20007,20 +20003,26 @@ a lot.</p>
 <pre><code class="language-console">$ cargo run
    Compiling shared-state v0.1.0 (file:///projects/shared-state)
 error[E0277]: `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
-   --&gt; src/main.rs:11:22
-    |
-11  |           let handle = thread::spawn(move || {
-    |  ______________________^^^^^^^^^^^^^_-
-    | |                      |
-    | |                      `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
-12  | |             let mut num = counter.lock().unwrap();
-13  | |
-14  | |             *num += 1;
-15  | |         });
-    | |_________- within this `[closure@src/main.rs:11:36: 15:10]`
-    |
-    = help: within `[closure@src/main.rs:11:36: 15:10]`, the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`
-    = note: required because it appears within the type `[closure@src/main.rs:11:36: 15:10]`
+  --&gt; src/main.rs:11:36
+   |
+11 |           let handle = thread::spawn(move || {
+   |                        ------------- ^------
+   |                        |             |
+   |  ______________________|_____________within this `[closure@src/main.rs:11:36: 11:43]`
+   | |                      |
+   | |                      required by a bound introduced by this call
+12 | |             let mut num = counter.lock().unwrap();
+13 | |
+14 | |             *num += 1;
+15 | |         });
+   | |_________^ `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely
+   |
+   = help: within `[closure@src/main.rs:11:36: 11:43]`, the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`
+note: required because it's used within this closure
+  --&gt; src/main.rs:11:36
+   |
+11 |         let handle = thread::spawn(move || {
+   |                                    ^^^^^^^
 note: required by a bound in `spawn`
 
 For more information about this error, try `rustc --explain E0277`.
@@ -20162,7 +20164,7 @@ information is that building new concurrent types not made up of <code>Send</cod
 <code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
 Rustonomicon”</a> has more information about these guarantees and how to
 uphold them.</p>
-<h2 id="summary-13"><a class="header" href="#summary-13">Summary</a></h2>
+<h2 id="summary-12"><a class="header" href="#summary-12">Summary</a></h2>
 <p>This isn’t the last you’ll see of concurrency in this book: the project in
 Chapter 20 will use the concepts in this chapter in a more realistic situation
 than the smaller examples discussed here.</p>
@@ -20648,7 +20650,7 @@ error[E0277]: the trait bound `String: Draw` is not satisfied
   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `Draw` is not implemented for `String`
   |
   = help: the trait `Draw` is implemented for `Button`
-  = note: required for the cast to the object type `dyn Draw`
+  = note: required for the cast from `String` to the object type `dyn Draw`
 
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `gui` due to previous error
@@ -21505,7 +21507,7 @@ problem to take advantage of Rust’s features can provide benefits, such as
 preventing some bugs at compile time. Object-oriented patterns won’t always be
 the best solution in Rust due to certain features, like ownership, that
 object-oriented languages don’t have.</p>
-<h2 id="summary-14"><a class="header" href="#summary-14">Summary</a></h2>
+<h2 id="summary-13"><a class="header" href="#summary-13">Summary</a></h2>
 <p>No matter whether or not you think Rust is an object-oriented language after
 reading this chapter, you now know that you can use trait objects to get some
 object-oriented features in Rust. Dynamic dispatch can give your code some
@@ -21826,19 +21828,19 @@ use a refutable pattern where an irrefutable pattern is required:</p>
 <pre><code class="language-console">$ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
 error[E0005]: refutable pattern in local binding: `None` not covered
-   --&gt; src/main.rs:3:9
-    |
-3   |     let Some(x) = some_option_value;
-    |         ^^^^^^^ pattern `None` not covered
-    |
-    = note: `let` bindings require an &quot;irrefutable pattern&quot;, like a `struct` or an `enum` with only one variant
-    = note: for more information, visit https://doc.rust-lang.org/book/ch18-02-refutability.html
+ --&gt; src/main.rs:3:9
+  |
+3 |     let Some(x) = some_option_value;
+  |         ^^^^^^^ pattern `None` not covered
+  |
+  = note: `let` bindings require an &quot;irrefutable pattern&quot;, like a `struct` or an `enum` with only one variant
+  = note: for more information, visit https://doc.rust-lang.org/book/ch18-02-refutability.html
 note: `Option&lt;i32&gt;` defined here
-    = note: the matched value is of type `Option&lt;i32&gt;`
+  = note: the matched value is of type `Option&lt;i32&gt;`
 help: you might want to use `if let` to ignore the variant that isn't matched
-    |
-3   |     let x = if let Some(x) = some_option_value { x } else { todo!() };
-    |     ++++++++++                                 ++++++++++++++++++++++
+  |
+3 |     let x = if let Some(x) = some_option_value { x } else { todo!() };
+  |     ++++++++++                                 ++++++++++++++++++++++
 
 For more information about this error, try `rustc --explain E0005`.
 error: could not compile `patterns` due to previous error
@@ -22085,9 +22087,11 @@ into three cases: points that lie directly on the <code>x</code> axis (which is 
     let p = Point { x: 0, y: 7 };
 
     match p {
-        Point { x, y: 0 } =&gt; println!(&quot;On the x axis at {}&quot;, x),
-        Point { x: 0, y } =&gt; println!(&quot;On the y axis at {}&quot;, y),
-        Point { x, y } =&gt; println!(&quot;On neither axis: ({}, {})&quot;, x, y),
+        Point { x, y: 0 } =&gt; println!(&quot;On the x axis at {x}&quot;),
+        Point { x: 0, y } =&gt; println!(&quot;On the y axis at {y}&quot;),
+        Point { x, y } =&gt; {
+            println!(&quot;On neither axis: ({x}, {y})&quot;);
+        }
     }
 }
 </code></pre></pre>
@@ -22121,19 +22125,17 @@ fn main() {
 
     match msg {
         Message::Quit =&gt; {
-            println!(&quot;The Quit variant has no data to destructure.&quot;)
+            println!(&quot;The Quit variant has no data to destructure.&quot;);
         }
         Message::Move { x, y } =&gt; {
-            println!(
-                &quot;Move in the x direction {} and in the y direction {}&quot;,
-                x, y
-            );
+            println!(&quot;Move in the x direction {x} and in the y direction {y}&quot;);
         }
-        Message::Write(text) =&gt; println!(&quot;Text message: {}&quot;, text),
-        Message::ChangeColor(r, g, b) =&gt; println!(
-            &quot;Change the color to red {}, green {}, and blue {}&quot;,
-            r, g, b
-        ),
+        Message::Write(text) =&gt; {
+            println!(&quot;Text message: {text}&quot;);
+        }
+        Message::ChangeColor(r, g, b) =&gt; {
+            println!(&quot;Change the color to red {r}, green {g}, and blue {b}&quot;,)
+        }
     }
 }
 </code></pre></pre>
@@ -22175,14 +22177,12 @@ fn main() {
     let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
 
     match msg {
-        Message::ChangeColor(Color::Rgb(r, g, b)) =&gt; println!(
-            &quot;Change the color to red {}, green {}, and blue {}&quot;,
-            r, g, b
-        ),
-        Message::ChangeColor(Color::Hsv(h, s, v)) =&gt; println!(
-            &quot;Change the color to hue {}, saturation {}, and value {}&quot;,
-            h, s, v
-        ),
+        Message::ChangeColor(Color::Rgb(r, g, b)) =&gt; {
+            println!(&quot;Change color to red {r}, green {g}, and blue {b}&quot;);
+        }
+        Message::ChangeColor(Color::Hsv(h, s, v)) =&gt; {
+            println!(&quot;Change color to hue {h}, saturation {s}, value {v}&quot;)
+        }
         _ =&gt; (),
     }
 }
@@ -22565,7 +22565,7 @@ reason is that we’ve used the struct field shorthand syntax. But we haven’t
 applied any test to the value in the <code>id</code> field in this arm, as we did with the
 first two arms: any value would match this pattern.</p>
 <p>Using <code>@</code> lets us test a value and save it in a variable within one pattern.</p>
-<h2 id="summary-15"><a class="header" href="#summary-15">Summary</a></h2>
+<h2 id="summary-14"><a class="header" href="#summary-14">Summary</a></h2>
 <p>Rust’s patterns are very useful in distinguishing between different kinds of
 data. When used in <code>match</code> expressions, Rust ensures your patterns cover every
 possible value, or your program won’t compile. Patterns in <code>let</code> statements and
@@ -23495,15 +23495,21 @@ other types that implement the <code>Animal</code> trait, Rust can’t figure ou
 implementation of <code>Animal::baby_name</code> we want. We’ll get this compiler error:</p>
 <pre><code class="language-console">$ cargo run
    Compiling traits-example v0.1.0 (file:///projects/traits-example)
-error[E0283]: type annotations needed
+error[E0790]: cannot call associated function on trait without specifying the corresponding `impl` type
   --&gt; src/main.rs:20:43
    |
+2  |     fn baby_name() -&gt; String;
+   |     ------------------------- `Animal::baby_name` defined here
+...
 20 |     println!(&quot;A baby dog is called a {}&quot;, Animal::baby_name());
-   |                                           ^^^^^^^^^^^^^^^^^ cannot infer type
+   |                                           ^^^^^^^^^^^^^^^^^ cannot call associated function of trait
    |
-   = note: cannot satisfy `_: Animal`
+help: use the fully-qualified path to the only available implementation
+   |
+20 |     println!(&quot;A baby dog is called a {}&quot;, &lt;::Dog as Animal&gt;::baby_name());
+   |                                           +++++++++       +
 
-For more information about this error, try `rustc --explain E0283`.
+For more information about this error, try `rustc --explain E0790`.
 error: could not compile `traits-example` due to previous error
 </code></pre>
 <p>To disambiguate and tell Rust that we want to use the implementation of
@@ -24212,7 +24218,7 @@ error[E0746]: return type cannot have an unboxed trait object
   |                         ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
   |
   = note: for information on `impl Trait`, see &lt;https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits&gt;
-help: use `impl Fn(i32) -&gt; i32` as the return type, as all return paths are of type `[closure@src/lib.rs:2:5: 2:14]`, which implements `Fn(i32) -&gt; i32`
+help: use `impl Fn(i32) -&gt; i32` as the return type, as all return paths are of type `[closure@src/lib.rs:2:5: 2:8]`, which implements `Fn(i32) -&gt; i32`
   |
 1 | fn returns_closure() -&gt; impl Fn(i32) -&gt; i32 {
   |                         ~~~~~~~~~~~~~~~~~~~
@@ -24696,7 +24702,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
 <p>This definition is similar to the custom derive macro’s signature: we receive
 the tokens that are inside the parentheses and return the code we wanted to
 generate.</p>
-<h2 id="summary-16"><a class="header" href="#summary-16">Summary</a></h2>
+<h2 id="summary-15"><a class="header" href="#summary-15">Summary</a></h2>
 <p>Whew! Now you have some Rust features in your toolbox that you likely won’t use
 often, but you’ll know they’re available in very particular circumstances.
 We’ve introduced several complex topics so that when you encounter them in
@@ -26610,13 +26616,13 @@ into an ungraceful shutdown.</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
 error[E0507]: cannot move out of `worker.thread` which is behind a mutable reference
-    --&gt; src/lib.rs:52:13
-     |
-52   |             worker.thread.join().unwrap();
-     |             ^^^^^^^^^^^^^ ------ `worker.thread` moved due to this method call
-     |             |
-     |             move occurs because `worker.thread` has type `JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
-     |
+  --&gt; src/lib.rs:52:13
+   |
+52 |             worker.thread.join().unwrap();
+   |             ^^^^^^^^^^^^^ ------ `worker.thread` moved due to this method call
+   |             |
+   |             move occurs because `worker.thread` has type `JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
+   |
 note: this function takes ownership of the receiver `self`, which moves `worker.thread`
 
 For more information about this error, try `rustc --explain E0507`.
@@ -26718,6 +26724,12 @@ error[E0599]: no method named `join` found for enum `Option` in the current scop
    |
 52 |             worker.thread.join().unwrap();
    |                           ^^^^ method not found in `Option&lt;JoinHandle&lt;()&gt;&gt;`
+   |
+note: the method `join` exists on the type `JoinHandle&lt;()&gt;`
+help: consider using `Option::expect` to unwrap the `JoinHandle&lt;()&gt;` value, panicking if the value is an `Option::None`
+   |
+52 |             worker.thread.expect(&quot;REASON&quot;).join().unwrap();
+   |                          +++++++++++++++++
 
 error[E0308]: mismatched types
   --&gt; src/lib.rs:72:22
@@ -27092,7 +27104,9 @@ finish when the <code>ThreadPool</code> <code>drop</code> implementation calls <
 </span>impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
         let thread = thread::spawn(move || loop {
-            match receiver.lock().unwrap().recv() {
+            let message = receiver.lock().unwrap().recv();
+
+            match message {
                 Ok(job) =&gt; {
                     println!(&quot;Worker {id} got a job; executing.&quot;);
 
@@ -27381,7 +27395,7 @@ some ideas:</p>
 similar web server using the crate instead. Then compare its API and
 robustness to the thread pool we implemented.</li>
 </ul>
-<h2 id="summary-17"><a class="header" href="#summary-17">Summary</a></h2>
+<h2 id="summary-16"><a class="header" href="#summary-16">Summary</a></h2>
 <p>Well done! You’ve made it to the end of the book! We want to thank you for
 joining us on this tour of Rust. You’re now ready to implement your own Rust
 projects and help with other peoples’ projects. Keep in mind that there is a

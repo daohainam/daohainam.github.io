@@ -199,11 +199,11 @@ giá trị được trả về từ các hàm này để làm rõ nghĩa hơn.</
 </span>    let v = vec![1, 2, 3, 4, 5];
 
     let third: &amp;i32 = &amp;v[2];
-    println!(&quot;The third element is {}&quot;, third);
+    println!(&quot;The third element is {third}&quot;);
 
     let third: Option&lt;&amp;i32&gt; = v.get(2);
     match third {
-        Some(third) =&gt; println!(&quot;The third element is {}&quot;, third),
+        Some(third) =&gt; println!(&quot;The third element is {third}&quot;),
         None =&gt; println!(&quot;There is no third element.&quot;),
     }
 <span class="boring">}
@@ -236,7 +236,7 @@ muốn chương trình của bạn gặp sự cố nếu có nỗ lực truy c�
 
     v.push(6);
 
-    println!(&quot;The first element is: {}&quot;, first);
+    println!(&quot;The first element is: {first}&quot;);
 <span class="boring">}
 </span></code></pre>
 <p><span class="caption">Mục 8-6: Cố gắng thêm một phần tử vào vector trong khi đang giữ tham chiếu đến một phần tử </span></p>
@@ -248,12 +248,12 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
   |
 4 |     let first = &amp;v[0];
   |                  - immutable borrow occurs here
-5 | 
+5 |
 6 |     v.push(6);
   |     ^^^^^^^^^ mutable borrow occurs here
-7 | 
-8 |     println!(&quot;The first element is: {}&quot;, first);
-  |                                          ----- immutable borrow later used here
+7 |
+8 |     println!(&quot;The first element is: {first}&quot;);
+  |                                      ----- immutable borrow later used here
 
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `collections` due to previous error
@@ -268,7 +268,7 @@ Rustonomicon”</a>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![100, 32, 57];
     for i in &amp;v {
-        println!(&quot;{}&quot;, i);
+        println!(&quot;{i}&quot;);
     }
 <span class="boring">}
 </span></code></pre></pre>

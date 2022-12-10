@@ -186,9 +186,9 @@ example, we can declare a particular user as shown in Listing 5-2.</p>
 </span><span class="boring">
 </span>fn main() {
     let user1 = User {
-        email: String::from(&quot;someone@example.com&quot;),
-        username: String::from(&quot;someusername123&quot;),
         active: true,
+        username: String::from(&quot;someusername123&quot;),
+        email: String::from(&quot;someone@example.com&quot;),
         sign_in_count: 1,
     };
 }
@@ -209,9 +209,9 @@ field of a mutable <code>User</code> instance.</p>
 </span><span class="boring">
 </span>fn main() {
     let mut user1 = User {
-        email: String::from(&quot;someone@example.com&quot;),
-        username: String::from(&quot;someusername123&quot;),
         active: true,
+        username: String::from(&quot;someusername123&quot;),
+        email: String::from(&quot;someone@example.com&quot;),
         sign_in_count: 1,
     };
 
@@ -236,9 +236,9 @@ the <code>sign_in_count</code> gets a value of <code>1</code>.</p>
 </span><span class="boring">
 </span>fn build_user(email: String, username: String) -&gt; User {
     User {
-        email: email,
-        username: username,
         active: true,
+        username: username,
+        email: email,
         sign_in_count: 1,
     }
 }
@@ -271,9 +271,9 @@ repetition of <code>email</code> and <code>username</code>, as shown in Listing 
 </span><span class="boring">
 </span>fn build_user(email: String, username: String) -&gt; User {
     User {
-        email,
-        username,
         active: true,
+        username,
+        email,
         sign_in_count: 1,
     }
 }
