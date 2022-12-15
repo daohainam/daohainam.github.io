@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -157,8 +156,7 @@
 <p>Nhiều thao tác tương tự có sẵn trong <code>Vec&lt;T&gt;</code> cũng có sẵn với <code>String</code>, bởi vì <code>String</code> thực sự bọc lại một vector kiểu byte và có bổ sung thêm sự đảm bảo, sự hạn chế và khả năng lưu trữ. Ví dụ về một hàm hoạt động theo cùng một cách với <code>Vec&lt;T&gt;</code> và <code>String</code> là hàm <code>new</code> để tạo một đối tượng mới, được thể hiện trong mục 8-11.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::new();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-11: Tạo mới một <code>String</code> rỗng.</span></p>
 <p>Dòng này tạo một mới một chuỗi rỗng có tên là <code>s</code>, sau đó chúng ta có thể tải dữ liệu vào. Thông thường, chúng ta sẽ có dữ liệu khởi tạo mà chúng ta muốn bắt đầu. Để làm điều này, chúng ta sử dụng phương thức <code>to_string</code>, có sẵn trên bất kỳ kiểu nào triển khai đối tượng đặc tả <code>Display</code>, như các ký tự chuỗi thực hiện. Mục 8-12 cho thấy hai ví dụ.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -168,15 +166,13 @@
 
     // the method also works on a literal directly:
     let s = &quot;initial contents&quot;.to_string();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-12: Dùng phương thức <code>to_string</code> để tạo mới <code>String</code> từ một chuỗi ký tự</span></p>
 <p>Đoạn mã này tạo một string chứa <code>initial contents</code>.</p>
 <p>Chúng ta cũng có thể dùng hàm <code>String::from</code> để tạo một <code>String</code> từ chuỗi ký tự. Đoạn code ở mục 8-13 tương đương với đoạn code của mục 8-12 sử dụng <code>to_string</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s = String::from(&quot;initial contents&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-13: Dùng hàm <code>String::from</code> để tạo một <code>String</code> từ một chuỗi ký tự</span></p>
 <p>Bởi vì chuỗi được sử dụng cho rất nhiều thứ, chúng ta có thể sử dụng nhiều API chung khác nhau cho chuỗi, cung cấp cho chúng ta rất nhiều tùy chọn. Một số trong đó có vẻ thừa, nhưng chúng đều có vị trí của chúng! Trong trường hợp này, <code>String::from</code> và <code>to_string</code> làm tương tự nhau, vì vậy bạn chọn cái nào là do phong cách và tính dễ đọc của chương trình.</p>
 <p>Hãy nhớ rằng chuỗi cơ bản được mã hóa bằng UTF-8, vì vậy chúng có thể bao gồm bất kỳ dữ liệu nào được mã hóa đúng cách, như được hiển thị trong mục 8-14.</p>
@@ -192,8 +188,7 @@
     let hello = String::from(&quot;Olá&quot;);
     let hello = String::from(&quot;Здравствуйте&quot;);
     let hello = String::from(&quot;Hola&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-14: Lưu các lời chào bằng nhiều ngôn ngữ khác nhau trong chuỗi</span></p>
 <p>Tất cả đều là <code>String</code> hợp lệ.</p>
 <h3 id="cập-nhật-một-string"><a class="header" href="#cập-nhật-một-string">Cập nhật một String</a></h3>
@@ -203,8 +198,7 @@
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;foo&quot;);
     s.push_str(&quot;bar&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-15: Nối chuỗi vào một <code>String</code> sử dụng phương thức <code>push_str</code></span></p>
 <p>Sau hai dòng này, <code>s</code> sẽ chứa <code>foobar</code>. Phương thức <code>push_str</code> có tham số là một đoạn chuỗi (<code>&amp;str</code>) vì chúng ta không nhất thiết chiếm quyền sở hữu tham số đó. Ví dụ, trong mã trong mục 8-16, chúng ta muốn có thể sử dụng lại <code>s2</code> sau khi thêm nội dung của nó vào <code>s1</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -212,16 +206,14 @@
     let s2 = &quot;bar&quot;;
     s1.push_str(s2);
     println!(&quot;s2 is {s2}&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-16: Sử dụng lại một đoạn chuỗi sau khi thêm nội dung của nó vào một <code>String</code> khác</span></p>
 <p>Nếu phương thức <code>push_str</code> chiếm quyền sở hữu của <code>s2</code>, chúng ta sẽ không thể in giá trị của nó tại dòng cuối. Tuy nhiên, đoạn mã này hoạt động như mong đợi!</p>
 <p>Phương thức <code>push</code> nhận ký tự đơn làm tham số và thêm nó vào <code>String</code>. Mục 8-17 thêm ký tự “l” vào một <code>String</code> bằng phương thức <code>push</code></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;lo&quot;);
     s.push('l');
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-17: Thêm một ký tự vào giá trị <code>String</code> bằng cách dùng phương thức <code>push</code></span></p>
 <p>Kết quả là, <code>s</code> sẽ chứa <code>lol</code>.</p>
 <h4 id="nối-chuỗi-với-toán-tử--hoặc-macro-format"><a class="header" href="#nối-chuỗi-với-toán-tử--hoặc-macro-format">Nối chuỗi với toán tử <code>+</code> hoặc macro <code>format!</code></a></h4>
@@ -230,12 +222,10 @@
 </span>    let s1 = String::from(&quot;Hello, &quot;);
     let s2 = String::from(&quot;world!&quot;);
     let s3 = s1 + &amp;s2; // note s1 has been moved here and can no longer be used
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-18: dùng toán tử <code>+</code> để kết hợp hai chuỗi thành một chuỗi mới</span></p>
 <p>Chuỗi <code>s3</code> sẽ chứa <code>Hello, world!</code>. Lý do <code>s1</code> không còn hợp lệ nữa sau khi thêm và lý do chúng ta sử dụng tham chiếu đến <code>s2</code> có liên quan đến phương thức bên dưới thực sự của toán tử <code>+</code>. Toán tử <code>+</code> sử dụng phương thức <code>add</code>, có cách biểu diễn trông giống như sau:</p>
-<pre><code class="language-rust ignore">fn add(self, s: &amp;str) -&gt; String {
-</code></pre>
+<pre><code class="language-rust ignore">fn add(self, s: &amp;str) -&gt; String {</code></pre>
 <p>Trong thư viện chuẩn, bạn sẽ thấy <code>add</code> được định nghĩa bằng cách sử dụng generic và các loại liên quan. Ở đây, chúng ta đã thay thế bằng các loại cụ thể, đó là điều xảy ra khi chúng ta gọi phương thức này bằng các giá trị <code>String</code>. Chúng ta sẽ thảo luận về generic trong Chương 10. Thông qua phương thức bên dưới này, sẽ cho chúng ta những manh mối để hiểu về những điểm phức tạp của toán tử <code>+</code>.</p>
 <p>Đầu tiên, <code>s2</code> có dấu <code>&amp;</code>, nghĩa là chúng ta đang thêm một <em>tham chiếu</em> của chuỗi thứ hai vào chuỗi đầu tiên. Điều này là do tham số <code>s</code> trong hàm <code>add</code>: chúng ta chỉ có thể thêm một kiểu <code>&amp;str</code> vào một <code>String</code>; chúng ta không thể thêm hai giá trị <code>String</code> lại với nhau. Nhưng chờ đã - kiểu của <code>&amp;s2</code> là <code>&amp;String</code>, không phải là <code>&amp;str</code> như được chỉ định trong tham số thứ hai của <code>add</code>. Vậy tại sao đoạn code của mục 8-18 biên dịch được?</p>
 <p>Lý do chúng ta có thể sử dụng <code>&amp;s2</code> trong lệnh gọi tới <code>add</code> là trình biên dịch có thể <em>ép kiểu</em> đối số <code>&amp;String</code> thành một <code>&amp;str</code>. Khi chúng ta gọi phương thức <code>add</code>, Rust sử dụng một <em>ép kiểu tự động</em>, mà cụ thể ở đây sẽ biến<code>&amp;s2</code> thành <code>&amp;s2[..]</code>. Chúng ta sẽ thảo luận sâu hơn về ép kiểu tự động trong Chương 15. Bởi vì <code>add</code> không chiếm quyền sở hữu tham số <code>s</code> nên <code>s2</code> sẽ vẫn là một <code>String</code> hợp lệ sau thao tác này.</p>
@@ -247,8 +237,7 @@
     let s3 = String::from(&quot;toe&quot;);
 
     let s = s1 + &quot;-&quot; + &amp;s2 + &quot;-&quot; + &amp;s3;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Lúc này, <code>s</code> sẽ là <code>tic-tac-toe</code>. Với các ký tự <code>+</code> và <code>&quot;</code>, rất khó để biết điều gì đang xảy ra. Thay vào đó, để kết hợp những chuỗi phức tạp hơn, chúng ta có thể sử dụng macro <code>format!</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;tic&quot;);
@@ -256,16 +245,14 @@
     let s3 = String::from(&quot;toe&quot;);
 
     let s = format!(&quot;{s1}-{s2}-{s3}&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Mã này cũng thiết lập <code>s</code> thành <code>tic-tac-toe</code>. Macro <code>format!</code> hoạt động giống như <code>println!</code>, nhưng thay vì in kết quả ra màn hình, nó trả về một <code>String</code> kèm với nội dung. Phiên bản của đoạn mã sử dụng <code>format!</code> dễ đọc hơn nhiều và mã được tạo bởi macro <code>format!</code> sử dụng các tham chiếu để lệnh gọi này không chiếm quyền sở hữu bất kỳ tham số nào của nó.</p>
 <h3 id="chỉ-mục-index-đến-string"><a class="header" href="#chỉ-mục-index-đến-string">Chỉ mục index đến String</a></h3>
 <p>Trong nhiều ngôn ngữ lập trình khác, truy cập đến các ký tự riêng lẻ trong một chuỗi bằng cách tham chiếu theo chỉ mục là một thao tác hợp lệ và phổ biến. Tuy nhiên, nếu bạn cố truy cập các phần của <code>String</code> bằng cú pháp chỉ mục index trong Rust, bạn sẽ gặp lỗi. Xem xét mã không hợp lệ trong mục 8-19.</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;hello&quot;);
     let h = s1[0];
-<span class="boring">}
-</span></code></pre>
+<span class="boring">}</span></code></pre>
 <p><span class="caption">Mục 8-19: Cố dùng cú pháp index trong String</span></p>
 <p>Đoạn mã này sẽ trả về kết quả lỗi sau:</p>
 <pre><code class="language-console">$ cargo run
@@ -304,8 +291,7 @@ error: could not compile `collections` due to previous error
 </span><span class="boring">    let hello = String::from(&quot;Olá&quot;);
 </span><span class="boring">    let hello = String::from(&quot;Здравствуйте&quot;);
 </span>    let hello = String::from(&quot;Hola&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Trong trường hợp này, <code>len</code> sẽ là 4, có nghĩa là vector lưu trữ chuỗi “Hola” dài 4 byte. Mỗi chữ cái này chiếm 1 byte khi được mã hóa bằng UTF-8. Tuy nhiên, dòng sau đây có thể làm bạn ngạc nhiên. (Lưu ý rằng chuỗi này bắt đầu bằng chữ cái Cyrillic viết hoa Ze, không phải số 3 trong tiếng Ả Rập)</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let hello = String::from(&quot;السلام عليكم&quot;);
@@ -319,12 +305,10 @@ error: could not compile `collections` due to previous error
 </span><span class="boring">    let hello = String::from(&quot;Olá&quot;);
 </span>    let hello = String::from(&quot;Здравствуйте&quot;);
 <span class="boring">    let hello = String::from(&quot;Hola&quot;);
-</span><span class="boring">}
-</span></code></pre></pre>
+</span><span class="boring">}</span></code></pre></pre>
 <p>Khi được hỏi chuỗi dài bao nhiêu, bạn có thể trả lời là 12. Thực tế, câu trả lời của Rust là 24: đó là số byte cần thiết để mã hóa “Здравствуйте” trong UTF-8, bởi vì mỗi giá trị vô hướng Unicode trong chuỗi đó chiếm 2 byte dung lượng lưu trữ . Do đó, một chỉ mục index trỏ đến các byte của chuỗi sẽ không phải lúc nào cũng tương ứng với một giá trị vô hướng Unicode hợp lệ. Để chứng minh, hãy xem xét mã Rust không hợp lệ này:</p>
 <pre><code class="language-rust ignore does_not_compile">let hello = &quot;Здравствуйте&quot;;
-let answer = &amp;hello[0];
-</code></pre>
+let answer = &amp;hello[0];</code></pre>
 <p>Bạn biết rằng <code>câu trả lời</code> của chữ cái đầu tiên sẽ không phải là <code>З</code>. Khi được mã hóa bằng UTF-8, byte đầu tiên của <code>З</code> là <code>208</code> và byte thứ hai là <code>151</code>, vì vậy, có vẻ như <code>câu trả lời</code> trên thực tế phải là <code>208</code>, nhưng <code>208</code> không phải là ký tự hợp lệ theo riêng nó. Trả về <code>208</code> có thể không phải là những gì người dùng muốn nếu họ yêu cầu ký tự đầu tiên của chuỗi này; tuy nhiên, đó là dữ liệu duy nhất mà Rust có ở chỉ mục byte số 0. Người dùng thường không muốn giá trị byte được trả về, ngay cả khi chuỗi chỉ chứa các chữ cái Latinh: nếu <code>&amp;&quot;hello&quot;[0]</code> là mã hợp lệ trả về giá trị byte, nó sẽ trả về <code>104</code>, không phải <code>h</code>.</p>
 <p>Vì vậy, để tránh trả về một giá trị không mong muốn và gây ra các lỗi mà có thể không được phát hiện ngay lập tức, câu trả lời là: Rust không biên dịch mã này gì hết và ngăn chặn sự hiểu lầm sớm trong quá trình phát triển.</p>
 <h4 id="byte-giá-trị-vô-hướng-scalar-và-các-cụm-ký-tự-kết-hợp-grapheme-Ôi-trời"><a class="header" href="#byte-giá-trị-vô-hướng-scalar-và-các-cụm-ký-tự-kết-hợp-grapheme-Ôi-trời">Byte, giá trị vô hướng (scalar) và các cụm ký tự kết hợp (grapheme)! Ôi trời!</a></h4>
@@ -344,14 +328,12 @@ let answer = &amp;hello[0];
 <h3 id="cắt-chuỗi"><a class="header" href="#cắt-chuỗi">Cắt chuỗi</a></h3>
 <p>Lập chỉ mục cho một chuỗi thường là một ý tưởng tồi vì nó không biết rõ kiểu trả về của thao tác lấy giá trị theo index trong chuỗi là gì: giá trị byte, ký tự, một cụm grapheme hay một đoạn chuỗi. Do đó, nếu bạn thực sự cần sử dụng các chỉ số để tạo các đoạn chuỗi, Rust yêu cầu bạn phải cụ thể hơn nữa.</p>
 <p>Thay vì lập chỉ mục bằng cách sử dụng <code>[]</code> với một số đơn lẻ, bạn có thể sử dụng <code>[]</code> với một dãy phạm vi để tạo một đoạn chuỗi chứa các byte cụ thể:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let hello = &quot;Здравствуйте&quot;;
 
 let s = &amp;hello[0..4];
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Ở đây, <code>s</code> sẽ là một <code>&amp;str</code> chứa 4 byte đầu tiên của chuỗi.
 Trước đó, chúng tôi đã đề cập rằng mỗi ký tự này là 2 byte, có nghĩa là <code>s</code> sẽ là <code>Зд</code>.</p>
 <p>Nếu chúng ta cố thử cắt chuỗi chỉ một phần byte của một ký tự, đại loại một thứ gì đó như <code>&amp;hello[0..1]</code>, Rust sẽ gây lỗi lúc chạy giống như trường hợp dùng chỉ mục index không hợp lệ truy cập phần tử trong một vector:</p>
@@ -365,27 +347,23 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>Bạn nên sử dụng các dãy phạm vi để tạo các đoạn chuỗi một cách thận trọng, vì làm như vậy có thể làm hỏng chương trình của bạn.</p>
 <h3 id="cách-duyệt-qua-các-phần-tử-của-chuỗi"><a class="header" href="#cách-duyệt-qua-các-phần-tử-của-chuỗi">Cách duyệt qua các phần tử của chuỗi</a></h3>
 <p>Cách tốt nhất để thao tác trên các phần của chuỗi là phải rõ ràng về việc bạn mong muốn: kiểu ký tự hay kiểu byte. Đối với các giá trị vô hướng Unicode riêng lẻ, hãy sử dụng phương thức <code>chars</code>. Việc gọi <code>chars</code> trên “Зд” sẽ tách chuỗi ra và trả về hai giá trị kiểu <code>char</code> và bạn có thể lặp qua kết quả này để truy cập từng phần tử:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for c in &quot;Зд&quot;.chars() {
     println!(&quot;{}&quot;, c);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Đoạn mã này sẽ in ra như sau:</p>
 <pre><code class="language-text">З
 д
 </code></pre>
 <p>Ngoài ra, phương thức <code>bytes</code> trả về từng byte thô, có thể phù hợp với lĩnh vực của bạn:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for b in &quot;Зд&quot;.bytes() {
     println!(&quot;{}&quot;, b);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Đoạn mã này sẽ in ra bốn byte đã tạo nên chuỗi này:</p>
 <pre><code class="language-text">208
 151
@@ -431,21 +409,21 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

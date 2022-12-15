@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -180,8 +179,7 @@ impl List {
     }
 }
 
-fn main() {}
-</code></pre></pre>
+fn main() {}</code></pre></pre>
 <p><span class="caption">Listing 15-25: A cons list definition that holds a
 <code>RefCell&lt;T&gt;</code> so we can modify what a <code>Cons</code> variant is referring to</span></p>
 <p>We’re using another variation of the <code>List</code> definition from Listing 15-5. The
@@ -237,8 +235,7 @@ reference counts are at various points in this process.</p>
     // Uncomment the next line to see that we have a cycle;
     // it will overflow the stack
     // println!(&quot;a next item = {:?}&quot;, a.tail());
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 15-26: Creating a reference cycle of two <code>List</code>
 values pointing to each other</span></p>
 <p>We create an <code>Rc&lt;List&gt;</code> instance holding a <code>List</code> value in the variable <code>a</code>
@@ -353,8 +350,7 @@ struct Node {
 </span><span class="boring">        value: 5,
 </span><span class="boring">        children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
 </span><span class="boring">    });
-</span><span class="boring">}
-</span></code></pre></pre>
+</span><span class="boring">}</span></code></pre></pre>
 <p>We want a <code>Node</code> to own its children, and we want to share that ownership with
 variables so we can access each <code>Node</code> in the tree directly. To do this, we
 define the <code>Vec&lt;T&gt;</code> items to be values of type <code>Rc&lt;Node&gt;</code>. We also want to
@@ -383,8 +379,7 @@ with the value 5 and <code>leaf</code> as one of its children, as shown in Listi
         value: 5,
         children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
     });
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 15-27: Creating a <code>leaf</code> node with no children
 and a <code>branch</code> node with <code>leaf</code> as one of its children</span></p>
 <p>We clone the <code>Rc&lt;Node&gt;</code> in <code>leaf</code> and store that in <code>branch</code>, meaning the
@@ -436,8 +431,7 @@ struct Node {
 </span><span class="boring">    *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 </span><span class="boring">
 </span><span class="boring">    println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
-</span><span class="boring">}
-</span></code></pre></pre>
+</span><span class="boring">}</span></code></pre></pre>
 <p>A node will be able to refer to its parent node but doesn’t own its parent.
 In Listing 15-28, we update <code>main</code> to use this new definition so the <code>leaf</code>
 node will have a way to refer to its parent, <code>branch</code>:</p>
@@ -470,8 +464,7 @@ node will have a way to refer to its parent, <code>branch</code>:</p>
     *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
 
     println!(&quot;leaf parent = {:?}&quot;, leaf.parent.borrow().upgrade());
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 15-28: A <code>leaf</code> node with a weak reference to its
 parent node <code>branch</code></span></p>
 <p>Creating the <code>leaf</code> node looks similar to Listing 15-27 with the exception of
@@ -559,8 +552,7 @@ in Listing 15-29:</p>
         Rc::strong_count(&amp;leaf),
         Rc::weak_count(&amp;leaf),
     );
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 15-29: Creating <code>branch</code> in an inner scope and
 examining strong and weak reference counts</span></p>
 <p>After <code>leaf</code> is created, its <code>Rc&lt;Node&gt;</code> has a strong count of 1 and a weak
@@ -635,21 +627,21 @@ smart pointers.</p>
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

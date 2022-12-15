@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -158,12 +157,10 @@ khi có thể có nhiều kiểu, chẳng hạn như khi chúng ta chuyển đ�
 cách sử dụng <code>parse</code> trong <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparing the Guess to the Secret
 Number”</a><!-- ignore --> như trong
 Chương 2, chúng ta phải thêm một chú thích kiểu giống như sau:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let guess: u32 = &quot;42&quot;.parse().expect(&quot;Not a number!&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Nếu chúng ta không thêm chú thích về kiểu <code>: u32</code> như ở trên, Rust sẽ hiển thị
 lỗi sau, có nghĩa là trình biên dịch cần thêm thông tin từ chúng ta để
 biết chính xác kiểu dữ liệu nào chúng ta muốn sử dụng:</p>
@@ -195,7 +192,7 @@ là một số nguyên không dấu (các kiểu có dấu sẽ bắt đầu b�
 chiếm 32 bit không gian nhớ. Bảng 3-1 trình bày các kiểu integer được hỗ trợ sẵn bởi Rust.
 Chúng ta có thể dùng bất kỳ biến thể nào trong danh sách để khai báo một kiểu nguyên.</p>
 <p><span class="caption">Table 3-1: Các kiểu số nguyên trong Rust</span></p>
-<table><thead><tr><th>Length</th><th>Signed</th><th>Unsigned</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Length</th><th>Signed</th><th>Unsigned</th></tr></thead><tbody>
 <tr><td>8-bit</td><td><code>i8</code></td><td><code>u8</code></td></tr>
 <tr><td>16-bit</td><td><code>i16</code></td><td><code>u16</code></td></tr>
 <tr><td>32-bit</td><td><code>i32</code></td><td><code>u32</code></td></tr>
@@ -203,6 +200,7 @@ Chúng ta có thể dùng bất kỳ biến thể nào trong danh sách để kh
 <tr><td>128-bit</td><td><code>i128</code></td><td><code>u128</code></td></tr>
 <tr><td>arch</td><td><code>isize</code></td><td><code>usize</code></td></tr>
 </tbody></table>
+</div>
 <p>Mỗi biến thể sẽ là có hoặc không có dấu, đồng thời sẽ có một kích thước cụ thể.
 <em>Signed</em> và <em>unsigned</em> chỉ ra liệu một kiểu có thể chứa số âm hay không, hay nói cách khác
 ta có cần viết dấu cho nó hay không (khi nó chứa một giá trị âm). Nó cũng hoàn toàn tương
@@ -225,13 +223,14 @@ thể chỉ rõ ra một kiểu cụ thể nào đó, ví dụ <code>57u8</code>
 dấu gạch dưới như một ký hiệu phân cách dễ dễ nhìn hơn, như là <code>1_000</code>, sẽ có cùng 
 giá trị với <code>1000</code>.</p>
 <p><span class="caption">Table 3-2: Các giá trị số nguyên trong Rust</span></p>
-<table><thead><tr><th>Các giá trị</th><th>Ví dụ</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Các giá trị</th><th>Ví dụ</th></tr></thead><tbody>
 <tr><td>Decimal</td><td><code>98_222</code></td></tr>
 <tr><td>Hex</td><td><code>0xff</code></td></tr>
 <tr><td>Octal</td><td><code>0o77</code></td></tr>
 <tr><td>Binary</td><td><code>0b1111_0000</code></td></tr>
 <tr><td>Byte (<code>u8</code> only)</td><td><code>b'A'</code></td></tr>
 </tbody></table>
+</div>
 <p>Vậy làm sao bạn biết được kiểu số nguyên nào để dùng? Nếu không chắc thì hãy nhớ, 
 mặc nhiên trong Rust các kiểu số nguyên sẽ là <code>i32</code>. Một trường hợp mà bạn có lẽ 
 sẽ dùng tới <code>isize</code> hay <code>usize</code> là khi sử dụng chỉ số trong các tập hợp.</p>
@@ -278,8 +277,7 @@ các kiểu dấu chấm động đều là có dấu.</p>
     let x = 2.0; // f64
 
     let y: f32 = 3.0; // f32
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Các kiểu dấu chấm động được biểu diễn dựa trên tiêu chuẩn IEEE-754. Kiểu <code>f32</code> là 
 kiểu dấu chấm động chính xác đơn, và <code>f64</code> có độ chính xác kép.</p>
 <h4 id="các-toán-tử-số"><a class="header" href="#các-toán-tử-số">Các toán tử số</a></h4>
@@ -303,8 +301,7 @@ sau đây biểu diễn cách bạn sẽ dùng các toán tử trong một phát
 
     // remainder
     let remainder = 43 % 5;
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Mỗi biểu thức trong các phát biểu đó dùng một toán tử toán học và trả về một giá trị 
 đơn, giá trị này sau đó lại được gán cho một biến. <a href="appendix-02-operators.html">Appendix B</a><!-- ignore --> chứa
 một danh sách tất cả các toán tử có trong Rust.</p>
@@ -317,8 +314,7 @@ hai giá trị <code>true</code> và <code>false</code>. Boolean có kích cỡ 
     let t = true;
 
     let f: bool = false; // with explicit type annotation
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Các chính để dùng Boolean là thông qua các điều kiện, kiểu như phát biểu <code>if</code>.
 Chúng ta sẽ xem thêm về cách <code>if</code> làm việc trong Rust trong phần <a href="ch03-05-control-flow.html#control-flow">“Control
 Flow”</a><!-- ignore -->.</p>
@@ -330,8 +326,7 @@ cách khai báo các giá trị kiểu <code>char</code>:</p>
     let c = 'z';
     let z: char = 'ℤ'; // with explicit type annotation
     let heart_eyed_cat = '😻';
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Lưu ý là chúng ta chỉ ra một dữ liệu nào đó là kiểu <code>char</code> bằng cách dùng dấu nháy đơn, trong khi đó 
 với string thì ta dùng dấu nháy kép. Kiểu <code>char</code> trong Rust có kích cỡ 4 byte và biểu diễn một ký tự
 Unicode, do nó nó có thể biểu diễn nhiều hơn nhiều so với ASCII. Các ký tự cổ, các ký tự tiếng Trung, 
@@ -352,8 +347,7 @@ thêm một số phụ chú kiểu trong ví dụ sau:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Biến <code>tup</code> đại diện cho toàn bộ tuple, vì mỗi một tuple được coi như một biến đơn. Để lấy giá trị của từng
 thành phần riêng lẻ bên trong một tuple, chúng ta có thể dùng cách khớp mẫu để phân tách một giá trị kiểu 
 tuple, giống trong ví dụ sau:</p>
@@ -364,8 +358,7 @@ tuple, giống trong ví dụ sau:</p>
     let (x, y, z) = tup;
 
     println!(&quot;The value of y is: {y}&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Chương trình này đầu tiên sẽ tạo ra một tuple và gắn kết nó với biến <code>tup</code>. 
 Sau đó nó dùng một mẫu với <code>let</code> để lấy ra ba giá trị riêng lẻ từ các thành phần 
 của <code>tup</code>, <code>x</code>, <code>y</code> và <code>z</code>. Ta gọi quá trình này là phá hủy (<em>destructuring</em>), vì nó sẽ tách một
@@ -381,8 +374,7 @@ dấu chấm (<code>.</code>), theo sau bởi chỉ mục của giá trị mà b
     let six_point_four = x.1;
 
     let one = x.2;
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Chương trình này tạo một tuple <code>x</code> và sau đó truy cập vào từng thành phần của tuple 
 thông qua các giá trị chỉ mục tương ứng. Tương tự với hầu hết ngôn ngữ lập trình khác,
 chỉ mục đầu tiên sẽ mang giá trị 0.</p>
@@ -399,8 +391,7 @@ ngữ khác, mảng trong Rust có chiều dài cố định.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let a = [1, 2, 3, 4, 5];
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Các mảng sẽ hữu ích hơn khi chúng ta phân bố chúng trên stack thay vì heap (chúng ta sẽ 
 thảo luận về stack và heap trong <a href="ch04-01-what-is-ownership.html#the-stack-and-the-heap">Chương 4</a><!-- ignore -->) hoặc 
 khi chúng ta muốn đảm bảo luôn có một số phần tử cố định. Dù vậy kiểu array không 
@@ -411,32 +402,26 @@ thảo luận kỹ hơn về vector.</p>
 <p>Tuy nhiên, các mảng sẽ hữu ích hơn nếu bạn biết số phần tử sẽ không thay đổi. Ví dụ,
 nếu bạn muốn lưu danh sách tên các tháng trong năm, sẽ tốt hơn khi dùng array thay vì
 vector vì bạn biết nó luôn có 12 phần tử:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let months = [&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
               &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;];
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Bạn viết một kiểu của mảng sử dụng cặp dấu ngoặc vuông với kiểu của mỗi phần tử,
 một dấu chấm phẩy, và số phần tử của mảng, giống như sau:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a: [i32; 5] = [1, 2, 3, 4, 5];
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Ở đây, <code>i32</code> là kiểu của mỗi phần tử. Sau dấu chấm phẩy, số <code>5</code> chỉ ra mang này có 5
 phần tử.</p>
 <p>Bạn cũng có thể khởi tạo một mảng để chứa các phần tử cùng giá trị bằng cách chỉ ra
 giá trị ban đầu, theo sau bởi một dấu chấm phẩy, và sau đó là chiều dai của mảng, tất
 cả bao trong cặp dấu ngoặc vuông, như ví dụ dưới đây:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = [3; 5];
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Mảng tên <code>a</code> sẽ chứa <code>5</code> phần tử với giá trị ban đầu là <code>3</code>. Điều này hoàn toàn giống
 với khi bạn viết <code>let a = [3, 3, 3, 3, 3];</code> nhưng theo một cách ngắn gọn hơn.</p>
 <h5 id="truy-cập-các-phần-tử-của-mảng"><a class="header" href="#truy-cập-các-phần-tử-của-mảng">Truy cập các phần tử của mảng</a></h5>
@@ -448,8 +433,7 @@ phát trên stack. Bạn có thể truy cập các phần tử của mảng dùn
 
     let first = a[0];
     let second = a[1];
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Trong ví dụ này, một biến có tên <code>first</code> sẽ có giá trị <code>1</code>, vì nó là giá trị tại vị trí 
 <code>[0]</code> trong mảng. Biến có tên <code>second</code> sẽ có giá trị <code>2</code> từ phần tử <code>[1]</code> trong mảng.</p>
 <h5 id="việc-truy-cập-mảng-không-hợp-lệ"><a class="header" href="#việc-truy-cập-mảng-không-hợp-lệ">Việc truy cập mảng không hợp lệ</a></h5>
@@ -478,8 +462,7 @@ fn main() {
     let element = a[index];
 
     println!(&quot;The value of the element at index {index} is: {element}&quot;);
-}
-</code></pre>
+}</code></pre>
 <p>Đoạn code này được dịch thành công. Nếu bạn chạy nó bằng cách dùng <code>cargo run</code> và nhập
 vào 0,1, 2, 3, hay 4, chương trình sẽ in ra giá trị tương ứng tại vị trí trong mảng. Nếu
 bạn nhập một giá trị vượt quá kích thước mảng, chẳng hạn 10, bạn sẽ thấy xuất ra như sau:</p>
@@ -538,21 +521,21 @@ và tránh các lỗi panic hay truy cập vùng nhớ không hợp lệ.</p>
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

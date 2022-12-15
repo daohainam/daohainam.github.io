@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -148,28 +147,28 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="paths-for-referring-to-an-item-in-the-module-tree"><a class="header" href="#paths-for-referring-to-an-item-in-the-module-tree">Paths for Referring to an Item in the Module Tree</a></h2>
-<p>To show Rust where to find an item in a module tree, we use a path in the same
-way we use a path when navigating a filesystem. To call a function, we need to
-know its path.</p>
-<p>A path can take two forms:</p>
+<p>Để chỉ cho Rust biết nơi tìm thấy một item trong cây module, chúng ta sử dụng
+một đường dẫn (path) tương tự như chúng ta sử dụng một đường dẫn trong một hệ
+thống tập tin. Để gọi một hàm, chúng ta cần biết đường dẫn của nó.</p>
+<p>Một đường dẫn có thể có hai dạng:</p>
 <ul>
-<li>An <em>absolute path</em> is the full path starting from a crate root; for code
-from an external crate, the absolute path begins with the crate name, and for
-code from the current crate, it starts with the literal <code>crate</code>.</li>
-<li>A <em>relative path</em> starts from the current module and uses <code>self</code>, <code>super</code>, or
-an identifier in the current module.</li>
+<li><em>Đường dẫn tuyệt đối (absolute path)</em> là đường dẫn đầy đủ bắt đầu từ một
+crate root; đối với code từ một crate bên ngoài, đường dẫn tuyệt đối bắt đầu với
+tên crate, và đối với code từ crate hiện tại, nó bắt đầu với từ khoá <code>crate</code>.</li>
+<li><em>Đường dẫn tương đối (relative path)</em> bắt đầu từ module hiện tại và sử dụng
+<code>self</code>, <code>super</code>, hoặc một định danh (identifier) trong module hiện tại.</li>
 </ul>
-<p>Both absolute and relative paths are followed by one or more identifiers
-separated by double colons (<code>::</code>).</p>
-<p>Returning to Listing 7-1, say we want to call the <code>add_to_waitlist</code> function.
-This is the same as asking: what’s the path of the <code>add_to_waitlist</code> function?
-Listing 7-3 contains Listing 7-1 with some of the modules and functions
-removed. We’ll show two ways to call the <code>add_to_waitlist</code> function from a new
-function <code>eat_at_restaurant</code> defined in the crate root. The <code>eat_at_restaurant</code>
-function is part of our library crate’s public API, so we mark it with the
-<code>pub</code> keyword. In the <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword">“Exposing Paths with the <code>pub</code> Keyword”</a><!-- ignore
---> section, we’ll go into more detail about <code>pub</code>. Note that this example
-won’t compile just yet; we’ll explain why in a bit.</p>
+<p>Cả đường dẫn tuyệt đối và tương đối đều được theo sau bởi một hoặc nhiều định
+danh (identifier) được phân tách bởi hai dấu hai chấm (<code>::</code>).</p>
+<p>Trở lại Listing 7-1, giả sử chúng ta muốn gọi hàm <code>add_to_waitlist</code>. Điều này
+tương đương với câu hỏi: đường dẫn của hàm <code>add_to_waitlist</code> là gì? Listing 7-3
+chứa Listing 7-1 với một số module và hàm bị xóa. Chúng ta sẽ hiển thị hai cách
+gọi hàm <code>add_to_waitlist</code> từ một hàm mới <code>eat_at_restaurant</code> được định nghĩa
+trong crate root. Hàm <code>eat_at_restaurant</code> là một phần của API công khai của
+library crate của chúng ta, vì vậy chúng ta đánh dấu nó với từ khoá <code>pub</code>.
+Trong phần <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword">“Exposing Paths with the <code>pub</code> Keyword”</a><!-- ignore -->, chúng
+ta sẽ đi sâu vào chi tiết hơn về <code>pub</code>. Lưu ý rằng ví dụ này tạm thời sẽ không
+được biên dịch; chúng ta sẽ giải thích tại trong ít phút nữa.</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     mod hosting {
@@ -183,37 +182,37 @@ pub fn eat_at_restaurant() {
 
     // Relative path
     front_of_house::hosting::add_to_waitlist();
-}
-</code></pre>
-<p><span class="caption">Listing 7-3: Calling the <code>add_to_waitlist</code> function using
-absolute and relative paths</span></p>
-<p>The first time we call the <code>add_to_waitlist</code> function in <code>eat_at_restaurant</code>,
-we use an absolute path. The <code>add_to_waitlist</code> function is defined in the same
-crate as <code>eat_at_restaurant</code>, which means we can use the <code>crate</code> keyword to
-start an absolute path. We then include each of the successive modules until we
-make our way to <code>add_to_waitlist</code>. You can imagine a filesystem with the same
-structure: we’d specify the path <code>/front_of_house/hosting/add_to_waitlist</code> to
-run the <code>add_to_waitlist</code> program; using the <code>crate</code> name to start from the
-crate root is like using <code>/</code> to start from the filesystem root in your shell.</p>
-<p>The second time we call <code>add_to_waitlist</code> in <code>eat_at_restaurant</code>, we use a
-relative path. The path starts with <code>front_of_house</code>, the name of the module
-defined at the same level of the module tree as <code>eat_at_restaurant</code>. Here the
-filesystem equivalent would be using the path
-<code>front_of_house/hosting/add_to_waitlist</code>. Starting with a module name means
-that the path is relative.</p>
-<p>Choosing whether to use a relative or absolute path is a decision you’ll make
-based on your project, and depends on whether you’re more likely to move item
-definition code separately from or together with the code that uses the item.
-For example, if we move the <code>front_of_house</code> module and the <code>eat_at_restaurant</code>
-function into a module named <code>customer_experience</code>, we’d need to update the
-absolute path to <code>add_to_waitlist</code>, but the relative path would still be valid.
-However, if we moved the <code>eat_at_restaurant</code> function separately into a module
-named <code>dining</code>, the absolute path to the <code>add_to_waitlist</code> call would stay the
-same, but the relative path would need to be updated. Our preference in general
-is to specify absolute paths because it’s more likely we’ll want to move code
-definitions and item calls independently of each other.</p>
-<p>Let’s try to compile Listing 7-3 and find out why it won’t compile yet! The
-error we get is shown in Listing 7-4.</p>
+}</code></pre>
+<p><span class="caption">Listing 7-3: Gọi hàm <code>add_to_waitlist</code> sử dụng đường dẫn
+tuyệt đối và tương đối</span></p>
+<p>Lần đầu tiên chúng ta gọi hàm <code>add_to_waitlist</code> trong <code>eat_at_restaurant</code>, chúng
+ta sử dụng đường dẫn tuyệt đối. Hàm <code>add_to_waitlist</code> được định nghĩa trong cùng
+một crate với <code>eat_at_restaurant</code>, điều này có nghĩa là chúng ta có thể sử dụng
+từ khoá <code>crate</code> để bắt đầu một đường dẫn tuyệt đối. Sau đó, chúng ta sẽ đi qua
+từng tên của các module cho đến khi chúng ta bắt gặp <code>add_to_waitlist</code>.
+Bạn có thể tưởng tượng một hệ thống tệp tin với cùng cấu trúc: chúng ta sẽ chỉ
+định đường dẫn <code>/front_of_house/hosting/add_to_waitlist</code> để chạy chương trình
+<code>add_to_waitlist</code>; sử dụng từ khoá <code>crate</code> để bắt đầu từ crate root giống như
+sử dụng <code>/</code> để bắt đầu từ thư mục gốc của hệ thống tệp tin trong shell của bạn.</p>
+<p>Lần thứ hai chúng ta gọi <code>add_to_waitlist</code> trong <code>eat_at_restaurant</code>, chúng ta
+sử dụng đường dẫn tương đối. Đường dẫn bắt đầu với <code>front_of_house</code>, tên của
+module được định nghĩa cùng cấp với module tree của <code>eat_at_restaurant</code>. Ở đây
+đường dẫn tương đương với hệ thống tệp tin sẽ là sử dụng đường dẫn
+<code>front_of_house/hosting/add_to_waitlist</code>. Bắt đầu với tên của module có nghĩa
+rằng đường dẫn là tương đối.</p>
+<p>Việc lựa chọn sử dụng đường dẫn tương đối hay tuyệt đối là một quyết định bạn
+sẽ đưa ra dựa trên dự án, và phụ thuộc vào việc bạn có thể di chuyển
+định nghĩa code của item riêng biệt hay cùng với code sử dụng item. Ví dụ, nếu
+chúng ta di chuyển module <code>front_of_house</code> và hàm <code>eat_at_restaurant</code> vào một
+module có tên <code>customer_experience</code>, chúng ta sẽ cần cập nhật đường dẫn tuyệt
+đối đến <code>add_to_waitlist</code>, nhưng đường dẫn tương đối vẫn là hợp lệ. Tuy nhiên,
+nếu chúng ta di chuyển hàm <code>eat_at_restaurant</code> riêng biệt vào một module có tên
+<code>dining</code>, đường dẫn tuyệt đối đến <code>add_to_waitlist</code> vẫn giữ nguyên, nhưng đường
+dẫn tương đối sẽ cần được cập nhật. Nhìn chung, chúng tôi thích dùng đường dẫn
+tuyệt đối vì nó có thể  giúp chúng tôi di chuyển code định nghĩa và code gọi
+item độc lập với nhau.</p>
+<p>Hãy thử biên dịch Listing 7-3 và tìm hiểu tại sao nó vẫn chưa biên dịch được!
+Lỗi mà chúng ta nhận được được hiển thị trong Listing 7-4.</p>
 <pre><code class="language-console">$ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
 error[E0603]: module `hosting` is private
@@ -243,31 +242,33 @@ note: the module `hosting` is defined here
 For more information about this error, try `rustc --explain E0603`.
 error: could not compile `restaurant` due to 2 previous errors
 </code></pre>
-<p><span class="caption">Listing 7-4: Compiler errors from building the code in
+<p><span class="caption">Listing 7-4: Lỗi biên dịch từ việc biên dịch code trong
 Listing 7-3</span></p>
-<p>The error messages say that module <code>hosting</code> is private. In other words, we
-have the correct paths for the <code>hosting</code> module and the <code>add_to_waitlist</code>
-function, but Rust won’t let us use them because it doesn’t have access to the
-private sections. In Rust, all items (functions, methods, structs, enums,
-modules, and constants) are private to parent modules by default. If you want
-to make an item like a function or struct private, you put it in a module.</p>
-<p>Items in a parent module can’t use the private items inside child modules, but
-items in child modules can use the items in their ancestor modules. This is
-because child modules wrap and hide their implementation details, but the child
-modules can see the context in which they’re defined. To continue with our
-metaphor, think of the privacy rules as being like the back office of a
-restaurant: what goes on in there is private to restaurant customers, but
-office managers can see and do everything in the restaurant they operate.</p>
-<p>Rust chose to have the module system function this way so that hiding inner
-implementation details is the default. That way, you know which parts of the
-inner code you can change without breaking outer code. However, Rust does give
-you the option to expose inner parts of child modules’ code to outer ancestor
-modules by using the <code>pub</code> keyword to make an item public.</p>
+<p>Các thông báo lỗi nói rằng module <code>hosting</code> là riêng tư. Nói cách khác, chúng
+ta có đúng đường dẫn cho module <code>hosting</code> và hàm <code>add_to_waitlist</code>, nhưng Rust
+không cho phép chúng ta sử dụng chúng vì nó không có quyền truy cập vào các
+phần riêng tư. Trong Rust, tất cả các item (hàm, phương thức, struct, enum,
+module, và hằng số) là private đối với module cha theo mặc định. Nếu bạn muốn
+tạo một item như một hàm hoặc struct private, bạn cần đặt nó trong một module.</p>
+<p>Các item trong module cha không thể sử dụng các item private bên trong module
+con, nhưng các item trong module con có thể sử dụng các item trong các module
+cha của nó. Điều này là vì module đã gói các chi tiết code của nó và ẩn chúng đi
+nhưng module con có thể thấy được ngữ cảnh mà nó được định nghĩa. Để tiếp tục
+với ví dụ của chúng ta, hãy nghĩ về quy tắc riêng tư như là một phòng họp của
+một nhà hàng: những gì xảy ra bên trong phòng họp là riêng tư đối với khách hàng
+(tức là họ, khách hàng, không thể truy cập vào phòng họp), nhưng quản lý nhà
+hàng có thể thấy và làm mọi thứ trong nhà hàng mà họ quản lý.</p>
+<p>Rust đã chọn để hệ thống module hoạt động theo cách này để ẩn các chi tiết
+code bên trong một cách mặc định. Theo cách này, bạn biết được những phần của
+code bên trong mà bạn có thể thay đổi mà không làm hỏng code bên ngoài. Tuy
+nhiên, Rust cũng cho phép bạn lựa chọn để tiết lộ các phần bên trong của module
+con đến các module cha bên ngoài bằng cách sử dụng từ khóa <code>pub</code> để tạo một
+item public.</p>
 <h3 id="exposing-paths-with-the-pub-keyword"><a class="header" href="#exposing-paths-with-the-pub-keyword">Exposing Paths with the <code>pub</code> Keyword</a></h3>
-<p>Let’s return to the error in Listing 7-4 that told us the <code>hosting</code> module is
-private. We want the <code>eat_at_restaurant</code> function in the parent module to have
-access to the <code>add_to_waitlist</code> function in the child module, so we mark the
-<code>hosting</code> module with the <code>pub</code> keyword, as shown in Listing 7-5.</p>
+<p>Cùng trở lại lỗi trong Listing 7-4 mà nói cho chúng ta rằng module <code>hosting</code>
+là private. Chúng ta muốn hàm <code>eat_at_restaurant</code> trong module cha có thể
+truy cập vào hàm <code>add_to_waitlist</code> trong module con, vì vậy chúng ta đánh dấu
+module <code>hosting</code> với từ khóa <code>pub</code>, như trong Listing 7-5.</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">mod front_of_house {
     pub mod hosting {
@@ -281,12 +282,10 @@ pub fn eat_at_restaurant() {
 
     // Relative path
     front_of_house::hosting::add_to_waitlist();
-}
-</code></pre>
-<p><span class="caption">Listing 7-5: Declaring the <code>hosting</code> module as <code>pub</code> to
-use it from <code>eat_at_restaurant</code></span></p>
-<p>Unfortunately, the code in Listing 7-5 still results in an error, as shown in
-Listing 7-6.</p>
+}</code></pre>
+<p><span class="caption">Listing 7-5: Đánh dấu module <code>hosting</code> là <code>pub</code> để sử
+dụng nó từ <code>eat_at_restaurant</code></span></p>
+<p>Rất tiếc, code trong Listing 7-5 vẫn dẫn đến lỗi, như trong Listing 7-6.</p>
 <pre><code class="language-console">$ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
 error[E0603]: function `add_to_waitlist` is private
@@ -316,21 +315,20 @@ note: the function `add_to_waitlist` is defined here
 For more information about this error, try `rustc --explain E0603`.
 error: could not compile `restaurant` due to 2 previous errors
 </code></pre>
-<p><span class="caption">Listing 7-6: Compiler errors from building the code in
+<p><span class="caption">Listing 7-6: Lỗi của compiler khi build code trong
 Listing 7-5</span></p>
-<p>What happened? Adding the <code>pub</code> keyword in front of <code>mod hosting</code> makes the
-module public. With this change, if we can access <code>front_of_house</code>, we can
-access <code>hosting</code>. But the <em>contents</em> of <code>hosting</code> are still private; making the
-module public doesn’t make its contents public. The <code>pub</code> keyword on a module
-only lets code in its ancestor modules refer to it, not access its inner code.
-Because modules are containers, there’s not much we can do by only making the
-module public; we need to go further and choose to make one or more of the
-items within the module public as well.</p>
-<p>The errors in Listing 7-6 say that the <code>add_to_waitlist</code> function is private.
-The privacy rules apply to structs, enums, functions, and methods as well as
-modules.</p>
-<p>Let’s also make the <code>add_to_waitlist</code> function public by adding the <code>pub</code>
-keyword before its definition, as in Listing 7-7.</p>
+<p>Điều gì đã xảy ra? Việc thêm từ khóa <code>pub</code> trước <code>mod hosting</code> làm cho module
+public. Với thay đổi này, nếu chúng ta có thể truy cập <code>front_of_house</code>, chúng
+ta có thể truy cập <code>hosting</code>. Nhưng <em>nội dung</em> của <code>hosting</code> vẫn là private;
+việc làm module public không làm cho nội dung của nó public. Từ khóa <code>pub</code> trên
+module chỉ cho phép code ở module cha tham chiếu đến nó, không cho phép
+truy cập code bên trong. Vì module là container, việc làm cho module public;
+không thực sự giúp chúng ta việc gì, chúng ta cần đi xa hơn và chọn để làm
+public một hoặc nhiều item bên trong module.</p>
+<p>Lỗi trong Listing 7-6 nói rằng hàm <code>add_to_waitlist</code> là private. Quy tắc
+privacy áp dụng cho struct, enum, function, và method cũng như module.</p>
+<p>Hãy cũng làm cho hàm <code>add_to_waitlist</code> public bằng cách thêm từ khóa <code>pub</code>
+trước định nghĩa của nó, như trong Listing 7-7.</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
 <pre><code class="language-rust noplayground test_harness">mod front_of_house {
     pub mod hosting {
@@ -344,67 +342,66 @@ pub fn eat_at_restaurant() {
 
     // Relative path
     front_of_house::hosting::add_to_waitlist();
-}
-</code></pre>
-<p><span class="caption">Listing 7-7: Adding the <code>pub</code> keyword to <code>mod hosting</code>
-and <code>fn add_to_waitlist</code> lets us call the function from
-<code>eat_at_restaurant</code></span></p>
-<p>Now the code will compile! To see why adding the <code>pub</code> keyword lets us use
-these paths in <code>add_to_waitlist</code> with respect to the privacy rules, let’s look
-at the absolute and the relative paths.</p>
-<p>In the absolute path, we start with <code>crate</code>, the root of our crate’s module
-tree. The <code>front_of_house</code> module is defined in the crate root. While
-<code>front_of_house</code> isn’t public, because the <code>eat_at_restaurant</code> function is
-defined in the same module as <code>front_of_house</code> (that is, <code>eat_at_restaurant</code>
-and <code>front_of_house</code> are siblings), we can refer to <code>front_of_house</code> from
-<code>eat_at_restaurant</code>. Next is the <code>hosting</code> module marked with <code>pub</code>. We can
-access the parent module of <code>hosting</code>, so we can access <code>hosting</code>. Finally, the
-<code>add_to_waitlist</code> function is marked with <code>pub</code> and we can access its parent
-module, so this function call works!</p>
-<p>In the relative path, the logic is the same as the absolute path except for the
-first step: rather than starting from the crate root, the path starts from
-<code>front_of_house</code>. The <code>front_of_house</code> module is defined within the same module
-as <code>eat_at_restaurant</code>, so the relative path starting from the module in which
-<code>eat_at_restaurant</code> is defined works. Then, because <code>hosting</code> and
-<code>add_to_waitlist</code> are marked with <code>pub</code>, the rest of the path works, and this
-function call is valid!</p>
-<p>If you plan on sharing your library crate so other projects can use your code,
-your public API is your contract with users of your crate that determines how
-they can interact with your code. There are many considerations around managing
-changes to your public API to make it easier for people to depend on your
-crate. These considerations are out of the scope of this book; if you’re
-interested in this topic, see <a href="https://rust-lang.github.io/api-guidelines/">The Rust API Guidelines</a>.</p>
+}</code></pre>
+<p><span class="caption">Listing 7-7: Thêm từ khóa <code>pub</code> vào <code>mod hosting</code> và
+<code>fn add_to_waitlist</code> để chúng ta gọi hàm từ <code>eat_at_restaurant</code></span></p>
+<p>Bây giờ code sẽ compile! Để biết tại sao thêm từ khóa <code>pub</code> cho phép chúng ta
+sử dụng những đường dẫn này trong <code>add_to_waitlist</code> với quy tắc privacy, hãy
+xem đường dẫn tuyệt đối và đường dẫn tương đối.</p>
+<p>Trong đường dẫn tuyệt đối, chúng ta bắt đầu với <code>crate</code>, gốc của cây module
+của crate. Module <code>front_of_house</code> được định nghĩa trong crate root. Khi
+<code>front_of_house</code> không phải là public, vì hàm <code>eat_at_restaurant</code> được định
+nghĩa trong cùng một module với <code>front_of_house</code> (tức là <code>eat_at_restaurant</code>
+và <code>front_of_house</code> là anh em), chúng ta có thể tham chiếu đến <code>front_of_house</code>
+từ <code>eat_at_restaurant</code>. Tiếp theo là module <code>hosting</code> được đánh dấu với <code>pub</code>.
+Chúng ta có thể truy cập module cha của <code>hosting</code>, vì vậy chúng ta có thể truy
+cập <code>hosting</code>. Cuối cùng, hàm <code>add_to_waitlist</code> được đánh dấu với <code>pub</code> và chúng
+ta có thể truy cập module cha của nó, vì vậy cuộc gọi hàm này hoạt động!</p>
+<p>Trong đường dẫn tương đối, logic là giống như đường dẫn tuyệt đối ngoại trừ
+bước đầu tiên: thay vì bắt đầu từ crate root, đường dẫn bắt đầu từ
+<code>front_of_house</code>. Module <code>front_of_house</code> được định nghĩa trong cùng một module
+với <code>eat_at_restaurant</code>, vì vậy đường dẫn tương đối bắt đầu từ module mà
+<code>eat_at_restaurant</code> được định nghĩa hoạt động. Sau đó, vì <code>hosting</code> và
+<code>add_to_waitlist</code> được đánh dấu với <code>pub</code>, phần còn lại của đường dẫn hoạt
+động, và cuộc gọi hàm này là hợp lệ!</p>
+<p>Nếu bạn dự định chia sẻ library crate để các dự án khác có thể sử dụng mã của
+bạn, API công khai của bạn là interface mà người dùng của crate của bạn tương
+tác với mã của bạn. Có nhiều điều cần xem xét về việc quản lý các thay đổi
+trong API công khai của bạn để làm cho việc phụ thuộc vào crate của bạn dễ dàng
+hơn. Những điều này nằm ngoài phạm vi của cuốn sách này; nếu bạn quan tâm đến
+chủ đề này, hãy xem <a href="https://rust-lang.github.io/api-guidelines/">The Rust API Guidelines</a>.</p>
 <blockquote>
 <h4 id="best-practices-for-packages-with-a-binary-and-a-library"><a class="header" href="#best-practices-for-packages-with-a-binary-and-a-library">Best Practices for Packages with a Binary and a Library</a></h4>
-<p>We mentioned a package can contain both a <em>src/main.rs</em> binary crate root as
-well as a <em>src/lib.rs</em> library crate root, and both crates will have the
-package name by default. Typically, packages with this pattern of containing
-both a library and a binary crate will have just enough code in the binary
-crate to start an executable that calls code with the library crate. This
-lets other projects benefit from the most functionality that the package
-provides, because the library crate’s code can be shared.</p>
-<p>The module tree should be defined in <em>src/lib.rs</em>. Then, any public items can
-be used in the binary crate by starting paths with the name of the package.
-The binary crate becomes a user of the library crate just like a completely
-external crate would use the library crate: it can only use the public API.
-This helps you design a good API; not only are you the author, you’re also a
-client!</p>
-<p>In <a href="ch12-00-an-io-project.html">Chapter 12</a><!-- ignore -->, we’ll demonstrate this organizational
-practice with a command-line program that will contain both a binary crate
-and a library crate.</p>
+<p>Chúng ta đã nói rằng một package có thể chứa cả <em>src/main.rs</em> binary crate
+root cũng như <em>src/lib.rs</em> library crate root, và cả hai crate sẽ có tên
+package mặc định. Thông thường, các package dạng này sẽ chứa đủ code trong
+binary crate để khởi động một chương trình thực thi, code này sẽ gọi đến
+code tron library crate. Điều này cho phép các dự án khác có thể tận dụng
+tối đa các chức năng mà package cung cấp, vì code trong library crate có thể
+được chia sẻ.</p>
+<p>Cây module nên được định nghĩa trong <em>src/lib.rs</em>. Sau đó, bất kỳ item công
+khai nào cũng có thể được sử dụng trong binary crate bằng cách bắt đầu đường
+dẫn với tên của package. Binary crate trở thành một người dùng của library
+crate giống như một crate hoàn toàn bên ngoài sẽ sử dụng library crate: nó
+chỉ có thể sử dụng API công khai. Điều này giúp bạn thiết kế một API tốt;
+không chỉ là bạn là người viết, bạn cũng là người dùng!</p>
+<p>Trong <a href="ch12-00-an-io-project.html">Chapter 12</a><!-- ignore -->, chúng ta sẽ minh họa cách tổ chức
+này với một chương trình CLI sẽ chứa cả binary crate và library crate.</p>
 </blockquote>
+<hr />
 <h3 id="starting-relative-paths-with-super"><a class="header" href="#starting-relative-paths-with-super">Starting Relative Paths with <code>super</code></a></h3>
-<p>We can construct relative paths that begin in the parent module, rather than
-the current module or the crate root, by using <code>super</code> at the start of the
-path. This is like starting a filesystem path with the <code>..</code> syntax. This allows
-us to reference an item that we know is in the parent module, which can make
-rearranging the module tree easier when the module is closely related to the
-parent, but the parent might be moved elsewhere in the module tree someday.</p>
-<p>Consider the code in Listing 7-8 that models the situation in which a chef
-fixes an incorrect order and personally brings it out to the customer. The
-function <code>fix_incorrect_order</code> defined in the <code>back_of_house</code> module calls the
-function <code>deliver_order</code> defined in the parent module by specifying the path to
-<code>deliver_order</code> starting with <code>super</code>:</p>
+<p>Chúng ta có thể khai báo đường dẫn tương đối bắt đầu từ module cha, thay vì
+module hiện tại hoặc module gốc, bằng cách sử dụng <code>super</code> ở đầu đường dẫn.
+Điều này giống như bắt đầu một đường dẫn hệ thống tập tin với cú pháp <code>..</code>.
+Điều này cho phép chúng ta tham chiếu đến một item mà chúng ta biết nằm trong
+module cha, điều này sẽ giúp chúng ta dễ dàng sắp xếp lại cây module khi module
+đó liên quan gần với module cha, nhưng module cha có thể được di chuyển đến
+một nơi khác trong cây module một lúc nào đó trong tương lai.</p>
+<p>Xem code trong Listing 7-8 mô hình hóa tình huống trong đó một nhà bếp sửa
+lỗi đơn hàng và mang đến cho khách hàng cá nhân. Hàm <code>fix_incorrect_order</code>
+được định nghĩa trong module <code>back_of_house</code> gọi hàm <code>deliver_order</code> được định
+nghĩa trong module cha bằng cách chỉ định đường dẫn đến <code>deliver_order</code> bắt đầu
+bằng <code>super</code>:</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
 <pre><code class="language-rust noplayground test_harness">fn deliver_order() {}
 
@@ -415,29 +412,31 @@ mod back_of_house {
     }
 
     fn cook_order() {}
-}
-</code></pre>
-<p><span class="caption">Listing 7-8: Calling a function using a relative path
-starting with <code>super</code></span></p>
-<p>The <code>fix_incorrect_order</code> function is in the <code>back_of_house</code> module, so we can
-use <code>super</code> to go to the parent module of <code>back_of_house</code>, which in this case
-is <code>crate</code>, the root. From there, we look for <code>deliver_order</code> and find it.
-Success! We think the <code>back_of_house</code> module and the <code>deliver_order</code> function
-are likely to stay in the same relationship to each other and get moved
-together should we decide to reorganize the crate’s module tree. Therefore, we
-used <code>super</code> so we’ll have fewer places to update code in the future if this
-code gets moved to a different module.</p>
+}</code></pre>
+<p><span class="caption">Listing 7-8: Gọi một hàm sử dụng đường dẫn tương đối
+bắt đầu bằng <code>super</code></span></p>
+<p>Hàm <code>fix_incorrect_order</code> nằm trong module <code>back_of_house</code>, vì vậy chúng ta
+có thể sử dụng <code>super</code> để đi đến module cha của <code>back_of_house</code>, trong trường
+hợp này là <code>crate</code>, gốc. Từ đó, chúng ta tìm kiếm <code>deliver_order</code> và tìm thấy
+nó. Chúng ta cho rằng module <code>back_of_house</code> và hàm <code>deliver_order</code>
+có thể ở trong mối quan hệ tương tự và được di chuyển cùng nhau dù
+chúng ta quyết định tổ chức lại cây module của crate. Do đó, chúng ta đã sử
+dụng <code>super</code> để chúng ta sẽ có ít chỗ cần cập nhật code trong tương lai nếu code
+này được di chuyển đến một module khác.</p>
+<hr />
 <h3 id="making-structs-and-enums-public"><a class="header" href="#making-structs-and-enums-public">Making Structs and Enums Public</a></h3>
-<p>We can also use <code>pub</code> to designate structs and enums as public, but there are a
-few details extra to the usage of <code>pub</code> with structs and enums. If we use <code>pub</code>
-before a struct definition, we make the struct public, but the struct’s fields
-will still be private. We can make each field public or not on a case-by-case
-basis. In Listing 7-9, we’ve defined a public <code>back_of_house::Breakfast</code> struct
-with a public <code>toast</code> field but a private <code>seasonal_fruit</code> field. This models
-the case in a restaurant where the customer can pick the type of bread that
-comes with a meal, but the chef decides which fruit accompanies the meal based
-on what’s in season and in stock. The available fruit changes quickly, so
-customers can’t choose the fruit or even see which fruit they’ll get.</p>
+<p>Chúng ta cũng có thể sử dụng <code>pub</code> để đánh dấu struct và enum là public, nhưng
+có một số chi tiết khác về cách sử dụng <code>pub</code> với struct và enum. Nếu chúng ta
+sử dụng <code>pub</code> trước một định nghĩa struct, chúng ta sẽ làm public struct, nhưng
+các trường của struct vẫn sẽ là private. Chúng ta có thể làm public hoặc không
+cho mỗi trường một cách riêng biệt. Trong Listing 7-9, chúng ta đã định nghĩa
+một struct <code>back_of_house::Breakfast</code> public với một trường <code>toast</code> public
+nhưng một trường <code>seasonal_fruit</code> private. Điều này mô hình trường hợp trong
+một nhà hàng nơi khách hàng có thể chọn loại bánh mì mà họ muốn kèm theo một
+bữa ăn, nhưng bếp trưởng quyết định loại quả tươi sẽ đi kèm theo bữa ăn dựa
+trên mùa và hàng tồn kho. Các loại quả tươi thay đổi nhanh chóng, vì vậy khách
+hàng không thể chọn loại quả tươi hoặc thậm chí xem được loại quả tươi mà họ sẽ
+nhận được.</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
 <pre><code class="language-rust noplayground">mod back_of_house {
     pub struct Breakfast {
@@ -465,23 +464,23 @@ pub fn eat_at_restaurant() {
     // The next line won't compile if we uncomment it; we're not allowed
     // to see or modify the seasonal fruit that comes with the meal
     // meal.seasonal_fruit = String::from(&quot;blueberries&quot;);
-}
-</code></pre>
-<p><span class="caption">Listing 7-9: A struct with some public fields and some
-private fields</span></p>
-<p>Because the <code>toast</code> field in the <code>back_of_house::Breakfast</code> struct is public,
-in <code>eat_at_restaurant</code> we can write and read to the <code>toast</code> field using dot
-notation. Notice that we can’t use the <code>seasonal_fruit</code> field in
-<code>eat_at_restaurant</code> because <code>seasonal_fruit</code> is private. Try uncommenting the
-line modifying the <code>seasonal_fruit</code> field value to see what error you get!</p>
-<p>Also, note that because <code>back_of_house::Breakfast</code> has a private field, the
-struct needs to provide a public associated function that constructs an
-instance of <code>Breakfast</code> (we’ve named it <code>summer</code> here). If <code>Breakfast</code> didn’t
-have such a function, we couldn’t create an instance of <code>Breakfast</code> in
-<code>eat_at_restaurant</code> because we couldn’t set the value of the private
-<code>seasonal_fruit</code> field in <code>eat_at_restaurant</code>.</p>
-<p>In contrast, if we make an enum public, all of its variants are then public. We
-only need the <code>pub</code> before the <code>enum</code> keyword, as shown in Listing 7-10.</p>
+}</code></pre>
+<p><span class="caption">Listing 7-9: Một struct với một số trường public và một
+số trường private</span></p>
+<p>Bởi vì trường <code>toast</code> trong struct <code>back_of_house::Breakfast</code> là public, trong
+<code>eat_at_restaurant</code> chúng ta có thể viết và đọc trường <code>toast</code> sử dụng dấu chấm
+. Lưu ý rằng chúng ta không thể sử dụng trường <code>seasonal_fruit</code> trong
+<code>eat_at_restaurant</code> vì <code>seasonal_fruit</code> là private. Hãy thử bỏ comment dòng
+sửa đổi giá trị trường <code>seasonal_fruit</code> để xem có lỗi gì xảy ra!</p>
+<p>Ngoài ra, lưu ý rằng vì <code>back_of_house::Breakfast</code> có một trường private, struct
+cần phải cung cấp một hàm liên quan public để tạo một instance của <code>Breakfast</code>
+(chúng ta đã đặt tên là <code>summer</code>). Nếu <code>Breakfast</code> không có hàm như vậy, chúng
+ta không thể tạo một instance của <code>Breakfast</code> trong <code>eat_at_restaurant</code> vì chúng
+ta không thể thiết lập giá trị của trường private <code>seasonal_fruit</code> trong
+<code>eat_at_restaurant</code>.</p>
+<p>Trái ngược với struct, nếu chúng ta đặt một enum là public, tất cả các variant
+của nó sẽ là public. Chúng ta chỉ cần đặt <code>pub</code> trước từ khóa <code>enum</code>, như trong
+Listing 7-10.</p>
 <p><span class="filename">Filename: src/lib.rs</span></p>
 <pre><code class="language-rust noplayground">mod back_of_house {
     pub enum Appetizer {
@@ -493,20 +492,19 @@ only need the <code>pub</code> before the <code>enum</code> keyword, as shown in
 pub fn eat_at_restaurant() {
     let order1 = back_of_house::Appetizer::Soup;
     let order2 = back_of_house::Appetizer::Salad;
-}
-</code></pre>
-<p><span class="caption">Listing 7-10: Designating an enum as public makes all its
-variants public</span></p>
-<p>Because we made the <code>Appetizer</code> enum public, we can use the <code>Soup</code> and <code>Salad</code>
-variants in <code>eat_at_restaurant</code>.</p>
-<p>Enums aren’t very useful unless their variants are public; it would be annoying
-to have to annotate all enum variants with <code>pub</code> in every case, so the default
-for enum variants is to be public. Structs are often useful without their
-fields being public, so struct fields follow the general rule of everything
-being private by default unless annotated with <code>pub</code>.</p>
-<p>There’s one more situation involving <code>pub</code> that we haven’t covered, and that is
-our last module system feature: the <code>use</code> keyword. We’ll cover <code>use</code> by itself
-first, and then we’ll show how to combine <code>pub</code> and <code>use</code>.</p>
+}</code></pre>
+<p><span class="caption">Listing 7-10: Đánh dấu một enum là public sẽ làm cho tất
+cả các variant của nó là public</span></p>
+<p>Bởi vì chúng ta đã đánh dấu enum <code>Appetizer</code> là public, chúng ta có thể sử dụng
+variant <code>Soup</code> và <code>Salad</code> trong <code>eat_at_restaurant</code>.</p>
+<p>Enum không có ích gì nếu các variant của nó không phải là public; sẽ rất phiền
+phức phải đánh dấu tất cả các variant của enum với <code>pub</code> trong mọi trường hợp,
+vì vậy mặc định cho variant của enum là public. Struct thường có ích mà không
+cần các trường của nó là public, vì vậy các trường của struct theo quy tắc chung
+của mọi thứ là private trừ khi được đánh dấu với <code>pub</code>.</p>
+<p>Có một trường hợp nữa liên quan đến <code>pub</code> mà chúng ta chưa bàn đến, đó là tính
+năng cuối cùng của module system: từ khóa <code>use</code>. Chúng ta sẽ bàn <code>use</code> một mình
+trước, và sau đó chúng ta sẽ hiển thị cách kết hợp <code>pub</code> và <code>use</code>.</p>
 
                     </main>
 
@@ -540,21 +538,21 @@ first, and then we’ll show how to combine <code>pub</code> and <code>use</code
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

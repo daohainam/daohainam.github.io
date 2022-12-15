@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -163,8 +162,7 @@ chứa một ví dụ về cách khai báo hàm:</p>
 
 fn another_function() {
     println!(&quot;Another function.&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Chúng ta định nghĩa một hàm trong Rust bằng cách dùng từ khóa <code>fn</code> theo sau bởi 
 tên hàm và một tập các dấu ngoặc tròn. Cặp dấu ngoặc nhọn theo sau đó chỉ ra vị 
 trí bắt đầu và kết thúc của thân hàm.</p>
@@ -201,8 +199,7 @@ ta thường dùng hai từ này lẫn lộn với nhau.</p>
 
 fn another_function(x: i32) {
     println!(&quot;The value of x is: {x}&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Khi thử chạy chương trình; bạn sẽ nhận được kết xuất sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
@@ -229,8 +226,7 @@ sau:</p>
 
 fn print_labeled_measurement(value: i32, unit_label: char) {
     println!(&quot;The measurement is: {value}{unit_label}&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Ví dụ này tạo ra một hàm có tên <code>print_labeled_measurement</code> với hai tham số.
 Tham số đầu tiên được đặt tên <code>value</code> và là một <code>i32</code>. Tham số thứ hai có tên 
 <code>unit_label</code> và có kiểu <code>char</code>. Hàm này sau đó in ra một dòng văn bản chứa cả hai
@@ -261,8 +257,7 @@ phát biểu.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let y = 6;
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 3-1: Một hàm <code>main</code> đang khai báo một phát biểu</span></p>
 <p>Các khai báo hàm cũng là các phát biểu; toàn bộ ví dụ trên bản thân nó cũng là một phát biểu.</p>
 <p>Các phát biểu không trả về giá trị. Do vậy, bạn không thể gán một phát biểu <code>let</code>
@@ -270,8 +265,7 @@ cho một biến khác, bạn sẽ gặp lỗi nếu thử làm như trong ví d
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = (let y = 6);
-}
-</code></pre>
+}</code></pre>
 <p>Khi chạy chương trình này, lỗi bạn gặp sẽ giống như sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
@@ -334,14 +328,12 @@ biểu thức, giống như trong ví dụ sau:</p>
     };
 
     println!(&quot;The value of y is: {y}&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Biểu thức này:</p>
 <pre><code class="language-rust ignore">{
     let x = 3;
     x + 1
-}
-</code></pre>
+}</code></pre>
 <p>là một khối lệnh, mà trong trường hợp này trả về giá trị <code>4</code>. Giá trị này được
 gán vào cho <code>y</code> như một phần của phát biểu <code>let</code>. Lưu ý là <code>x + 1</code> line không 
 có một dấu chấm phẩy (;) ở cuối, không như hầu hết các dòng lệnh bạn đã từng thấy.
@@ -364,8 +356,7 @@ fn main() {
     let x = five();
 
     println!(&quot;The value of x is: {x}&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Không có các lời gọi hàm, macro, hay thậm chí phát biểu <code>let</code> trong hàm <code>five</code>
 ngoài chính số <code>5</code>. Đó hoàn toàn là một hàm hợp lệ trong Rust. Lưu ý là kiểu trả
 về của hàm cũng được chỉ định, là <code>-&gt; i32</code>. Thử chạy đoạn code; kết xuất sẽ giống
@@ -381,12 +372,10 @@ kiểu là <code>i32</code>. Hãy xem xét một cách chi tiết hơn. Có hai 
 đầu tiên, dòng <code>let x = five();</code> cho thấy chúng ta đang dùng kết quả trả về của 
 một hàm để khởi tạo một biến. Vì hàm <code>five</code> trả về giá trị <code>5</code>, do vậy dòng lệnh 
 đó cũng tương tự như sau:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let x = 5;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Thứ hai, hàm <code>five</code> không có tham số và định nghĩa kiểu của giá trị trả về, mà
 thân hàm chỉ bao gồm một số <code>5</code> không có dấu chấm phẩy, vì đó chính là biểu thức 
 chúng ta muốn trả về.</p>
@@ -400,8 +389,7 @@ chúng ta muốn trả về.</p>
 
 fn plus_one(x: i32) -&gt; i32 {
     x + 1
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Chạy đoạn code này sẽ in ra <code>The value of x is: 6</code>. Nhưng nếu ta thêm một dấu 
 chấm phẩy vào cuối dòng chứa <code>x + 1</code>, biến nó từ một biểu thức thành một phát
 biểu, chúng ta sẽ nhận được một lỗi.</p>
@@ -414,8 +402,7 @@ biểu, chúng ta sẽ nhận được một lỗi.</p>
 
 fn plus_one(x: i32) -&gt; i32 {
     x + 1;
-}
-</code></pre>
+}</code></pre>
 <p>Dịch đoạn code sinh ra lỗi, giống như sau:</p>
 <pre><code class="language-console">$ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
@@ -472,21 +459,21 @@ lỗi.</p>
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -162,8 +161,7 @@ following code gives some examples:</p>
         3 =&gt; println!(&quot;three&quot;),
         _ =&gt; println!(&quot;anything&quot;),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This code prints <code>one</code> because the value in <code>x</code> is 1. This syntax is useful
 when you want your code to take an action if it gets a particular concrete
 value.</p>
@@ -190,8 +188,7 @@ running this code or reading further.</p>
     }
 
     println!(&quot;at the end: x = {:?}, y = {y}&quot;, x);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-11: A <code>match</code> expression with an arm that
 introduces a shadowed variable <code>y</code></span></p>
 <p>Let’s walk through what happens when the <code>match</code> expression runs. The pattern
@@ -230,8 +227,7 @@ arm’s code will run:</p>
         3 =&gt; println!(&quot;three&quot;),
         _ =&gt; println!(&quot;anything&quot;),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This code prints <code>one or two</code>.</p>
 <h3 id="matching-ranges-of-values-with-"><a class="header" href="#matching-ranges-of-values-with-">Matching Ranges of Values with <code>..=</code></a></h3>
 <p>The <code>..=</code> syntax allows us to match to an inclusive range of values. In the
@@ -244,8 +240,7 @@ range, that arm will execute:</p>
         1..=5 =&gt; println!(&quot;one through five&quot;),
         _ =&gt; println!(&quot;something else&quot;),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If <code>x</code> is 1, 2, 3, 4, or 5, the first arm will match. This syntax is more
 convenient for multiple match values than using the <code>|</code> operator to express the
 same idea; if we were to use <code>|</code> we would have to specify <code>1 | 2 | 3 | 4 | 5</code>.
@@ -263,8 +258,7 @@ numeric values, ranges are only allowed with numeric or <code>char</code> values
         'k'..='z' =&gt; println!(&quot;late ASCII letter&quot;),
         _ =&gt; println!(&quot;something else&quot;),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Rust can tell that <code>'c'</code> is within the first pattern’s range and prints <code>early ASCII letter</code>.</p>
 <h3 id="destructuring-to-break-apart-values"><a class="header" href="#destructuring-to-break-apart-values">Destructuring to Break Apart Values</a></h3>
 <p>We can also use patterns to destructure structs, enums, and tuples to use
@@ -284,8 +278,7 @@ fn main() {
     let Point { x: a, y: b } = p;
     assert_eq!(0, a);
     assert_eq!(7, b);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-12: Destructuring a struct’s fields into
 separate variables</span></p>
 <p>This code creates the variables <code>a</code> and <code>b</code> that match the values of the <code>x</code>
@@ -311,8 +304,7 @@ fn main() {
     let Point { x, y } = p;
     assert_eq!(0, x);
     assert_eq!(7, y);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-13: Destructuring struct fields using struct
 field shorthand</span></p>
 <p>This code creates the variables <code>x</code> and <code>y</code> that match the <code>x</code> and <code>y</code> fields
@@ -341,8 +333,7 @@ into three cases: points that lie directly on the <code>x</code> axis (which is 
             println!(&quot;On neither axis: ({x}, {y})&quot;);
         }
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-14: Destructuring and matching literal values
 in one pattern</span></p>
 <p>The first arm will match any point that lies on the <code>x</code> axis by specifying that
@@ -385,8 +376,7 @@ fn main() {
             println!(&quot;Change the color to red {r}, green {g}, and blue {b}&quot;,)
         }
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-15: Destructuring enum variants that hold
 different kinds of values</span></p>
 <p>This code will print <code>Change the color to red 0, green 160, and blue 255</code>. Try
@@ -433,8 +423,7 @@ fn main() {
         }
         _ =&gt; (),
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-16: Matching on nested enums</span></p>
 <p>The pattern of the first arm in the <code>match</code> expression matches a
 <code>Message::ChangeColor</code> enum variant that contains a <code>Color::Rgb</code> variant; then
@@ -453,8 +442,7 @@ tuples inside a tuple and destructure all the primitive values out:</p>
 </span><span class="boring">    }
 </span><span class="boring">
 </span>    let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This code lets us break complex types into their component parts so we can use
 the values we’re interested in separately.</p>
 <p>Destructuring with patterns is a convenient way to use pieces of values, such
@@ -479,8 +467,7 @@ parameters, as shown in Listing 18-17.</p>
 
 fn main() {
     foo(3, 4);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-17: Using <code>_</code> in a function signature</span></p>
 <p>This code will completely ignore the value <code>3</code> passed as the first argument,
 and will print <code>This code only uses the y parameter: 4</code>.</p>
@@ -512,8 +499,7 @@ setting but can unset the setting and give it a value if it is currently unset.<
     }
 
     println!(&quot;setting is {:?}&quot;, setting_value);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-18: Using an underscore within patterns that
 match <code>Some</code> variants when we don’t need to use the value inside the
 <code>Some</code></span></p>
@@ -537,8 +523,7 @@ fourth values in a tuple of five items.</p>
             println!(&quot;Some numbers: {first}, {third}, {fifth}&quot;)
         }
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-19: Ignoring multiple parts of a tuple</span></p>
 <p>This code will print <code>Some numbers: 2, 8, 32</code>, and the values 4 and 16 will be
 ignored.</p>
@@ -554,8 +539,7 @@ we compile this code, we should only get a warning about one of them.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let _x = 5;
     let y = 10;
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-20: Starting a variable name with an
 underscore to avoid getting unused variable warnings</span></p>
 <p>Here we get a warning about not using the variable <code>y</code>, but we don’t get a
@@ -572,8 +556,7 @@ distinction matters, Listing 18-21 will provide us with an error.</p>
     }
 
     println!(&quot;{:?}&quot;, s);
-<span class="boring">}
-</span></code></pre>
+<span class="boring">}</span></code></pre>
 <p><span class="caption">Listing 18-21: An unused variable starting with an
 underscore still binds the value, which might take ownership of the value</span></p>
 <p>We’ll receive an error because the <code>s</code> value will still be moved into <code>_s</code>,
@@ -588,8 +571,7 @@ because <code>s</code> doesn’t get moved into <code>_</code>.</p>
     }
 
     println!(&quot;{:?}&quot;, s);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-22: Using an underscore does not bind the
 value</span></p>
 <p>This code works just fine because we never bind <code>s</code> to anything; it isn’t moved.</p>
@@ -613,8 +595,7 @@ the values in the <code>y</code> and <code>z</code> fields.</p>
     match origin {
         Point { x, .. } =&gt; println!(&quot;x is {}&quot;, x),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-23: Ignoring all fields of a <code>Point</code> except
 for <code>x</code> by using <code>..</code></span></p>
 <p>We list the <code>x</code> value and then just include the <code>..</code> pattern. This is quicker
@@ -632,8 +613,7 @@ shows how to use <code>..</code> with a tuple.</p>
             println!(&quot;Some numbers: {first}, {last}&quot;);
         }
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-24: Matching only the first and last values in
 a tuple and ignoring all other values</span></p>
 <p>In this code, the first and last value are matched with <code>first</code> and <code>last</code>. The
@@ -651,8 +631,7 @@ compile.</p>
             println!(&quot;Some numbers: {}&quot;, second)
         },
     }
-}
-</code></pre>
+}</code></pre>
 <p><span class="caption">Listing 18-25: An attempt to use <code>..</code> in an ambiguous
 way</span></p>
 <p>When we compile this example, we get this error:</p>
@@ -690,8 +669,7 @@ guard of <code>if x % 2 == 0</code> (which will be true if the number is even).<
         Some(x) =&gt; println!(&quot;The number {} is odd&quot;, x),
         None =&gt; (),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-26: Adding a match guard to a pattern</span></p>
 <p>This example will print <code>The number 4 is even</code>. When <code>num</code> is compared to the
 pattern in the first arm, it matches, because <code>Some(4)</code> matches <code>Some(x)</code>. Then
@@ -723,8 +701,7 @@ problem.</p>
     }
 
     println!(&quot;at the end: x = {:?}, y = {y}&quot;, x);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><span class="caption">Listing 18-27: Using a match guard to test for equality
 with an outer variable</span></p>
 <p>This code will now print <code>Default case, x = Some(5)</code>. The pattern in the second
@@ -751,8 +728,7 @@ applies to <code>6</code>.</p>
         4 | 5 | 6 if y =&gt; println!(&quot;yes&quot;),
         _ =&gt; println!(&quot;no&quot;),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-28: Combining multiple patterns with a match
 guard</span></p>
 <p>The match condition states that the arm only matches if the value of <code>x</code> is
@@ -795,8 +771,7 @@ field, but for this example we’ll use a different name.</p>
         }
         Message::Hello { id } =&gt; println!(&quot;Found some other id: {}&quot;, id),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 18-29: Using <code>@</code> to bind to a value in a pattern
 while also testing it</span></p>
 <p>This example will print <code>Found an id in range: 5</code>. By specifying <code>id_variable @</code> before the range <code>3..=7</code>, we’re capturing whatever value matched the range
@@ -855,21 +830,21 @@ aspects of a variety of Rust’s features.</p>
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

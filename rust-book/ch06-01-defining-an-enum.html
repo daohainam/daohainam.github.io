@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -182,8 +181,7 @@ enum <code>IpAddrKind</code> và liệt kê các loại có thể có của đ�
 </span><span class="boring">    route(IpAddrKind::V6);
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">fn route(ip_kind: IpAddrKind) {}
-</span></code></pre></pre>
+</span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p><code>IpAddrKind</code> là một kiểu dữ liệu tùy chỉnh mà chúng ta có thể sử dụng ở bất kỳ
 đâu trong code của mình.</p>
 <h3 id="enum-values"><a class="header" href="#enum-values">Enum Values</a></h3>
@@ -202,8 +200,7 @@ như sau:</p>
 </span><span class="boring">    route(IpAddrKind::V6);
 </span><span class="boring">}
 </span><span class="boring">
-</span><span class="boring">fn route(ip_kind: IpAddrKind) {}
-</span></code></pre></pre>
+</span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p>Lưu ý rằng các biến thể của enum được đặt trong namepsace của nó, và chúng ta
 sử dụng hai dấu hai chấm để phân tách chúng. Điều này rất hữu ích bởi vì giờ cả
 hai giá trị <code>IpAddrKind::V4</code> và <code>IpAddrKind::V6</code> đều là cùng một kiểu:
@@ -222,8 +219,7 @@ hai giá trị <code>IpAddrKind::V4</code> và <code>IpAddrKind::V6</code> đề
 </span><span class="boring">    route(IpAddrKind::V6);
 </span><span class="boring">}
 </span><span class="boring">
-</span>fn route(ip_kind: IpAddrKind) {}
-</code></pre></pre>
+</span>fn route(ip_kind: IpAddrKind) {}</code></pre></pre>
 <p>Và chúng ta có thể gọi hàm này với bất kỳ biến thể nào:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
@@ -238,8 +234,7 @@ hai giá trị <code>IpAddrKind::V4</code> và <code>IpAddrKind::V6</code> đề
     route(IpAddrKind::V6);
 <span class="boring">}
 </span><span class="boring">
-</span><span class="boring">fn route(ip_kind: IpAddrKind) {}
-</span></code></pre></pre>
+</span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p>Sử dụng enum có nhiều lợi ích khác. Nghĩ về kiểu địa chỉ IP của chúng ta, hiện
 tại chúng ta không có cách nào để lưu trữ <em>dữ liệu</em> thực sự của địa chỉ IP;
 chúng ta chỉ biết nó là <em>loại</em> gì. Vì bạn mới học về struct trong chương 5, bạn
@@ -265,8 +260,7 @@ có thể muốn giải quyết vấn đề này bằng cách sử dụng struct
         kind: IpAddrKind::V6,
         address: String::from(&quot;::1&quot;),
     };
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Listing 6-1: Lưu trữ dữ liệu và biến thể <code>IpAddrKind</code> của
 một địa chỉ IP bằng cách sử dụng một <code>struct</code></span></p>
 <p>Ở đây, chúng ta đã định nghĩa một struct <code>IpAddr</code> có hai trường: một trường
@@ -290,8 +284,7 @@ biến thể <code>V4</code> và <code>V6</code> sẽ có các giá trị <code>
     let home = IpAddr::V4(String::from(&quot;127.0.0.1&quot;));
 
     let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Chúng ta gắn dữ liệu vào mỗi biến thể enum trực tiếp, vì vậy không cần một
 struct bổ sung. Ở đây cũng dễ dàng hơn để thấy một chi tiết khác về cách hoạt
 động của enum: tên của mỗi biến thể enum mà chúng ta định nghĩa cũng trở thành
@@ -313,16 +306,14 @@ Enum xử lý trường hợp này một cách dễ dàng:</p>
     let home = IpAddr::V4(127, 0, 0, 1);
 
     let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Chúng ta đã có thể dùng nhiều cách khác nhau để định nghĩa cấu trúc dữ liệu để
 lưu trữ địa chỉ IPv4 và IPv6. Tuy nhiên, việc lưu trữ địa chỉ IP và mã hóa loại
 địa chỉ đó là rất phổ biến nên <a href="../std/net/enum.IpAddr.html">thư viện chuẩn có một định nghĩa cho chúng mà chúng ta có thể sử dụng!</a><!-- ignore --> Hãy xem cách thư viện chuẩn
 định nghĩa <code>IpAddr</code>: nó có enum và các biến thể mà chúng ta đã định nghĩa và sử
 dụng, nhưng nó nhúng dữ liệu địa chỉ bên trong các biến thể dưới dạng hai
 struct khác nhau, được định nghĩa khác nhau cho mỗi biến thể:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Ipv4Addr {
     // --snip--
@@ -336,8 +327,7 @@ enum IpAddr {
     V4(Ipv4Addr),
     V6(Ipv6Addr),
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Đoạn code này minh họa rằng bạn có thể đặt bất kỳ loại dữ liệu nào bên trong
 một biến thể enum: chuỗi, kiểu số, hoặc struct. Bạn cũng có thể bao gồm một
 enum khác! Ngoài ra, các loại thư viện chuẩn thường không phức tạp hơn những gì
@@ -355,8 +345,7 @@ có các biến thể lưu trữ các loại và số lượng khác nhau của 
     ChangeColor(i32, i32, i32),
 }
 <span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span><span class="boring">fn main() {}</span></code></pre></pre>
 <p>Enum này có 4 biến thể với các loại khác nhau:</p>
 <ul>
 <li><code>Quit</code> không có dữ liệu nào được gắn với nó.</li>
@@ -375,8 +364,7 @@ struct MoveMessage {
 struct WriteMessage(String); // tuple struct
 struct ChangeColorMessage(i32, i32, i32); // tuple struct
 <span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span><span class="boring">fn main() {}</span></code></pre></pre>
 <p>Nhưng nếu chúng ta sử dụng các struct khác, mỗi struct có loại riêng, chúng ta
 sẽ không thể dễ dàng định nghĩa một hàm nhận bất kỳ loại tin nhắn nào như chúng
 ta có thể với enum <code>Message</code> được định nghĩa trong Listing 6-2, một loại duy
@@ -401,8 +389,7 @@ ta có thể định nghĩa trên enum <code>Message</code> của chúng ta:</p>
 
     let m = Message::Write(String::from(&quot;hello&quot;));
     m.call();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Phần thân của phương thức sẽ sử dụng <code>self</code> để lấy giá trị mà chúng ta khởi
 tạo. Trong ví dụ này, chúng ta đã tạo một biến <code>m</code> có giá trị <code>Message::Write(String::from(&quot;hello&quot;))</code>, và giá trị này cũng sẽ là giá trị của <code>self</code> mà
 phương thức <code>call</code> sẽ lấy ra khi <code>m.call()</code> chạy.</p>
@@ -443,15 +430,13 @@ nào đó.</p>
 <p>Vấn đề thực sự không phải là với khái niệm mà là với cách hiện thực cụ thể của
 null. Vì vậy, Rust không có null, nhưng nó có một dạng enum có thể  thể hiện
 rằng giá trị đang vắng mặt. Enum này là <code>Option&lt;T&gt;</code>, và nó được <a href="../std/option/enum.Option.html">định nghĩa bởi thư viện chuẩn</a><!-- ignore --> như sau:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Option&lt;T&gt; {
     None,
     Some(T),
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Enum <code>Option&lt;T&gt;</code> rất hữu ích nên nó được bao gồm trong prelude; bạn không cần
 phải đưa nó vào scope một cách tường minh. Các biến thể của nó cũng được bao
 gồm trong prelude: bạn có thể sử dụng <code>Some</code> và <code>None</code> trực tiếp mà không cần
@@ -468,8 +453,7 @@ và các kiểu chuỗi:</p>
     let some_char = Some('e');
 
     let absent_number: Option&lt;i32&gt; = None;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Kiểu của <code>some_number</code> là <code>Option&lt;i32&gt;</code>. Kiểu của <code>some_char</code> là
 <code>Option&lt;char&gt;</code>, đây là một kiểu khác. Rust có thể suy ra các kiểu này vì chúng
 ta đã chỉ định một giá trị bên trong biến thể <code>Some</code>. Đối với <code>absent_number</code>,
@@ -490,8 +474,7 @@ dịch được vì nó đang cố gắng cộng một <code>i8</code> với m�
     let y: Option&lt;i8&gt; = Some(5);
 
     let sum = x + y;
-<span class="boring">}
-</span></code></pre>
+<span class="boring">}</span></code></pre>
 <p>Nếu chúng ta chạy đoạn code này, chúng ta sẽ nhận được một thông báo lỗi như
 sau:</p>
 <pre><code class="language-console">$ cargo run
@@ -583,21 +566,21 @@ và code đó có thể sử dụng dữ liệu bên trong giá trị khớp v�
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

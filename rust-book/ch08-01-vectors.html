@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -157,8 +156,7 @@ những dòng văn bản trong một tập tin hoặc giá cả của các mặt
 <p>Để tạo mới một vector rỗng, chúng ta thực thi hàm <code>Vec::new</code>, như hiển thị trong mục 8-1</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v: Vec&lt;i32&gt; = Vec::new();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-1: Tạo mới vector rỗng để lưu trữ giá trị loại <code>i32</code></span></p>
 <p>Lưu ý rằng chúng ta đã có thêm chú thích kiểu dữ liệu ở đây. Bởi vì nếu không chèn bất kỳ
 giá trị nào vào vector này, Rust sẽ không biết loại phần tử nào chúng ta dự định lưu vào.
@@ -171,8 +169,7 @@ vector mới chứa các giá trị bạn cung cấp cho nó. Mục 8-2 tạo ra
 bởi vì đó là kiểu số nguyên mặc định như chúng ta đã thảo luận trong <a href="ch03-02-data-types.html#data-types">“Kiểu dữ liệu”</a><!-- ignore --> của Chương 3.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let v = vec![1, 2, 3];
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-2: Tạo mới vector có chứa dữ liệu</span></p>
 <p>Vì chúng ta đã khởi tạo các giá trị ban đầu là kiểu dữ liệu <code>i32</code>, nên Rust có thể suy ra rằng kiểu dữ liệu của <code>v</code> là <code>Vec&lt;i32&gt;</code>, nên việc chú thích kiểu dữ liệu là không cần thiết nữa. Tiếp theo, chúng ta sẽ xem xét cách để sửa đổi một vector.</p>
 <h3 id="cập-nhật-vector"><a class="header" href="#cập-nhật-vector">Cập nhật Vector</a></h3>
@@ -185,8 +182,7 @@ như được hiển thị trong mục 8-3.</p>
     v.push(6);
     v.push(7);
     v.push(8);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-3: Sử dụng phương thức <code>push</code> để thêm giá trị vào vector</span></p>
 <p>Như với bất kỳ biến nào, nếu chúng ta muốn có thể thay đổi giá trị của nó, chúng ta cần
 làm cho nó có thể thay đổi bằng cách sử dụng từ khóa <code>mut</code>, như đã thảo luận trong Chương 3. Các con số chúng tôi đặt bên trong tất cả đều thuộc loại <code>i32</code> và Rust suy ra điều này từ dữ liệu, vì vậy chúng ta không cần chú thích <code>Vec&lt;i32&gt;</code>.</p>
@@ -206,8 +202,7 @@ giá trị được trả về từ các hàm này để làm rõ nghĩa hơn.</
         Some(third) =&gt; println!(&quot;The third element is {third}&quot;),
         None =&gt; println!(&quot;There is no third element.&quot;),
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-4: Sử dụng cú pháp index hoặc phương thức <code>get</code> để truy cập một phần tử trong vector</span></p>
 <p>Lưu ý một vài chi tiết ở đây. Chúng ta sử dụng giá trị index là <code>2</code> để lấy phần tử thứ ba
 bởi vì các phần tử của vector được lập theo cách đánh số chỉ mục (index), bắt đầu từ số 0. Sử dụng <code>&amp;</code> và <code>[]</code> sẽ cung cấp cho chúng ta một tham chiếu đến phần tử tại giá trị index chỉ định. Khi chúng ta sử dụng phương thức <code>get</code> với đối số index chỉ định, chúng ta nhận được một <code>Option&lt;&amp;T&gt;</code> mà chúng ta có thể sử dụng với <code>match</code>.</p>
@@ -221,8 +216,7 @@ với mỗi cách, như được hiển thị trong mục 8-5.</p>
 
     let does_not_exist = &amp;v[100];
     let does_not_exist = v.get(100);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-5: Cố gắng truy cập phần tử tại index 100 trong vector chỉ có 5 phần tử</span></p>
 <p>Khi chúng ta chạy đoạn mã này, phương thức sử dụng index <code>[]</code> đầu tiên sẽ khiến chương trình bị lỗi
 bởi vì nó tham chiếu đến một phần tử không tồn tại. Phương pháp này được sử dụng tốt nhất khi bạn
@@ -237,8 +231,7 @@ muốn chương trình của bạn gặp sự cố nếu có nỗ lực truy c�
     v.push(6);
 
     println!(&quot;The first element is: {first}&quot;);
-<span class="boring">}
-</span></code></pre>
+<span class="boring">}</span></code></pre>
 <p><span class="caption">Mục 8-6: Cố gắng thêm một phần tử vào vector trong khi đang giữ tham chiếu đến một phần tử </span></p>
 <p>Biên dịch đoạn mã này sẽ bị lỗi:</p>
 <pre><code class="language-console">$ cargo run
@@ -270,8 +263,7 @@ Rustonomicon”</a>.</p>
     for i in &amp;v {
         println!(&quot;{i}&quot;);
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-7: In từng phần tử trong một vector bằng cách lặp qua các phần tử sử dụng một vòng lặp <code>for</code></span></p>
 <p>Chúng ta cũng có thể lặp qua các tham chiếu mutable đến từng phần tử trong một vector mutable để thực hiện thay đổi đối với tất cả các phần tử. Vòng lặp <code>for</code> trong mục 8-8 sẽ thêm <code>50</code> vào mỗi phần tử.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -279,8 +271,7 @@ Rustonomicon”</a>.</p>
     for i in &amp;mut v {
         *i += 50;
     }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-8: Lặp qua các tham chiếu mutable đến từng phần tử trong một vector</span></p>
 <p>Để thay đổi giá trị mà tham chiếu mutable đang tham chiếu đến, chúng ta phải sử dụng toán tử tham chiếu giá trị <code>*</code> để đi đến giá trị mà <code>i</code> đang trở tới trước khi chúng ta có thể sử dụng toán tử <code>+=</code>. Chúng ta sẽ nói thêm về toán tử tham chiếu giá trị trong phần <a href="ch15-02-deref.html#following-the-pointer-to-the-value-with-the-dereference-operator">“Theo con trỏ đến giá trị với toán tử tham chiếu deref”</a><!-- ignore --> của Chương 15.</p>
 <p>Duyệt qua một vector, cho dù là loại immutable hoặc mutable, đều an toàn với các quy tắc của trình kiểm tra mượn tham chiếu. Nếu chúng tôi cố thử chèn hoặc xóa các mục trong phần thân của vòng lặp <code>for</code> ở mục 8-7 và mục 8-8, chúng tôi sẽ gặp lỗi trình biên dịch tương tự như lỗi mà chúng tôi gặp phải với đoạn mã trong mục 8-6. Tham chiếu đến vector mà vòng lặp <code>for</code> đang nắm giữ sẽ ngăn cản việc sửa đổi đồng thời toàn bộ vector.</p>
@@ -299,8 +290,7 @@ Rustonomicon”</a>.</p>
         SpreadsheetCell::Text(String::from(&quot;blue&quot;)),
         SpreadsheetCell::Float(10.12),
     ];
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-9: Định nghĩa một <code>enum</code> lưu giá trị của những kiểu dữ liệu khác nhau trong một vector</span></p>
 <p>Rust cần biết những kiểu dữ liệu nào sẽ có trong vector tại thời điểm biên dịch để nó biết chính xác sẽ cần bao nhiêu bộ nhớ trên heap để lưu trữ mỗi phần tử. Chúng ta cũng phải rõ ràng về những kiểu dữ liệu được phép trong vector này. Nếu Rust cho phép một vector chứa bất kỳ kiểu dữ liệu nào, sẽ có khả năng một hoặc nhiều kiểu dữ liệu sẽ gây ra lỗi với các phép toán được thực hiện trên các phần tử của vector. Sử dụng một enum cộng với một biểu thức <code>match</code> có nghĩa là Rust sẽ đảm bảo tại thời điểm biên dịch rằng mọi trường hợp có khả năng xảy ra đều được xử lý, như đã thảo luận trong Chương 6.</p>
 <p>Nếu bạn không biết đầy đủ tập hợp các loại dữ liệu mà một chương trình sẽ nhận được tại thời điểm thực thi để lưu trữ trong một vector, thì kỹ thuật enum sẽ không hoạt động tốt. Thay vào đó, bạn có thể sử dụng một đối tượng đặc tả (trait), mà chúng ta sẽ đề cập trong Chương 17.</p>
@@ -314,8 +304,7 @@ Rustonomicon”</a>.</p>
 
         // do stuff with v
     } // &lt;- v goes out of scope and is freed here
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-10: Chỉ ra nơi mà vector và các phần tử của nó bị giải phóng</span></p>
 <p>Khi vector bị loại bỏ, tất cả nội dung của nó cũng bị loại bỏ, có nghĩa là các số nguyên mà nó giữ sẽ bị xóa sạch. Trình kiểm tra mượn tham chiếu sẽ đảm bảo rằng bất kỳ tham chiếu nào đến nội dung của vector chỉ được sử dụng khi chính vector đó còn hợp lệ.</p>
 <p>Hãy chuyển sang loại tập hợp tiếp theo: <code>String</code>!</p>
@@ -352,21 +341,21 @@ Rustonomicon”</a>.</p>
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

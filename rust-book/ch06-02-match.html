@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -181,8 +180,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
     }
 }
 <span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span><span class="boring">fn main() {}</span></code></pre></pre>
 <p><span class="caption">Listing 6-3: Một enum và một biểu thức <code>match</code> nhận các
 biến thể của enum như là các pattern của nó</span></p>
 <p>Cùng làm rõ <code>match</code> trong hàm <code>value_in_cents</code>. Đầu tiên, chúng ta sẽ liệt kê
@@ -231,8 +229,7 @@ giá trị cuối cùng của khối, <code>1</code>:</p>
   }
 }
 <span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span><span class="boring">fn main() {}</span></code></pre></pre>
 <hr />
 <h3 id="patterns-that-bind-to-values"><a class="header" href="#patterns-that-bind-to-values">Patterns that Bind to Values</a></h3>
 <p>Một tính năng hữu ích khác của các nhánh của match là chúng có thể gắn với giá
@@ -259,8 +256,7 @@ enum Coin {
   Quarter(UsState),
 }
 <span class="boring">
-</span><span class="boring">fn main() {}
-</span></code></pre></pre>
+</span><span class="boring">fn main() {}</span></code></pre></pre>
 <p><span class="caption">Listing 6-4: Một <code>Coin</code> enum trong đó biến thể <code>Quarter</code> cũng chứa một giá trị <code>UsState</code></span></p>
 <p>Hãy tưởng tượng rằng một người bạn đang cố gắng thu thập tất cả 50 dạng đồng 25
 cent này. Trong khi chúng ta chỉ sắp xếp theo loại đồng, chúng ta cũng sẽ gọi
@@ -300,8 +296,7 @@ nhánh này, như sau:</p>
 <span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    value_in_cents(Coin::Quarter(UsState::Alaska));
-</span><span class="boring">}
-</span></code></pre></pre>
+</span><span class="boring">}</span></code></pre></pre>
 <p>Nếu chung ta gọi hàm <code>value_in_cents(Coin::Quarter(UsState::Alaska))</code>, <code>coin</code>
 sẽ là <code>Coin::Quarter(UsState::Alaska)</code>. Khi chúng ta so sánh giá trị này với
 mỗi nhánh trong biểu thức <code>match</code>, không có nhánh nào khớp cho đến khi chúng ta
@@ -330,8 +325,7 @@ trong, hàm sẽ trả về giá trị <code>None</code> và không thực hiệ
     let five = Some(5);
     let six = plus_one(five);
     let none = plus_one(None);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Hãy xem xét kỹ hơn về lần đầu tiên chúng ta gọi <code>plus_one</code>. Khi chúng ta gọi
 <code>plus_one(five)</code>, biến <code>x</code> trong thân hàm <code>plus_one</code> sẽ có giá trị <code>Some(5)</code>.
 Chúng ta sau đó so sánh nó với mỗi nhánh trong biểu thức <code>match</code>.</p>
@@ -346,8 +340,7 @@ Chúng ta sau đó so sánh nó với mỗi nhánh trong biểu thức <code>mat
 </span><span class="boring">    let five = Some(5);
 </span><span class="boring">    let six = plus_one(five);
 </span><span class="boring">    let none = plus_one(None);
-</span><span class="boring">}
-</span></code></pre>
+</span><span class="boring">}</span></code></pre>
 <p>Giá trị <code>Some(5)</code> không khớp với mẫu <code>None</code>, vì vậy chúng ta tiếp tục đến nhánh
 tiếp theo.</p>
 <pre><code class="language-rust ignore"><span class="boring">fn main() {
@@ -361,8 +354,7 @@ tiếp theo.</p>
 </span><span class="boring">    let five = Some(5);
 </span><span class="boring">    let six = plus_one(five);
 </span><span class="boring">    let none = plus_one(None);
-</span><span class="boring">}
-</span></code></pre>
+</span><span class="boring">}</span></code></pre>
 <p><code>Some(5)</code> có khớp với <code>Some(i)</code> không? Vâng, nó khớp! Chúng ta có cùng một biến
 thể. <code>i</code> được gắn với giá trị bên trong <code>Some</code>, vì vậy <code>i</code> có giá trị là <code>5</code>.
 Sau đó, code trong nhánh <code>match</code> được thực thi, vì vậy chúng ta cộng thêm 1 vào
@@ -380,8 +372,7 @@ giá trị của <code>i</code> và tạo ra một giá trị <code>Some</code> 
 </span><span class="boring">    let five = Some(5);
 </span><span class="boring">    let six = plus_one(five);
 </span><span class="boring">    let none = plus_one(None);
-</span><span class="boring">}
-</span></code></pre>
+</span><span class="boring">}</span></code></pre>
 <p>Nó khớp! Không có giá trị để cộng thêm, vì vậy chương trình dừng lại và trả về
 giá trị <code>None</code> bên phải của <code>=&gt;</code>. Vì nhánh đầu tiên khớp, nên các nhánh khác
 không được so sánh.</p>
@@ -404,8 +395,7 @@ các nhánh phải bao phủ tất cả các khả năng. Hãy xem xét phiên b
 </span><span class="boring">    let five = Some(5);
 </span><span class="boring">    let six = plus_one(five);
 </span><span class="boring">    let none = plus_one(None);
-</span><span class="boring">}
-</span></code></pre>
+</span><span class="boring">}</span></code></pre>
 <p>Chúng ta đã không xử lý trường hợp <code>None</code>, vì vậy mã này sẽ gây ra một lỗi. May
 mắn thay, đó là một lỗi mà Rust biết cách phát hiện. Nếu chúng ta cố gắng biên
 dịch mã này, chúng ta sẽ nhận được lỗi này:</p>
@@ -458,8 +448,7 @@ ngoài phạm vi của ví dụ này:</p>
     fn add_fancy_hat() {}
     fn remove_fancy_hat() {}
     fn move_player(num_spaces: u8) {}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Với hai nhánh đầu tiên, các pattern là các giá trị chính xác 3 và 7. Với nhánh
 cuối cùng bao gồm tất cả các giá trị khác có thể, pattern là biến mà chúng ta
 đã chọn để đặt tên là <code>other</code>. Code chạy cho nhánh <code>other</code> sử dụng biến bằng
@@ -491,8 +480,7 @@ ta để sử dụng <code>_</code> thay vì biến có tên là <code>other</co
     fn add_fancy_hat() {}
     fn remove_fancy_hat() {}
     fn reroll() {}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Ví dụ này cũng đáp ứng yêu cầu đầy đủ vì chúng ta đang tường minh bỏ qua tất cả
 các giá trị khác trong nhánh cuối cùng; chúng ta không bỏ sót bất kỳ thứ gì.</p>
 <p>Cuối cùng, chúng ta sẽ thay đổi quy tắc của trò chơi một lần nữa, sẽ không có
@@ -509,8 +497,7 @@ trị đơn vị (kiểu tuple trống mà chúng ta đã nói ở phần <a hre
 
     fn add_fancy_hat() {}
     fn remove_fancy_hat() {}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Ở đây, chúng ta đang nói với Rust rõ ràng rằng chúng ta sẽ không sử dụng bất kỳ
 giá trị nào khác không khớp với mẫu trong nhánh trước đó, và chúng ta không
 muốn chạy bất kỳ mã nào trong trường hợp này.</p>
@@ -550,21 +537,21 @@ dài.</p>
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>

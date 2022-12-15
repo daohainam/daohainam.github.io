@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -36,13 +35,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -70,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -101,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -148,40 +147,41 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="packages-and-crates"><a class="header" href="#packages-and-crates">Packages and Crates</a></h2>
-<p>The first parts of the module system we’ll cover are packages and crates.</p>
-<p>A <em>crate</em> is the smallest amount of code that the Rust compiler considers at a
-time. Even if you run <code>rustc</code> rather than <code>cargo</code> and pass a single source code
-file (as we did all the way back in the “Writing and Running a Rust Program”
-section of Chapter 1), the compiler considers that file to be a crate. Crates
-can contain modules, and the modules may be defined in other files that get
-compiled with the crate, as we’ll see in the coming sections.</p>
-<p>A crate can come in one of two forms: a binary crate or a library crate.
-<em>Binary crates</em> are programs you can compile to an executable that you can run,
-such as a command-line program or a server. Each must have a function called
-<code>main</code> that defines what happens when the executable runs. All the crates we’ve
-created so far have been binary crates.</p>
-<p><em>Library crates</em> don’t have a <code>main</code> function, and they don’t compile to an
-executable. Instead, they define functionality intended to be shared with
-multiple projects. For example, the <code>rand</code> crate we used in <a href="ch02-00-guessing-game-tutorial.html#generating-a-random-number">Chapter
-2</a><!-- ignore --> provides functionality that generates random numbers.
-Most of the time when Rustaceans say “crate”, they mean library crate, and they
-use “crate” interchangeably with the general programming concept of a “library&quot;.</p>
-<p>The <em>crate root</em> is a source file that the Rust compiler starts from and makes
-up the root module of your crate (we’ll explain modules in depth in the
-<a href="ch07-02-defining-modules-to-control-scope-and-privacy.html">“Defining Modules to Control Scope and Privacy”</a><!-- ignore -->
-section).</p>
-<p>A <em>package</em> is a bundle of one or more crates that provides a set of
-functionality. A package contains a <em>Cargo.toml</em> file that describes how to
-build those crates. Cargo is actually a package that contains the binary crate
-for the command-line tool you’ve been using to build your code. The Cargo
-package also contains a library crate that the binary crate depends on. Other
-projects can depend on the Cargo library crate to use the same logic the Cargo
-command-line tool uses.</p>
-<p>A package can contain as many binary crates as you like, but at most only one
-library crate. A package must contain at least one crate, whether that’s a
-library or binary crate.</p>
-<p>Let’s walk through what happens when we create a package. First, we enter the
-command <code>cargo new</code>:</p>
+<p>Phần đầu tiên trong module system mà chúng ta sẽ tìm hiểu là packages và crates.</p>
+<p>Một <em>crate</em> là một đoạn code nhỏ nhất mà Rust compiler xem xét. Ngay cả khi bạn
+chạy <code>rustc</code> thay vì <code>cargo</code> và truyền một file nguồn code (như chúng ta đã làm
+từ đầu trong phần “Writing and Running a Rust Program” của Chapter 1), compiler
+sẽ xem file đó là một crate. Crates có thể chứa modules, và các modules có thể
+được định nghĩa trong các file khác mà được compile cùng với crate, như chúng
+ta sẽ thấy trong các phần tiếp theo.</p>
+<p>Một crate có thể có một trong hai dạng: một binary crate hoặc một library crate.
+<em>Binary crates</em> là các chương trình bạn có thể compile thành một executable mà
+bạn có thể chạy, như một chương trình command-line hoặc một server. Mỗi binary
+crate đều phải có một function gọi là <code>main</code> mà định nghĩa những gì sẽ xảy ra
+khi executable chạy. Tất cả các crates mà chúng ta đã tạo cho đến nay đều là
+binary crates.</p>
+<p><em>Library crates</em> không có một function <code>main</code> và không compile thành một
+executable. Thay vào đó, chúng định nghĩa các tính năng được dùng chung với
+nhiều dự án khác. Ví dụ, crate <code>rand</code> mà chúng ta đã sử dụng trong <a href="ch02-00-guessing-game-tutorial.html#generating-a-random-number">Chapter
+2</a><!-- ignore --> cung cấp các chức năng để tạo ra các số ngẫu nhiên.
+Hầu hết thời gian khi Rustaceans (người dùng Rust) nói “crate”, họ đang nói về
+library crate, và họ sử dụng “crate” thay thế cho khái niệm chung của một
+“library&quot;.</p>
+<p><em>Crate root</em> là một file nguồn mà Rust compiler bắt đầu từ đó và tạo ra một
+root module cho crate của bạn (chúng ta sẽ giải thích modules sâu hơn trong
+phần <a href="ch07-02-defining-modules-to-control-scope-and-privacy.html">“Defining Modules to Control Scope and Privacy”</a><!-- ignore -->).</p>
+<p>Một <em>package</em> là một bó (bundle) của một hoặc nhiều crates cung cấp một
+tập hợp các tính năng. Một package chứa một file <em>Cargo.toml</em> mô tả cách
+build các crates. Cargo thực ra là một package chứa binary crate
+command-line mà bạn đã sử dụng để build code của mình. Package Cargo cũng
+chứa một library crate mà binary crate phụ thuộc vào. Các dự án khác có thể
+phụ thuộc vào library crate của Cargo để sử dụng cùng logic với command-line
+tool của Cargo.</p>
+<p>Một package có thể chứa bao nhiêu binary crates bạn muốn, nhưng tối đa chỉ có
+một library crate. Một package phải chứa ít nhất một crate, dù đó là một
+library crate hay binary crate.</p>
+<p>Cùng xem qua những gì sẽ xảy ra khi chúng ta tạo một package. Đầu tiên, chúng ta
+nhập lệnh <code>cargo new</code>:</p>
 <pre><code class="language-console">$ cargo new my-project
      Created binary (application) `my-project` package
 $ ls my-project
@@ -190,20 +190,20 @@ src
 $ ls my-project/src
 main.rs
 </code></pre>
-<p>After we run <code>cargo new</code>, we use <code>ls</code> to see what Cargo creates. In the project
-directory, there’s a <em>Cargo.toml</em> file, giving us a package. There’s also a
-<em>src</em> directory that contains <em>main.rs</em>. Open <em>Cargo.toml</em> in your text editor,
-and note there’s no mention of <em>src/main.rs</em>. Cargo follows a convention that
-<em>src/main.rs</em> is the crate root of a binary crate with the same name as the
-package. Likewise, Cargo knows that if the package directory contains
-<em>src/lib.rs</em>, the package contains a library crate with the same name as the
-package, and <em>src/lib.rs</em> is its crate root. Cargo passes the crate root files
-to <code>rustc</code> to build the library or binary.</p>
-<p>Here, we have a package that only contains <em>src/main.rs</em>, meaning it only
-contains a binary crate named <code>my-project</code>. If a package contains <em>src/main.rs</em>
-and <em>src/lib.rs</em>, it has two crates: a binary and a library, both with the same
-name as the package. A package can have multiple binary crates by placing files
-in the <em>src/bin</em> directory: each file will be a separate binary crate.</p>
+<p>Sau khi chúng ta chạy <code>cargo new</code>, chúng ta sử dụng lệnh <code>ls</code> để xem những gì
+Cargo tạo ra. Trong thư mục dự án, có một file <em>Cargo.toml</em>, định nghĩa cho
+chúng ta một package. Có một thư mục <em>src</em> chứa file <em>main.rs</em>. Mở file <em>Cargo.toml</em> 
+trong trình soạn thảo văn bản, và chú ý rằng không có đề cập nào đến
+file <em>src/main.rs</em>. Cargo quy ước rằng <em>src/main.rs</em> là crate root của
+một binary crate cùng tên với package. Tương tự, Cargo biết rằng nếu thư
+mục package chứa file <em>src/lib.rs</em>, package chứa một library crate với cùng
+tên với package, và <em>src/lib.rs</em> là crate root của nó. Cargo truyền file crate
+root cho <code>rustc</code> để build library hoặc binary.</p>
+<p>Ở đây, chúng ta có một package chỉ chứa file <em>src/main.rs</em>, có nghĩa là nó
+chỉ chứa một binary crate có tên là <code>my-project</code>. Nếu một package chứa file
+<em>src/main.rs</em> và <em>src/lib.rs</em>, nó có hai crates: một binary và một library, cả
+hai có cùng tên với package. Một package có thể có nhiều binary crates bằng cách
+đặt file trong thư mục <em>src/bin</em>: mỗi file sẽ là một binary crate riêng biệt.</p>
 
                     </main>
 
@@ -237,21 +237,21 @@ in the <em>src/bin</em> directory: each file will be a separate binary crate.</p
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript" src="ferris.js"></script>
+        <script src="ferris.js"></script>
 
 
     </body>
