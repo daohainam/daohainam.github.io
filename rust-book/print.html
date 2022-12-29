@@ -352,7 +352,8 @@ chuyến đi đều có điểm khởi đầu. Trong chương này, chúng ta s�
 <li>Viết một chương trình in ra dòng chữ <code>Hello, world!</code></li>
 <li>Sử dụng <code>cargo</code>, hệ thống quản lý các gói và build chương trình của Rust.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="cài-đặt-installation"><a class="header" href="#cài-đặt-installation">Cài đặt {#installation}</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="installation"></a></p>
+<h2 id="cài-đặt"><a class="header" href="#cài-đặt">Cài đặt</a></h2>
 <p>Bước đầu tiên là cài đặt Rust. Chúng ta sẽ tải về Rust thông qua <code>rustup</code>, một công cụ
 dòng lệnh quản lý phiên bản và các công cụ của Rust. Bạn sẽ cần một đường Internet 
 để download.</p>
@@ -409,6 +410,7 @@ Khi được hỏi phần nào cần được cài đặt, nhớ hãy chọn:</p
 </ul>
 <p>Các câu lệnh trong phần còn lại của cuốn sách này sẽ làm việc với cả hai <em>cmd.exe</em> 
 và PowerShell. Nếu có gì khác nhau, chúng tôi sẽ chỉ ra bạn cần sử dụng cái nào.</p>
+<p><a id="troubleshooting"></a></p>
 <h3 id="xử-lý-trục-trặc"><a class="header" href="#xử-lý-trục-trặc">Xử lý trục trặc</a></h3>
 <p>Để kiểm tra xem bạn đã cài đặt Rust đúng chưa, mở một cửa sổ lệnh mới và gõ vào
 dòng sau:</p>
@@ -1850,7 +1852,8 @@ chương trình Rust của mình; một số ít hiện tại không được s�
 nhưng được dành riêng cho những chức năng có thể được thêm vào Rust trong tương lai. Bạn
 có thể tìm thấy danh sách các từ khóa trong <a href="appendix-01-keywords.html">Appendix A</a><!-- ignore -->.</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="biến-và-tính-khả-biến-ch03-01-variables-and-mutability"><a class="header" href="#biến-và-tính-khả-biến-ch03-01-variables-and-mutability">Biến và tính khả biến {#ch03-01-variables-and-mutability}</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="variables-and-mutability"></a></p>
+<h2 id="biến-và-tính-khả-biến"><a class="header" href="#biến-và-tính-khả-biến">Biến và tính khả biến</a></h2>
 <p>Như đã nhắc đến trong phần <a href="ch02-00-guessing-game-tutorial.html#storing-values-with-variables">“Storing Values with
 Variables”</a><!-- ignore -->, mặc nhiên các biến
 là không thể thay đổi giá trị (immutable). Đây là một trong nhiều cách Rust mang đến để giúp viết 
@@ -1930,7 +1933,8 @@ The value of x is: 6
 <p>Chúng ta được phép thay đổi giá trị gán cho <code>x</code> từ <code>5</code> thành <code>6</code> khi dùng <code>mut</code>.
 Hơn hết, việc quyết định liệu có cho phép thay đổi hay không là do bạn và phụ thuộc 
 vào việc bạn nghĩ cách nào là rõ ràng nhất trong một trường hợp cụ thể.</p>
-<h3 id="hằng-constants"><a class="header" href="#hằng-constants">Hằng {#constants}</a></h3>
+<p><a id="constants"></a></p>
+<h3 id="hằng"><a class="header" href="#hằng">Hằng</a></h3>
 <p>Tương tự với các biến không đổi, các hằng cũng là các giá trị được đặt tên và không được 
 phép thay đổi, tuy nhiên có một số điểm khác nhau.</p>
 <p>Đầu tiên, bạn không được phép dùng <code>mut</code> với hằng. Các hằng không chỉ là mặc nhiên
@@ -2036,7 +2040,8 @@ For more information about this error, try `rustc --explain E0308`.
 error: could not compile `variables` due to previous error
 </code></pre>
 <p>Chúng ta đã xem xong cách các biến làm việc, giờ hãy cùng xem các kiểu dữ liệu chúng có thể có.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="các-kiểu-dữ-liệu-data-types"><a class="header" href="#các-kiểu-dữ-liệu-data-types">Các kiểu dữ liệu {#data-types}</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="data-types"></a></p>
+<h2 id="các-kiểu-dữ-liệu"><a class="header" href="#các-kiểu-dữ-liệu">Các kiểu dữ liệu</a></h2>
 <p>Mọi giá trị trong Rust đều thuộc một <em>kiểu dữ liệu</em> cụ thể, điều này cho Rust biết loại
 dữ liệu đang được chỉ định để nó biết cách làm việc với dữ liệu đó. Chúng ta sẽ xem xét
 hai tập con kiểu dữ liệu: scalar (vô hướng) và compound (phức).</p>
@@ -2075,7 +2080,8 @@ error: could not compile `no_type_annotations` due to previous error
 <p>Một <em>kiểu vô hướng</em> biểu diễn một giá trị đơn. Rust có bốn kiểu vô hướng chính: số nguyên (integer), 
 các kiểu số dấu chấm động, boolean và kiểu ký tự. Bạn có thể thấy chúng cũng tương tự
 trong các ngôn ngữ lập trình khác. Hãy cùng xem thử trong Rust chúng hoạt động thế nào.</p>
-<h4 id="các-kiểu-số-nguyên-integer-integer-types"><a class="header" href="#các-kiểu-số-nguyên-integer-integer-types">Các kiểu số nguyên (integer) {#integer-types}</a></h4>
+<p><a id="integer-types"></a></p>
+<h4 id="các-kiểu-số-nguyên-integer"><a class="header" href="#các-kiểu-số-nguyên-integer">Các kiểu số nguyên (integer)</a></h4>
 <p>Một <em>integer</em> là một số không có phần thập phân. Chúng ta đã từng dùng một kiểu integer 
 trong chương 2, kiểu <code>u32</code>. Việc khai báo kiểu này chỉ ra giá trị mà nó kết hợp phải 
 là một số nguyên không dấu (các kiểu có dấu sẽ bắt đầu bằng chữ <code>i</code> thay vì <code>u</code>), và nó 
@@ -2223,7 +2229,8 @@ Chúng ta sẽ thảo luận thêm về chủ đề này trong phần <a href="c
 Strings”</a><!-- ignore --> in Chương 8.</p>
 <h3 id="các-kiểu-phức"><a class="header" href="#các-kiểu-phức">Các kiểu phức</a></h3>
 <p><em>Kiểu phức</em> có thể nhóm nhiều giá trị vào chung một kiểu. Rust có hai kiểu phức chính: tuple và array.</p>
-<h4 id="kiểu-tuple-the-tuple-type"><a class="header" href="#kiểu-tuple-the-tuple-type">Kiểu tuple {#the-tuple-type}</a></h4>
+<p><a id="the-tuple-type"></a></p>
+<h4 id="kiểu-tuple"><a class="header" href="#kiểu-tuple">Kiểu tuple</a></h4>
 <p>Một kiểu tuple là một cách chung để nhóm các giá trị khác nhau vào làm một. Các tupble có kích thước cố
 định: một khi đã khai báo, chúng sẽ không thể tăng hay giảm kích cỡ. Chúng ta tạo một tuble bằng cách viết 
 một danh sách các giá trị cách nhau bởi dấu phẩy, bao bọc lại bởi một cặp ngoặc tròn. Mỗi vị trí trong tuble 
@@ -2686,7 +2693,8 @@ trên một dòng riêng biệt phía trên đoạn code nó đang giải thích
 }</code></pre></pre>
 <p>Rust cũng có một kiểu ghi chú khác, được gọi là các ghi chú tài liệu, chúng
 ta sẽ thảo luận thêm trong phần <a href="ch14-02-publishing-to-crates-io.html">“Publishing a Crate to Crates.io”</a><!-- ignore --> ở chương 14.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="các-khối-điều-khiển-control-flow"><a class="header" href="#các-khối-điều-khiển-control-flow">Các khối điều khiển {#control-flow}</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="control-flow"></a></p>
+<h2 id="các-khối-điều-khiển"><a class="header" href="#các-khối-điều-khiển">Các khối điều khiển</a></h2>
 <p>Khả năng chạy một số đoạn lệnh dựa khi một điều kiện nào đó là <code>true</code>, hoặc chạy lặp lại một
 lệnh khi một điều kiện nào đó là <code>true</code>, là các khối điều khiển cơ bản có trong hầu 
 hết các ngôn ngữ lập trình. Khối điều khiển phổ biến nhất cho phép bạn kiểm soát việc
@@ -3016,7 +3024,8 @@ vòng lặp.</p>
 <p>Vòng lặp này cho phép loại bỏ nhiều cấu trúc lồng nhau như khi bạn kết hợp
 <code>loop</code>, <code>if</code>, <code>else</code>, và <code>break</code>, giúp code của bạn sáng sủa hơn. Trong khi một
 điều kiện vẫn là <code>true</code>, chạy vòng lặp; ngược lại, kết thúc vòng lặp.</p>
-<h4 id="lặp-qua-một-tập-hợp-với-for-looping-through-a-collection-with-for"><a class="header" href="#lặp-qua-một-tập-hợp-với-for-looping-through-a-collection-with-for">Lặp qua một tập hợp với <code>for</code> {#looping-through-a-collection-with-for}</a></h4>
+<p><a id="looping-through-a-collection-with-for"></a></p>
+<h4 id="lặp-qua-một-tập-hợp-với-for"><a class="header" href="#lặp-qua-một-tập-hợp-với-for">Lặp qua một tập hợp với <code>for</code></a></h4>
 <p>Bạn có thể chọn dùng <code>while</code> để duyệt qua các thành phần của một tập hợp, kiểu 
 như một mảng. Ví dụ, vòng lặp trong Listing 3-4 in ra các phần tử có trong mảng
 <code>a</code>.</p>
@@ -3108,7 +3117,8 @@ những phần khác của ngôn ngữ. Nó cho phép Rust đảm bảo an toàn
 bộ nhớ mà không cần đến trình dọn rác, do vậy việc hiểu rõ về ownership là rất
 quan trọng. Trong chương này, chúng ta sẽ nói về ownership cũng như một vài đặc 
 tính liên quan: borrowing, slide, và cách Rust sắp xếp dữ liệu trong bộ nhớ.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="ownership-là-gì"><a class="header" href="#ownership-là-gì">Ownership là gì?</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="the-stack-and-the-heap"></a></p>
+<h2 id="ownership-tính-sở-hữu-là-gì"><a class="header" href="#ownership-tính-sở-hữu-là-gì">Ownership (tính sở hữu) là gì?</a></h2>
 <p><em>Ownership</em> là một tập các quy tắc phối hợp với nhau, định hình cách Rust quản lý
 bộ nhớ. Tất cả các chương trình đều phải quản lý cách chúng sử dụng bộ nhớ máy
 tính khi chạy. Một số ngôn ngữ có bộ dọn rác chạy định kỳ để giải phóng các phần
@@ -3126,88 +3136,82 @@ dễ dàng hơn. Vậy nên hãy cố lên!</p>
 vốn làm cho Rust trở nên độc nhất. Trong chương này bạn sẽ học về ownership
 thông qua một số ví dụ tập trung vào một cấu trúc dữ liệu rất phổ biến: string.</p>
 <blockquote>
-<h3 id="the-stack-and-the-heap"><a class="header" href="#the-stack-and-the-heap">The Stack and the Heap</a></h3>
-<p>Many programming languages don’t require you to think about the stack and the
-heap very often. But in a systems programming language like Rust, whether a
-value is on the stack or the heap affects how the language behaves and why
-you have to make certain decisions. Parts of ownership will be described in
-relation to the stack and the heap later in this chapter, so here is a brief
-explanation in preparation.</p>
-<p>Both the stack and the heap are parts of memory available to your code to use
-at runtime, but they are structured in different ways. The stack stores
-values in the order it gets them and removes the values in the opposite
-order. This is referred to as <em>last in, first out</em>. Think of a stack of
-plates: when you add more plates, you put them on top of the pile, and when
-you need a plate, you take one off the top. Adding or removing plates from
-the middle or bottom wouldn’t work as well! Adding data is called <em>pushing
-onto the stack</em>, and removing data is called <em>popping off the stack</em>. All
-data stored on the stack must have a known, fixed size. Data with an unknown
-size at compile time or a size that might change must be stored on the heap
-instead.</p>
-<p>The heap is less organized: when you put data on the heap, you request a
-certain amount of space. The memory allocator finds an empty spot in the heap
-that is big enough, marks it as being in use, and returns a <em>pointer</em>, which
-is the address of that location. This process is called <em>allocating on the
-heap</em> and is sometimes abbreviated as just <em>allocating</em> (pushing values onto
-the stack is not considered allocating). Because the pointer to the heap is a
-known, fixed size, you can store the pointer on the stack, but when you want
-the actual data, you must follow the pointer. Think of being seated at a
-restaurant. When you enter, you state the number of people in your group, and
-the staff finds an empty table that fits everyone and leads you there. If
-someone in your group comes late, they can ask where you’ve been seated to
-find you.</p>
-<p>Pushing to the stack is faster than allocating on the heap because the
-allocator never has to search for a place to store new data; that location is
-always at the top of the stack. Comparatively, allocating space on the heap
-requires more work, because the allocator must first find a big enough space
-to hold the data and then perform bookkeeping to prepare for the next
-allocation.</p>
-<p>Accessing data in the heap is slower than accessing data on the stack because
-you have to follow a pointer to get there. Contemporary processors are faster
-if they jump around less in memory. Continuing the analogy, consider a server
-at a restaurant taking orders from many tables. It’s most efficient to get
-all the orders at one table before moving on to the next table. Taking an
-order from table A, then an order from table B, then one from A again, and
-then one from B again would be a much slower process. By the same token, a
-processor can do its job better if it works on data that’s close to other
-data (as it is on the stack) rather than farther away (as it can be on the
-heap).</p>
-<p>When your code calls a function, the values passed into the function
-(including, potentially, pointers to data on the heap) and the function’s
-local variables get pushed onto the stack. When the function is over, those
-values get popped off the stack.</p>
-<p>Keeping track of what parts of code are using what data on the heap,
-minimizing the amount of duplicate data on the heap, and cleaning up unused
-data on the heap so you don’t run out of space are all problems that ownership
-addresses. Once you understand ownership, you won’t need to think about the
-stack and the heap very often, but knowing that the main purpose of ownership
-is to manage heap data can help explain why it works the way it does.</p>
+<h3 id="stack-và-heap"><a class="header" href="#stack-và-heap">Stack và Heap</a></h3>
+<p>Nhiều ngôn ngữ lập trình không yêu cầu bạn phải nghĩ về stack và heap thường
+xuyên. Nhưng với một ngôn ngữ lập trình hệ thống như Rust, việc một giá trị sẽ
+được lưu trên stack hay trên heap ảnh hưởng tới cách ngôn ngữ xử lý cũng như 
+lý do bạn quyết định. Các phần của ownership sẽ được mô tả trong mối quan hệ 
+với stack và heap ở phần sau của chương này, ở đây chỉ là một giải thích
+ngắn gọn để chuẩn bị.</p>
+<p>Cả hai stack và heap đều là các phần của bộ nhớ mà chương trình của bạn có thể
+sử dụng khi chạy, nhưng chúng được tổ chức theo những cách khác nhau. Stack lưu 
+trữ các giá trị theo thứ tự bạn đưa vào và lấy các giá trị ra theo thứ tự ngược
+lại. Ta thường gọi là <em>last in, first out</em>. Hãy tưởng tượng một chồng đĩa: khi 
+bạn thêm đĩa, bạn sẽ đặt chúng lên trên cùng, và khi cần lấy một cái đĩa, bạn 
+sẽ lấy cái trên nhất. Bạn sẽ không bỏ vào hoặc lấy ra các đĩa ở giữa hay bên 
+dưới cùng. Thêm dữ liệu vào được gọi là <em>đẩy (push)</em> và stack, và thao tác 
+lấy ra được gọi là <em>lấy ra khỏi stack (pop)</em>. Tất cả dữ liệu lưu trên stack 
+phải có một kiểu dữ liệu có kích thước cố định cho trước. Dữ liệu có kích thước 
+không thể biết trước khi biên dịch hoặc có thể thay đổi phải được lưu trên heap.</p>
+<p>Heap được tổ chức ít quy củ hơn: khi bạn đưa dữ liệu lên heap, bạn yêu cầu một
+không gian trống có kích thước cụ thể. Bộ phân phối bộ nhớ sẽ tìm một phần trống 
+trên heap đủ lớn để chứa, đánh dấu nó đã được dùng, và trả về một <em>con trỏ (pointer)</em>,
+chứa địa chỉ của vị trí phần bộ nhớ vừa được cấp phát. Quá trình này được gọi
+là <em>phân phối bộ nhớ trên heap</em> và đôi khi được gọi ngắn gọn là <em>phân phối bộ nhớ</em>
+(đẩy một giá trị vào stack không được coi là phân phối bộ nhớ). Vì con trỏ chứa 
+địa chỉ vùng nhớ có kích thước cố định và biết trước, nó có thể được lưu trong
+stack, nhưng khi bạn cần lấy dữ liệu thực sự, bạn sẽ cần đi theo địa chỉ chứa
+trong con trỏ. Hãy tưởng tượng khi đến một nhà hàng, bạn cho nhân viên biết
+số người trong nhóm, họ sẽ tìm một bàn trống đủ cho nhóm của bạn và dẫn bạn đến
+đó. Nếu một người trong nhóm đến muộn, họ có thể hỏi nơi bạn ngồi để tìm bạn.</p>
+<p>Đẩy một giá trị vào stack nhanh hơn phân phối trên heap vì trình quản lý không
+cần tìm một nơi để lưu dữ liệu; vị trí đó luôn nằm trên đỉnh của stack. Trong khi
+đó, phân phối bộ nhớ trên heap cần nhiều thao tác hơn vì trình quản lý đầu tiên
+phải tìm một không gian trống đủ lớn để chứa dữ liệu, sau đó làm các thao tác để 
+đánh dấu việc sử dụng không gian nhớ đó. </p>
+<p>Truy cập dữ liệu trên heap cũng chậm hơn trong stack vì bạn phải theo một con trỏ để
+đến đúng nơi. Các bộ xử lý hiện nay sẽ hoạt động nhanh hơn nếu chúng không phải 
+truy cập bộ nhớ nhiều. Tiếp tục với ví dụ ở trên, hãy tưởng tượng một người phục
+vụ ở nhà hàng phải nhận đặt món từ nhiều bàn khác nhau. Cách làm hiệu quả nhất là
+nhận tất cả yêu cầu đặt món từ một bàn trước khi di chuyển đến bàn tiếp theo. Nhận
+món từ bàn A, rồi sang bàn B, sau đó quay lại bàn A, rồi tiếp tục quay lại bàn B 
+có lẽ sẽ chậm hơn nhiều. Theo cùng cách, một bộ xử lý có thể hoàn thành công việc 
+tốt hơn nếu nó làm việc với các dữ liệu nằm gần nhau (giống như trong stack) hơn 
+là khi chúng nằm xa nhau (như với heap).</p>
+<p>Khi code của bạn gọi một hàm, các giá trị truyền vào cho hàm đó (có thể bao gồm 
+cả các con trỏ lên heap) và các biến cục bộ của hàm đều được đẩy vào stack. Khi
+hàm kết thúc, các giá trị đó sẽ được lấy ra khỏi stack.</p>
+<p>Theo dõi phần code nào code đang dùng những phần nào của heap, tối thiểu hóa việc
+trùng lắp dữ liệu, và dọn dẹp những dữ liệu nào không được dùng tới trên heap sao
+cho chúng ta không cạn kiệt các tài nguyên bộ nhớ là những vấn đề mà ownership 
+nhắm đến. Một khi đã hiểu về ownership, bạn sẽ không cần nghĩ về stack và heap thường
+xuyên nữa, nhưng biết mục đích chính của ownership là để quản lý bộ nhớ heap có thể 
+giúp giải thích vì sao nó làm việc theo cách mà bạn sẽ thấy. </p>
 </blockquote>
-<h3 id="ownership-rules"><a class="header" href="#ownership-rules">Ownership Rules</a></h3>
-<p>First, let’s take a look at the ownership rules. Keep these rules in mind as we
-work through the examples that illustrate them:</p>
+<h3 id="các-quy-tắc-của-ownership"><a class="header" href="#các-quy-tắc-của-ownership">Các quy tắc của Ownership</a></h3>
+<p>Đầu tiên, hãy xem qua các quy tắc của ownership. Hãy ghi nhớ các quy tắc này khi
+ta đi qua các ví đụ minh họa:</p>
 <ul>
-<li>Each value in Rust has an <em>owner</em>.</li>
-<li>There can only be one owner at a time.</li>
-<li>When the owner goes out of scope, the value will be dropped.</li>
+<li>Mỗi giá trị trong Rust có một chủ sở hữu (<em>owner</em>)</li>
+<li>Mỗi thời điểm chỉ có duy nhất một owner.</li>
+<li>Khi owner ra khỏi phạm vi (scope, tầm vực của biến) của nó, giá trị sẽ bị hủy.</li>
 </ul>
-<h3 id="variable-scope"><a class="header" href="#variable-scope">Variable Scope</a></h3>
-<p>Now that we’re past basic Rust syntax, we won’t include all the <code>fn main() {</code>
-code in examples, so if you’re following along, make sure to put the following
-examples inside a <code>main</code> function manually. As a result, our examples will be a
-bit more concise, letting us focus on the actual details rather than
-boilerplate code.</p>
-<p>As a first example of ownership, we’ll look at the <em>scope</em> of some variables. A
-scope is the range within a program for which an item is valid. Take the
-following variable:</p>
+<h3 id="tầm-vực-của-biến"><a class="header" href="#tầm-vực-của-biến">Tầm vực của biến</a></h3>
+<p>Giờ ta đã hoàn thành cú pháp cơ bản của Rust, chúng ta sẽ không cần thêm <code>fn main() {</code>
+vào các ví dụ, do vậy nếu muốn chạy thử hãy tự thêm chúng vào trong hàm <code>main</code>. Khi viết 
+các ví dụ theo cách ngắn gọn như vậy, chúng ta có thể tập trung vào chi tiết muốn
+nói hơn là các đoạn code mẫu.</p>
+<p>Ví dụ đầu tiên về ownership, chúng ta sẽ xem qua <em>tầm vực (scope)</em> của một số biến.
+Một tầm vực là một đoạn trong một chương trình mà trong đó một thành phần nào đó
+là hợp lệ. Hãy xem qua ví dụ sau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = &quot;hello&quot;;
 <span class="boring">}</span></code></pre></pre>
-<p>The variable <code>s</code> refers to a string literal, where the value of the string is
-hardcoded into the text of our program. The variable is valid from the point at
-which it’s declared until the end of the current <em>scope</em>. Listing 4-1 shows a
-program with comments annotating where the variable <code>s</code> would be valid.</p>
+<p>Biến <code>s</code> tham chiếu đến một giá trị chuỗi, giá trị này được hard code vào trong 
+phần text của chương trình. Các biến là hợp lệ tại thời điểm chúng được khai báo
+cho đến hết <em>tầm vực</em> hiện tại. Listing 4-1 trình bày một chương trình với các 
+ghi chú chỉ ra nơi biến <code>s</code> là hợp lệ.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    {                      // s is not valid here, it’s not yet declared
         let s = &quot;hello&quot;;   // s is valid from this point forward
@@ -3215,29 +3219,28 @@ program with comments annotating where the variable <code>s</code> would be vali
         // do stuff with s
     }                      // this scope is now over, and s is no longer valid
 <span class="boring">}</span></code></pre></pre>
-<p><span class="caption">Listing 4-1: A variable and the scope in which it is
-valid</span></p>
-<p>In other words, there are two important points in time here:</p>
+<p><span class="caption">Listing 4-1: Một biến và tầm vực (phạm vi) của nó</span></p>
+<p>Nói cách khác, có hai thời điểm quan trọng ở đây:</p>
 <ul>
-<li>When <code>s</code> comes <em>into scope</em>, it is valid.</li>
-<li>It remains valid until it goes <em>out of scope</em>.</li>
+<li>Khi <code>s</code> đi vào trong tầm vực, nó trở nên hợp lệ.</li>
+<li><code>s</code> sẽ vẫn hợp lệ cho đến khi nó đi ra khỏi <em>tầm vực</em>.</li>
 </ul>
-<p>At this point, the relationship between scopes and when variables are valid is
-similar to that in other programming languages. Now we’ll build on top of this
-understanding by introducing the <code>String</code> type.</p>
-<h3 id="the-string-type"><a class="header" href="#the-string-type">The <code>String</code> Type</a></h3>
-<p>To illustrate the rules of ownership, we need a data type that is more complex
-than those we covered in the <a href="ch03-02-data-types.html#data-types">“Data Types”</a><!-- ignore --> section
-of Chapter 3. The types covered previously are all a known size, can be stored
-on the stack and popped off the stack when their scope is over, and can be
-quickly and trivially copied to make a new, independent instance if another
-part of code needs to use the same value in a different scope. But we want to
-look at data that is stored on the heap and explore how Rust knows when to
-clean up that data, and the <code>String</code> type is a great example.</p>
-<p>We’ll concentrate on the parts of <code>String</code> that relate to ownership. These
-aspects also apply to other complex data types, whether they are provided by
-the standard library or created by you. We’ll discuss <code>String</code> in more depth in
-<a href="ch08-02-strings.html">Chapter 8</a><!-- ignore -->.</p>
+<p>Tại điểm này, mối quan hệ giữa các tầm vực và khi các biến là hợp lệ hoàn toàn tương 
+tự trong các ngôn ngữ lập trình khác. Giờ chúng ta sẽ áp dụng điều này với kiểu 
+dữ liệu <code>String</code> để tìm hiểu sâu hơn.</p>
+<h3 id="kiểu-string"><a class="header" href="#kiểu-string">Kiểu <code>String</code></a></h3>
+<p>Để minh họa các quy tắc của ownership, chúng ta sẽ cần một kiểu dữ liệu phức tạp
+hơn những kiểu đã được nói đến trong phần <a href="ch03-02-data-types.html#data-types">“Các kiểu dữ liệu”</a><!-- ignore --> 
+ở chương 3. Những kiểu được nói đến trong phần đó có kích thước cố định, có thể 
+được lưu trong stack và dễ dàng lấy ra khi đi ra khỏi phạm vi của nó, cũng như 
+có thể tạo một bản sao mới độc lập với bản gốc nếu một phần khác của chương trình 
+muốn đọc giá trị của nó. Nhưng chúng ta muốn xem cách dữ liệu được lưu trên heap 
+và khám phá cách Rust biết khi nào cần giải phóng dữ liệu đó, trong trường hợp
+này <code>String</code> là một ví dụ tuyệt vời.</p>
+<p>Chúng ta sẽ tập trung trên các phần của <code>String</code> có liên quan đến tính sở hữu (ownership).
+Nhưng những phần này cũng có thể áp dụng lên các kiểu dữ liệu phức tạp khác,
+bao gồm cả các kiểu trong thư viện chuẩn và các kiểu do bạn tự tạo. Chúng ta sẽ 
+nói sâu hơn về <code>String</code> trong <a href="ch08-02-strings.html">Chương 8</a><!-- ignore -->.</p>
 <p>We’ve already seen string literals, where a string value is hardcoded into our
 program. String literals are convenient, but they aren’t suitable for every
 situation in which we may want to use text. One reason is that they’re
@@ -3254,7 +3257,7 @@ literal using the <code>from</code> function, like so:</p>
 <p>The double colon <code>::</code> operator allows us to namespace this particular <code>from</code>
 function under the <code>String</code> type rather than using some sort of name like
 <code>string_from</code>. We’ll discuss this syntax more in the <a href="ch05-03-method-syntax.html#method-syntax">“Method
-Syntax”</a><!-- ignore --> section of Chapter 5 and when we talk
+Syntax”</a><!-- ignore --> section of Chapter 5, and when we talk
 about namespacing with modules in <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“Paths for Referring to an Item in the
 Module Tree”</a><!-- ignore --> in Chapter 7.</p>
 <p>This kind of string <em>can</em> be mutated:</p>
@@ -3266,7 +3269,7 @@ Module Tree”</a><!-- ignore --> in Chapter 7.</p>
     println!(&quot;{}&quot;, s); // This will print `hello, world!`
 <span class="boring">}</span></code></pre></pre>
 <p>So, what’s the difference here? Why can <code>String</code> be mutated but literals
-cannot? The difference is how these two types deal with memory.</p>
+cannot? The difference is in how these two types deal with memory.</p>
 <h3 id="memory-and-allocation"><a class="header" href="#memory-and-allocation">Memory and Allocation</a></h3>
 <p>In the case of a string literal, we know the contents at compile time, so the
 text is hardcoded directly into the final executable. This is why string
@@ -3279,8 +3282,8 @@ we need to allocate an amount of memory on the heap, unknown at compile time,
 to hold the contents. This means:</p>
 <ul>
 <li>The memory must be requested from the memory allocator at runtime.</li>
-<li>We need a way of returning this memory to the allocator when we’re
-done with our <code>String</code>.</li>
+<li>We need a way of returning this memory to the allocator when we’re done with
+our <code>String</code>.</li>
 </ul>
 <p>That first part is done by us: when we call <code>String::from</code>, its implementation
 requests the memory it needs. This is pretty much universal in programming
@@ -3288,7 +3291,7 @@ languages.</p>
 <p>However, the second part is different. In languages with a <em>garbage collector
 (GC)</em>, the GC keeps track of and cleans up memory that isn’t being used
 anymore, and we don’t need to think about it. In most languages without a GC,
-it’s our responsibility to identify when memory is no longer being used and
+it’s our responsibility to identify when memory is no longer being used and to
 call code to explicitly free it, just as we did to request it. Doing this
 correctly has historically been a difficult programming problem. If we forget,
 we’ll waste memory. If we do it too early, we’ll have an invalid variable. If
@@ -3321,7 +3324,9 @@ patterns.</p>
 simple right now, but the behavior of code can be unexpected in more
 complicated situations when we want to have multiple variables use the data
 we’ve allocated on the heap. Let’s explore some of those situations now.</p>
-<h4 id="ways-variables-and-data-interact-move"><a class="header" href="#ways-variables-and-data-interact-move">Ways Variables and Data Interact: Move</a></h4>
+<!-- Old heading. Do not remove or links may break. -->
+<p><a id="ways-variables-and-data-interact-move"></a></p>
+<h4 id="variables-and-data-interacting-with-move"><a class="header" href="#variables-and-data-interacting-with-move">Variables and Data Interacting with Move</a></h4>
 <p>Multiple variables can interact with the same data in different ways in Rust.
 Let’s look at an example using an integer in Listing 4-2.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
@@ -3348,26 +3353,34 @@ covers. A <code>String</code> is made up of three parts, shown on the left: a po
 the memory that holds the contents of the string, a length, and a capacity.
 This group of data is stored on the stack. On the right is the memory on the
 heap that holds the contents.</p>
-<img alt="String in memory" src="img/trpl04-01.svg" class="center" style="width: 50%;" />
+<p><img alt="Two tables: the first table contains the representation of s1 on the
+stack, consisting of its length (5), capacity (5), and a pointer to the first
+value in the second table. The second table contains the representation of the
+string data on the heap, byte by byte." src="img/trpl04-01.svg" class="center"
+style="width: 50%;" /></p>
 <p><span class="caption">Figure 4-1: Representation in memory of a <code>String</code>
 holding the value <code>&quot;hello&quot;</code> bound to <code>s1</code></span></p>
-<p>The length is how much memory, in bytes, the contents of the <code>String</code> is
+<p>The length is how much memory, in bytes, the contents of the <code>String</code> are
 currently using. The capacity is the total amount of memory, in bytes, that the
-<code>String</code> has received from the allocator. The difference between length
-and capacity matters, but not in this context, so for now, it’s fine to ignore
-the capacity.</p>
+<code>String</code> has received from the allocator. The difference between length and
+capacity matters, but not in this context, so for now, it’s fine to ignore the
+capacity.</p>
 <p>When we assign <code>s1</code> to <code>s2</code>, the <code>String</code> data is copied, meaning we copy the
 pointer, the length, and the capacity that are on the stack. We do not copy the
 data on the heap that the pointer refers to. In other words, the data
 representation in memory looks like Figure 4-2.</p>
-<img alt="s1 and s2 pointing to the same value" src="img/trpl04-02.svg" class="center" style="width: 50%;" />
+<p><img alt="Three tables: tables s1 and s2 representing those strings on the
+stack, respectively, and both pointing to the same string data on the heap."
+src="img/trpl04-02.svg" class="center" style="width: 50%;" /></p>
 <p><span class="caption">Figure 4-2: Representation in memory of the variable <code>s2</code>
 that has a copy of the pointer, length, and capacity of <code>s1</code></span></p>
 <p>The representation does <em>not</em> look like Figure 4-3, which is what memory would
 look like if Rust instead copied the heap data as well. If Rust did this, the
 operation <code>s2 = s1</code> could be very expensive in terms of runtime performance if
 the data on the heap were large.</p>
-<img alt="s1 and s2 to two places" src="img/trpl04-03.svg" class="center" style="width: 50%;" />
+<p><img alt="Four tables: two tables representing the stack data for s1 and s2,
+and each points to its own copy of string data on the heap."
+src="img/trpl04-03.svg" class="center" style="width: 50%;" /></p>
 <p><span class="caption">Figure 4-3: Another possibility for what <code>s2 = s1</code> might
 do if Rust copied the heap data as well</span></p>
 <p>Earlier, we said that when a variable goes out of scope, Rust automatically
@@ -3377,7 +3390,7 @@ problem: when <code>s2</code> and <code>s1</code> go out of scope, they will bot
 same memory. This is known as a <em>double free</em> error and is one of the memory
 safety bugs we mentioned previously. Freeing memory twice can lead to memory
 corruption, which can potentially lead to security vulnerabilities.</p>
-<p>To ensure memory safety, after the line <code>let s2 = s1</code>, Rust considers <code>s1</code> as
+<p>To ensure memory safety, after the line <code>let s2 = s1;</code>, Rust considers <code>s1</code> as
 no longer valid. Therefore, Rust doesn’t need to free anything when <code>s1</code> goes
 out of scope. Check out what happens when you try to use <code>s1</code> after <code>s2</code> is
 created; it won’t work:</p>
@@ -3410,18 +3423,24 @@ error: could not compile `ownership` due to previous error
 <p>If you’ve heard the terms <em>shallow copy</em> and <em>deep copy</em> while working with
 other languages, the concept of copying the pointer, length, and capacity
 without copying the data probably sounds like making a shallow copy. But
-because Rust also invalidates the first variable, instead of calling it a
-shallow copy, it’s known as a <em>move</em>. In this example, we would say that
-<code>s1</code> was <em>moved</em> into <code>s2</code>. So what actually happens is shown in Figure 4-4.</p>
-<img alt="s1 moved to s2" src="img/trpl04-04.svg" class="center" style="width: 50%;" />
+because Rust also invalidates the first variable, instead of being called a
+shallow copy, it’s known as a <em>move</em>. In this example, we would say that <code>s1</code>
+was <em>moved</em> into <code>s2</code>. So, what actually happens is shown in Figure 4-4.</p>
+<p><img alt="Three tables: tables s1 and s2 representing those strings on the
+stack, respectively, and both pointing to the same string data on the heap.
+Table s1 is grayed out be-cause s1 is no longer valid; only s2 can be used to
+access the heap data." src="img/trpl04-04.svg" class="center" style="width:
+50%;" /></p>
 <p><span class="caption">Figure 4-4: Representation in memory after <code>s1</code> has been
 invalidated</span></p>
-<p>That solves our problem! With only <code>s2</code> valid, when it goes out of scope, it
+<p>That solves our problem! With only <code>s2</code> valid, when it goes out of scope it
 alone will free the memory, and we’re done.</p>
 <p>In addition, there’s a design choice that’s implied by this: Rust will never
 automatically create “deep” copies of your data. Therefore, any <em>automatic</em>
 copying can be assumed to be inexpensive in terms of runtime performance.</p>
-<h4 id="ways-variables-and-data-interact-clone"><a class="header" href="#ways-variables-and-data-interact-clone">Ways Variables and Data Interact: Clone</a></h4>
+<!-- Old heading. Do not remove or links may break. -->
+<p><a id="ways-variables-and-data-interact-clone"></a></p>
+<h4 id="variables-and-data-interacting-with-clone"><a class="header" href="#variables-and-data-interacting-with-clone">Variables and Data Interacting with Clone</a></h4>
 <p>If we <em>do</em> want to deeply copy the heap data of the <code>String</code>, not just the
 stack data, we can use a common method called <code>clone</code>. We’ll discuss method
 syntax in Chapter 5, but because methods are a common feature in many
@@ -3439,8 +3458,8 @@ where the heap data <em>does</em> get copied.</p>
 executed and that code may be expensive. It’s a visual indicator that something
 different is going on.</p>
 <h4 id="stack-only-data-copy"><a class="header" href="#stack-only-data-copy">Stack-Only Data: Copy</a></h4>
-<p>There’s another wrinkle we haven’t talked about yet. This code using integers –
-part of which was shown in Listing 4-2 – works and is valid:</p>
+<p>There’s another wrinkle we haven’t talked about yet. This code using
+integers—part of which was shown in Listing 4-2—works and is valid:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
@@ -3454,7 +3473,7 @@ time are stored entirely on the stack, so copies of the actual values are quick
 to make. That means there’s no reason we would want to prevent <code>x</code> from being
 valid after we create the variable <code>y</code>. In other words, there’s no difference
 between deep and shallow copying here, so calling <code>clone</code> wouldn’t do anything
-different from the usual shallow copying and we can leave it out.</p>
+different from the usual shallow copying, and we can leave it out.</p>
 <p>Rust has a special annotation called the <code>Copy</code> trait that we can place on
 types that are stored on the stack, as integers are (we’ll talk more about
 traits in <a href="ch10-02-traits.html">Chapter 10</a><!-- ignore -->). If a type implements the <code>Copy</code>
@@ -3466,7 +3485,7 @@ when the value goes out of scope and we add the <code>Copy</code> annotation to 
 we’ll get a compile-time error. To learn about how to add the <code>Copy</code> annotation
 to your type to implement the trait, see <a href="appendix-03-derivable-traits.html">“Derivable
 Traits”</a><!-- ignore --> in Appendix C.</p>
-<p>So what types implement the <code>Copy</code> trait? You can check the documentation for
+<p>So, what types implement the <code>Copy</code> trait? You can check the documentation for
 the given type to be sure, but as a general rule, any group of simple scalar
 values can implement <code>Copy</code>, and nothing that requires allocation or is some
 form of resource can implement <code>Copy</code>. Here are some of the types that
@@ -3474,7 +3493,7 @@ implement <code>Copy</code>:</p>
 <ul>
 <li>All the integer types, such as <code>u32</code>.</li>
 <li>The Boolean type, <code>bool</code>, with values <code>true</code> and <code>false</code>.</li>
-<li>All the floating point types, such as <code>f64</code>.</li>
+<li>All the floating-point types, such as <code>f64</code>.</li>
 <li>The character type, <code>char</code>.</li>
 <li>Tuples, if they only contain types that also implement <code>Copy</code>. For example,
 <code>(i32, i32)</code> implements <code>Copy</code>, but <code>(i32, String)</code> does not.</li>
@@ -3515,9 +3534,9 @@ compile-time error. These static checks protect us from mistakes. Try adding
 code to <code>main</code> that uses <code>s</code> and <code>x</code> to see where you can use them and where
 the ownership rules prevent you from doing so.</p>
 <h3 id="return-values-and-scope"><a class="header" href="#return-values-and-scope">Return Values and Scope</a></h3>
-<p>Returning values can also transfer ownership. Listing 4-4 shows an example
-of a function that returns some value, with similar annotations as those in
-Listing 4-3.</p>
+<p>Returning values can also transfer ownership. Listing 4-4 shows an example of a
+function that returns some value, with similar annotations as those in Listing
+4-3.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s1 = gives_ownership();         // gives_ownership moves its return
@@ -7462,7 +7481,8 @@ một phương thức <code>pop</code> sẽ loại bỏ và trả về phần t�
 Trình kiểm tra mượn tham chiếu sẽ đảm bảo rằng bất kỳ tham chiếu nào đến nội dung của vector chỉ 
 được sử dụng khi chính vector đó còn hợp lệ.</p>
 <p>Hãy chuyển sang loại tập hợp tiếp theo: <code>String</code>!</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string-storing-utf-8-encoded-text-with-strings"><a class="header" href="#lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string-storing-utf-8-encoded-text-with-strings">Lưu trữ văn bản được mã hóa UTF-8 bằng chuỗi (String) {#storing-utf-8-encoded-text-with-strings}</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="storing-utf-8-encoded-text-with-strings"></a></p>
+<h2 id="lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string"><a class="header" href="#lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string">Lưu trữ văn bản được mã hóa UTF-8 bằng chuỗi (String)</a></h2>
 <p>Chúng ta đã nói về chuỗi trong Chương 4, nhưng bây giờ chúng ta sẽ xem xét chúng sâu hơn. Những tín đồ mới của Rust thường bị mắc kẹt khi làm việc với string vì ba lý do: Rust có xu hướng tìm ra các lỗi có khả năng xảy ra, chuỗi là một cấu trúc dữ liệu phức tạp hơn nhiều lập trình viên nghĩ và thứ ba là về UTF-8. Những yếu tố này kết hợp theo cách có vẻ khó khăn khi bạn hiểu theo cách các ngôn ngữ lập trình khác.</p>
 <p>Chúng ta sẽ thảo luận về string theo khía cạnh các tập hợp bởi vì string được triển khai dưới dạng tập hợp các byte, được thêm vào một số phương thức để cung cấp chức năng hữu ích khi các byte đó được diễn dịch thành văn bản. Trong phần này, chúng ta sẽ nói về các thao tác trên <code>String</code> mà mọi loại tập hợp đều có, chẳng hạn như tạo, cập nhật và truy xuất. Chúng ta cũng sẽ thảo luận về những cách mà một <code>String</code> khác với các tập hợp khác, cụ thể là cách lập chỉ mục index trong <code>String</code> là phức tạp bởi sự khác biệt giữa cách con người và máy tính diễn giải dữ liệu <code>String</code>.</p>
 <h3 id="string-là-gì"><a class="header" href="#string-là-gì">String là gì?</a></h3>
@@ -7532,7 +7552,8 @@ Trình kiểm tra mượn tham chiếu sẽ đảm bảo rằng bất kỳ tham 
 <span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-17: Thêm một ký tự vào giá trị <code>String</code> bằng cách dùng phương thức <code>push</code></span></p>
 <p>Kết quả là, <code>s</code> sẽ chứa <code>lol</code>.</p>
-<h4 id="nối-chuỗi-với-toán-tử--hoặc-macro-format-concatenation-with-the--operator-or-the-format-macro"><a class="header" href="#nối-chuỗi-với-toán-tử--hoặc-macro-format-concatenation-with-the--operator-or-the-format-macro">Nối chuỗi với toán tử <code>+</code> hoặc macro <code>format!</code> {#concatenation-with-the--operator-or-the-format-macro}</a></h4>
+<p><a id="concatenation-with-the--operator-or-the-format-macro"></a></p>
+<h4 id="nối-chuỗi-với-toán-tử--hoặc-macro-format"><a class="header" href="#nối-chuỗi-với-toán-tử--hoặc-macro-format">Nối chuỗi với toán tử <code>+</code> hoặc macro <code>format!</code></a></h4>
 <p>Thông thường, bạn sẽ muốn kết hợp hai chuỗi hiện có. Có một cách để làm điều này là dùng toán tử <code>+</code>, được thể hiện ở mục 8-18</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;Hello, &quot;);
@@ -7692,7 +7713,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>Tóm lại, kiểu chuỗi rất phức tạp. Các ngôn ngữ lập trình khác nhau tạo ra các lựa chọn khác nhau về cách thể hiện sự phức tạp cho lập trình viên. Rust đã chọn việc xử lý chính xác dữ liệu <code>String</code> làm hành vi mặc định cho tất cả các chương trình Rust, điều đó có nghĩa là các lập trình viên phải suy nghĩ nhiều hơn về việc xử lý dữ liệu UTF-8 từ trước. Sự đánh đổi này cho thấy kiểu chuỗi có tính phức tạp hơn các ngôn ngữ lập trình khác, nhưng nó lại giúp bạn khỏi phải xử lý các lỗi liên quan đến các ký tự không phải ASCII sau này trong vòng đời phát triển của mình.</p>
 <p>Tin tốt là thư viện chuẩn cung cấp rất nhiều chức năng được xây dựng dựa trên các loại <code>String</code> và <code>&amp;str</code> để giúp xử lý các tình huống phức tạp này một cách chính xác. Nhớ xem tài liệu để biết các phương thức hữu ích như <code>contains</code> để tìm kiếm trong một chuỗi và <code>replace</code> để thay thế các phần của một chuỗi bằng một chuỗi khác.</p>
 <p>Hãy chuyển sang một thứ ít phức tạp hơn một chút: bản đồ băm!</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="lưu-trữ-khóa-với-giá-trị-liên-kết-trong-bản-đồ-băm-hash-map-accessing-values-in-a-hash-map"><a class="header" href="#lưu-trữ-khóa-với-giá-trị-liên-kết-trong-bản-đồ-băm-hash-map-accessing-values-in-a-hash-map">Lưu trữ khóa với giá trị liên kết trong bản đồ băm (Hash Map) {#accessing-values-in-a-hash-map}</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="accessing-values-in-a-hash-map"></a></p>
+<h2 id="lưu-trữ-khóa-với-giá-trị-liên-kết-trong-bản-đồ-băm-hash-map"><a class="header" href="#lưu-trữ-khóa-với-giá-trị-liên-kết-trong-bản-đồ-băm-hash-map">Lưu trữ khóa với giá trị liên kết trong bản đồ băm (Hash Map)</a></h2>
 <p>Phần tập hợp cuối cùng trong bộ các tập hợp phổ biến là <em>bản đồ băm</em>. Kiểu <code>HashMap&lt;K,V&gt;</code> lưu trữ ánh xạ các khóa kiểu <code>K</code> tới các giá trị kiểu <code>V</code> bằng cách sử dụng <em>hàm băm</em>, xác định cách nó thiết đặt khóa và giá trị vào bộ nhớ. Nhiều ngôn ngữ lập trình hỗ trợ loại cấu trúc dữ liệu này, nhưng chúng thường được dùng với một cái tên khác, chẳng hạn như băm (hash), bản đồ (map), đối tượng (object), bảng băm (hash table), từ điển (dictionary) hoặc mảng kết hợp, chỉ nêu ra một vài cái tên ví dụ như vậy.</p>
 <p>Bản đồ băm rất hữu ích khi bạn muốn tra cứu dữ liệu không phải bằng cách sử dụng chỉ mục index như bạn có thể làm với vector, mà bằng cách sử dụng một khóa có thể là bất kỳ loại nào. Ví dụ: trong một trò chơi, bạn có thể theo dõi điểm số của mỗi đội trong một bản đồ băm trong đó mỗi khóa là tên của đội và các giá trị là điểm số của mỗi đội. Tương ứng với tên một đội, bạn có thể lấy điểm của đội đó.</p>
 <p>Chúng ta sẽ xem xét API cơ bản của bản đồ băm trong phần này, có nhiều tính năng bổ sung khác đang ẩn trong các hàm được định nghĩa trong <code>HashMap&lt;K,V&gt;</code> bởi thư viện chuẩn. Như mọi khi, hãy tham khảo tài liệu thư viện tiêu chuẩn để biết thêm thông tin.</p>

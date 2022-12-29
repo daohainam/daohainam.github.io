@@ -146,7 +146,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string-storing-utf-8-encoded-text-with-strings"><a class="header" href="#lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string-storing-utf-8-encoded-text-with-strings">Lưu trữ văn bản được mã hóa UTF-8 bằng chuỗi (String) {#storing-utf-8-encoded-text-with-strings}</a></h2>
+                        <p><a id="storing-utf-8-encoded-text-with-strings"></a></p>
+<h2 id="lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string"><a class="header" href="#lưu-trữ-văn-bản-được-mã-hóa-utf-8-bằng-chuỗi-string">Lưu trữ văn bản được mã hóa UTF-8 bằng chuỗi (String)</a></h2>
 <p>Chúng ta đã nói về chuỗi trong Chương 4, nhưng bây giờ chúng ta sẽ xem xét chúng sâu hơn. Những tín đồ mới của Rust thường bị mắc kẹt khi làm việc với string vì ba lý do: Rust có xu hướng tìm ra các lỗi có khả năng xảy ra, chuỗi là một cấu trúc dữ liệu phức tạp hơn nhiều lập trình viên nghĩ và thứ ba là về UTF-8. Những yếu tố này kết hợp theo cách có vẻ khó khăn khi bạn hiểu theo cách các ngôn ngữ lập trình khác.</p>
 <p>Chúng ta sẽ thảo luận về string theo khía cạnh các tập hợp bởi vì string được triển khai dưới dạng tập hợp các byte, được thêm vào một số phương thức để cung cấp chức năng hữu ích khi các byte đó được diễn dịch thành văn bản. Trong phần này, chúng ta sẽ nói về các thao tác trên <code>String</code> mà mọi loại tập hợp đều có, chẳng hạn như tạo, cập nhật và truy xuất. Chúng ta cũng sẽ thảo luận về những cách mà một <code>String</code> khác với các tập hợp khác, cụ thể là cách lập chỉ mục index trong <code>String</code> là phức tạp bởi sự khác biệt giữa cách con người và máy tính diễn giải dữ liệu <code>String</code>.</p>
 <h3 id="string-là-gì"><a class="header" href="#string-là-gì">String là gì?</a></h3>
@@ -216,7 +217,8 @@
 <span class="boring">}</span></code></pre></pre>
 <p><span class="caption">Mục 8-17: Thêm một ký tự vào giá trị <code>String</code> bằng cách dùng phương thức <code>push</code></span></p>
 <p>Kết quả là, <code>s</code> sẽ chứa <code>lol</code>.</p>
-<h4 id="nối-chuỗi-với-toán-tử--hoặc-macro-format-concatenation-with-the--operator-or-the-format-macro"><a class="header" href="#nối-chuỗi-với-toán-tử--hoặc-macro-format-concatenation-with-the--operator-or-the-format-macro">Nối chuỗi với toán tử <code>+</code> hoặc macro <code>format!</code> {#concatenation-with-the--operator-or-the-format-macro}</a></h4>
+<p><a id="concatenation-with-the--operator-or-the-format-macro"></a></p>
+<h4 id="nối-chuỗi-với-toán-tử--hoặc-macro-format"><a class="header" href="#nối-chuỗi-với-toán-tử--hoặc-macro-format">Nối chuỗi với toán tử <code>+</code> hoặc macro <code>format!</code></a></h4>
 <p>Thông thường, bạn sẽ muốn kết hợp hai chuỗi hiện có. Có một cách để làm điều này là dùng toán tử <code>+</code>, được thể hiện ở mục 8-18</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;Hello, &quot;);
