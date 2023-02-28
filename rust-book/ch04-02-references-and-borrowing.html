@@ -146,18 +146,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="references-and-borrowing"><a class="header" href="#references-and-borrowing">References and Borrowing</a></h2>
-<p>The issue with the tuple code in Listing 4-5 is that we have to return the
-<code>String</code> to the calling function so we can still use the <code>String</code> after the
-call to <code>calculate_length</code>, because the <code>String</code> was moved into
-<code>calculate_length</code>. Instead, we can provide a reference to the <code>String</code> value.
-A <em>reference</em> is like a pointer in that it’s an address we can follow to access
-the data stored at that address; that data is owned by some other variable.
-Unlike a pointer, a reference is guaranteed to point to a valid value of a
-particular type for the life of that reference.</p>
-<p>Here is how you would define and use a <code>calculate_length</code> function that
-has a reference to an object as a parameter instead of taking ownership of the
-value:</p>
+                        <p><a id="references-and-borrowing"></a></p>
+<h2 id="references-and-borrowing-tham-chiếu-và-mượn"><a class="header" href="#references-and-borrowing-tham-chiếu-và-mượn">References and Borrowing (tham chiếu và mượn)</a></h2>
+<p>Vấn đề với tuple code trong Liệt kê 4-5 là chúng ta phải trả về
+<code>String</code> cho hàm gọi để vẫn có thể sử dụng <code>String</code> sau khi gọi 
+tới <code>calculate_length</code>, vì <code>String</code> đã được chuyển vào
+<code>calculate_length</code>. Để làm điều đó, chúng ta có thể cung cấp một reference (tham chiếu)
+đến giá trị <code>String</code>.
+Một <em>tham chiếu</em> giống như một con trỏ ở chỗ nó là một địa chỉ mà chúng ta có thể theo dõi để truy cập
+dữ liệu được lưu trữ tại địa chỉ đó; dữ liệu đó được sở hữu bởi một số biến khác.
+Nhưng không giống con trỏ, một reference được đảm bảo trỏ đến một giá trị hợp lệ của một
+kiểu cụ thể trong suốt vòng đời của reference đó.</p>
+<p>Đây là cách bạn định nghĩa và sử dụng hàm <code>calculate_length</code> để
+có tham chiếu đến một đối tượng dưới dạng tham số thay vì lấy ownership của đối tượng
+sở hữu giá trị:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s1 = String::from(&quot;hello&quot;);
@@ -170,20 +172,20 @@ value:</p>
 fn calculate_length(s: &amp;String) -&gt; usize {
     s.len()
 }</code></pre></pre>
-<p>First, notice that all the tuple code in the variable declaration and the
-function return value is gone. Second, note that we pass <code>&amp;s1</code> into
-<code>calculate_length</code> and, in its definition, we take <code>&amp;String</code> rather than
-<code>String</code>. These ampersands represent <em>references</em>, and they allow you to refer
-to some value without taking ownership of it. Figure 4-5 depicts this concept.</p>
-<img alt="&amp;String s pointing at String s1" src="img/trpl04-05.svg" class="center" />
-<p><span class="caption">Figure 4-5: A diagram of <code>&amp;String s</code> pointing at <code>String s1</code></span></p>
+<p>Đầu tiên, lưu ý rằng tất cả tuple code trong khai báo biến và
+giá trị trả về của hàm đã biến mất. Thứ hai, lưu ý rằng chúng ta chuyển <code>&amp;s1</code> vào
+<code>calculate_length</code> và, theo định nghĩa của nó, chúng ta lấy <code>&amp;String</code> thay vì
+<code>String</code>. Các dấu &amp; này đại diện cho <em>reference</em> và chúng cho phép bạn tham chiếu
+đến một giá trị nào đó mà không sở hữu nó. Hình 4-5 mô tả khái niệm này.</p>
+<img alt="&amp;Chuỗi s chỉ vào Chuỗi s1" src="img/trpl04-05.svg" class="center" />
+<p><span class="caption">Hình 4-5: Sơ đồ <code>&amp;String s</code> chỉ vào <code>String s1</code></span></p>
 <blockquote>
-<p>Note: The opposite of referencing by using <code>&amp;</code> is <em>dereferencing</em>, which is
-accomplished with the dereference operator, <code>*</code>. We’ll see some uses of the
-dereference operator in Chapter 8 and discuss details of dereferencing in
-Chapter 15.</p>
+<p>Lưu ý: Ngược lại với reference bằng cách sử dụng <code>&amp;</code> là <em>dereferencing</em>, bằng cách
+dùng toán tử <code>*</code>. Chúng ta sẽ thấy một số công dụng của
+toán tử dereference trong Chương 8 và thảo luận chi tiết về dereference trong
+Chương 15.</p>
 </blockquote>
-<p>Let’s take a closer look at the function call here:</p>
+<p>Hãy cùng xem kỹ hơn về lệnh gọi hàm ở đây:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;hello&quot;);
 
@@ -195,11 +197,11 @@ Chapter 15.</p>
 </span><span class="boring">fn calculate_length(s: &amp;String) -&gt; usize {
 </span><span class="boring">    s.len()
 </span><span class="boring">}</span></code></pre></pre>
-<p>The <code>&amp;s1</code> syntax lets us create a reference that <em>refers</em> to the value of <code>s1</code>
-but does not own it. Because it does not own it, the value it points to will
-not be dropped when the reference stops being used.</p>
-<p>Likewise, the signature of the function uses <code>&amp;</code> to indicate that the type of
-the parameter <code>s</code> is a reference. Let’s add some explanatory annotations:</p>
+<p>Cú pháp <code>&amp;s1</code> cho phép chúng ta tạo một reference <em>tham chiếu</em> đến giá trị của <code>s1</code>
+nhưng không sở hữu nó. Vì không sở hữu nó, giá trị mà nó trỏ tới sẽ
+không bị drop khi tham chiếu ngừng được sử dụng.</p>
+<p>Tương tự như vậy, chữ ký của hàm sử dụng <code>&amp;</code> để chỉ ra rằng kiểu của
+tham số <code>s</code> là một tham chiếu. Hãy thêm một số annotation:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let s1 = String::from(&quot;hello&quot;);
 </span><span class="boring">
@@ -212,17 +214,17 @@ the parameter <code>s</code> is a reference. Let’s add some explanatory annota
     s.len()
 } // Here, s goes out of scope. But because it does not have ownership of what
   // it refers to, it is not dropped.</code></pre></pre>
-<p>The scope in which the variable <code>s</code> is valid is the same as any function
-parameter’s scope, but the value pointed to by the reference is not dropped
-when <code>s</code> stops being used because <code>s</code> doesn’t have ownership. When functions
-have references as parameters instead of the actual values, we won’t need to
-return the values in order to give back ownership, because we never had
-ownership.</p>
-<p>We call the action of creating a reference <em>borrowing</em>. As in real life, if a
-person owns something, you can borrow it from them. When you’re done, you have
-to give it back. You don’t own it.</p>
-<p>So what happens if we try to modify something we’re borrowing? Try the code in
-Listing 4-6. Spoiler alert: it doesn’t work!</p>
+<p>Phạm vi (scope) mà biến <code>s</code> hợp lệ giống như bất kỳ phạm vi của tham số nào, 
+nhưng giá trị được trỏ đến bởi tham chiếu không bị drop khi <code>s</code> ngừng được sử dụng 
+vì <code>s</code> không có ownership. Khi hàm sử dụng tham số dưới dạng tham chiếu thay vì 
+biến thực, chúng ta sẽ không cần trả lại các giá trị để trả lại ownership, vì chúng ta 
+chưa bao giờ sở hữu chúng.</p>
+<p>Chúng ta gọi hành động tạo một reference là <em>borrowing</em> (mượn). Giống như 
+trong cuộc sống thực, nếu một người sở hữu một cái gì đó, bạn có thể mượn nó từ họ. 
+Khi bạn hoàn thành, bạn có để trả lại. Bạn không sở hữu nó.</p>
+<p>Vậy điều gì sẽ xảy ra nếu chúng ta cố gắng sửa đổi thứ gì đó mà chúng ta đang mượn? 
+Hãy thử mã trong Liệt kê 4-6. </p>
+<p>Spoiler alert: nó không hoạt động!</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let s = String::from(&quot;hello&quot;);
@@ -233,8 +235,8 @@ Listing 4-6. Spoiler alert: it doesn’t work!</p>
 fn change(some_string: &amp;String) {
     some_string.push_str(&quot;, world&quot;);
 }</code></pre>
-<p><span class="caption">Listing 4-6: Attempting to modify a borrowed value</span></p>
-<p>Here’s the error:</p>
+<p><span class="caption">Listing 4-6: Cố gắng sửa đổi một giá trị được borrow</span></p>
+<p>Đây là lỗi:</p>
 <pre><code class="language-console">$ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -248,11 +250,11 @@ error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;`
 For more information about this error, try `rustc --explain E0596`.
 error: could not compile `ownership` due to previous error
 </code></pre>
-<p>Just as variables are immutable by default, so are references. We’re not
-allowed to modify something we have a reference to.</p>
-<h3 id="mutable-references"><a class="header" href="#mutable-references">Mutable References</a></h3>
-<p>We can fix the code from Listing 4-6 to allow us to modify a borrowed value
-with just a few small tweaks that use, instead, a <em>mutable reference</em>:</p>
+<p>Giống như các biến là bất biến theo mặc định, các tham chiếu cũng vậy. Ta không
+được phép sửa đổi thứ gì mà ta có một reference đến.</p>
+<h3 id="mutable-references-các-tham-chiếu-có-thể-thay-đổi"><a class="header" href="#mutable-references-các-tham-chiếu-có-thể-thay-đổi">Mutable References (Các tham chiếu có thể thay đổi)</a></h3>
+<p>Chúng tôi có thể sửa code từ Liệt kê 4-6 để cho phép sửa đổi giá trị được mượn, 
+chỉ với một vài điều chỉnh nhỏ sử dụng * mutable reference *:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let mut s = String::from(&quot;hello&quot;);
@@ -263,12 +265,13 @@ with just a few small tweaks that use, instead, a <em>mutable reference</em>:</p
 fn change(some_string: &amp;mut String) {
     some_string.push_str(&quot;, world&quot;);
 }</code></pre></pre>
-<p>First, we change <code>s</code> to be <code>mut</code>. Then we create a mutable reference with <code>&amp;mut s</code> where we call the <code>change</code> function, and update the function signature to
-accept a mutable reference with <code>some_string: &amp;mut String</code>. This makes it very
-clear that the <code>change</code> function will mutate the value it borrows.</p>
-<p>Mutable references have one big restriction: if you have a mutable reference to
-a value, you can have no other references to that value. This code that
-attempts to create two mutable references to <code>s</code> will fail:</p>
+<p>Đầu tiên, chúng ta đổi <code>s</code> thành <code>mut</code>. Sau đó, chúng ta tạo một * mutable reference * 
+với <code>&amp;mut s</code> nơi ta gọi hàm <code>change</code> và cập nhật function để chấp nhận mutable reference 
+với <code>some_string: &amp;mut String</code>. Điều này giúp chỉ ra rõ ràng rằng hàm <code>change</code> sẽ thay đổi 
+giá trị mà nó mượn.</p>
+<p>Các mutable reference có một hạn chế lớn: nếu bạn có một mutable reference tới
+một giá trị, bạn không thể có thêm reference nào khác đến giá trị đó. Đoạn code này
+dùng để nỗ lực tạo hai tham chiếu có thể thay đổi đến <code>s</code> sẽ không thành công:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;hello&quot;);
@@ -278,7 +281,7 @@ attempts to create two mutable references to <code>s</code> will fail:</p>
 
     println!(&quot;{}, {}&quot;, r1, r2);
 <span class="boring">}</span></code></pre>
-<p>Here’s the error:</p>
+<p>Và đây là lỗi:</p>
 <pre><code class="language-console">$ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -295,27 +298,27 @@ error[E0499]: cannot borrow `s` as mutable more than once at a time
 For more information about this error, try `rustc --explain E0499`.
 error: could not compile `ownership` due to previous error
 </code></pre>
-<p>This error says that this code is invalid because we cannot borrow <code>s</code> as
-mutable more than once at a time. The first mutable borrow is in <code>r1</code> and must
-last until it’s used in the <code>println!</code>, but between the creation of that
-mutable reference and its usage, we tried to create another mutable reference
-in <code>r2</code> that borrows the same data as <code>r1</code>.</p>
-<p>The restriction preventing multiple mutable references to the same data at the
-same time allows for mutation but in a very controlled fashion. It’s something
-that new Rustaceans struggle with, because most languages let you mutate
-whenever you’d like. The benefit of having this restriction is that Rust can
-prevent data races at compile time. A <em>data race</em> is similar to a race
-condition and happens when these three behaviors occur:</p>
+<p>Lỗi này nói rằng code không hợp lệ vì chúng ta không thể mượn (borrow) <code>s</code> như 
+một mutable references nhiều hơn một lần tại một thời điểm. Mutable reference đầu tiên 
+nằm trong <code>r1</code> và phải kéo dài cho đến khi nó được sử dụng trong <code>println!</code>, 
+nhưng giữa việc tạo ra mutable reference và cách sử dụng nó, chúng ta đã cố gắng tạo một 
+mutable reference khác trong <code>r2</code> và mượn cùng dữ liệu với <code>r1</code>.</p>
+<p>Hạn chế ngăn nhiều tham chiếu có thể thay đổi đến cùng một dữ liệu tại
+đồng thời cho phép thay nhưng theo một cách có kiểm soát. Đó có thể là thứ
+mà những Rustacean mới cảm thấy khó khăn, vì hầu hết các ngôn ngữ cho phép bạn 
+thay đổi dữ liệu bất cứ khi nào bạn muốn. Lợi ích của việc hạn chế này là Rust 
+có thể ngăn chặn các <em>data race</em> tại thời gian biên dịch. Một <em>data race</em> 
+tương tự như một race condition và xảy ra khi ba hành vi này xảy ra:</p>
 <ul>
-<li>Two or more pointers access the same data at the same time.</li>
-<li>At least one of the pointers is being used to write to the data.</li>
-<li>There’s no mechanism being used to synchronize access to the data.</li>
+<li>Hai hoặc nhiều con trỏ truy cập cùng một dữ liệu tại cùng một thời điểm.</li>
+<li>Ít nhất một trong các con trỏ đang được sử dụng để ghi vào dữ liệu.</li>
+<li>Không có cơ chế nào được sử dụng để đồng bộ hóa quyền truy cập vào dữ liệu.</li>
 </ul>
-<p>Data races cause undefined behavior and can be difficult to diagnose and fix
-when you’re trying to track them down at runtime; Rust prevents this problem
-by refusing to compile code with data races!</p>
-<p>As always, we can use curly brackets to create a new scope, allowing for
-multiple mutable references, just not <em>simultaneous</em> ones:</p>
+<p>Các data race gây ra hành vi không xác định và có thể khó chẩn đoán cũng như khắc phục
+khi bạn đang cố theo dõi chúng khi chạy chương trình; Rust ngăn chặn vấn đề này
+bằng cách từ chối biên dịch mã với các data race!</p>
+<p>Như mọi khi, ta có thể sử dụng dấu ngoặc nhọn để tạo một scope mới, cho phép
+nhiều tham chiếu có thể thay đổi, chỉ là không phải <em>đồng thời</em>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;hello&quot;);
 
@@ -325,8 +328,9 @@ multiple mutable references, just not <em>simultaneous</em> ones:</p>
 
     let r2 = &amp;mut s;
 <span class="boring">}</span></code></pre></pre>
-<p>Rust enforces a similar rule for combining mutable and immutable references.
-This code results in an error:</p>
+<p>Rust thực thi một quy tắc tương tự cho việc kết hợp các mutable reference 
+và immutable reference.
+Mã này dẫn đến một lỗi:</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;hello&quot;);
 
@@ -336,7 +340,7 @@ This code results in an error:</p>
 
     println!(&quot;{}, {}, and {}&quot;, r1, r2, r3);
 <span class="boring">}</span></code></pre>
-<p>Here’s the error:</p>
+<p>Đây là lỗi:</p>
 <pre><code class="language-console">$ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -354,16 +358,15 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `ownership` due to previous error
 </code></pre>
-<p>Whew! We <em>also</em> cannot have a mutable reference while we have an immutable one
-to the same value.</p>
-<p>Users of an immutable reference don’t expect the value to suddenly change out
-from under them! However, multiple immutable references are allowed because no
-one who is just reading the data has the ability to affect anyone else’s
-reading of the data.</p>
-<p>Note that a reference’s scope starts from where it is introduced and continues
-through the last time that reference is used. For instance, this code will
-compile because the last usage of the immutable references, the <code>println!</code>,
-occurs before the mutable reference is introduced:</p>
+<p>Whew! Chúng ta <em>cũng</em> không thể có một mutable reference trong khi có một 
+immutable reference chỉ đến cùng giá trị.</p>
+<p>Người dùng của một immutable reference không mong đợi giá trị đột ngột thay đổi
+từ đâu đó bên dưới! Tuy nhiên, nhiều immutable reference được cho phép vì 
+mọi người chỉ đang đọc dữ liệu và không ai có khả năng ảnh hưởng đến bất kỳ ai khác.</p>
+<p>Lưu ý rằng phạm vi của tham chiếu bắt đầu từ nơi nó được giới thiệu và tiếp tục
+cho đến lần cuối cùng tham chiếu đó được sử dụng. Ví dụ, mã này sẽ
+biên dịch bởi vì lần sử dụng cuối cùng của immutable reference, <code>println!</code>,
+xảy ra trước khi mutable reference được giới thiệu:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;hello&quot;);
 
@@ -375,26 +378,25 @@ occurs before the mutable reference is introduced:</p>
     let r3 = &amp;mut s; // no problem
     println!(&quot;{}&quot;, r3);
 <span class="boring">}</span></code></pre></pre>
-<p>The scopes of the immutable references <code>r1</code> and <code>r2</code> end after the <code>println!</code>
-where they are last used, which is before the mutable reference <code>r3</code> is
-created. These scopes don’t overlap, so this code is allowed. The ability of
-the compiler to tell that a reference is no longer being used at a point before
-the end of the scope is called <em>Non-Lexical Lifetimes</em> (NLL for short), and you
-can read more about it in <a href="https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/non-lexical-lifetimes.html">The Edition Guide</a>.</p>
-<p>Even though borrowing errors may be frustrating at times, remember that it’s
-the Rust compiler pointing out a potential bug early (at compile time rather
-than at runtime) and showing you exactly where the problem is. Then you don’t
-have to track down why your data isn’t what you thought it was.</p>
+<p>Phạm vi của các tham chiếu bất biến (mutable reference) <code>r1</code> và <code>r2</code> kết thúc sau <code>println!</code>
+nơi chúng được sử dụng lần cuối, trước mutable reference <code>r3</code> được tạo. 
+Các phạm vi này không trùng nhau, vì vậy code này được phép. khả năng của
+trình biên dịch để báo rằng một tham chiếu không còn được sử dụng tại một thời điểm trước 
+khi kết thúc scope được gọi là <em>Non-Lexical Lifetimes</em> (viết tắt là NLL) và bạn
+có thể đọc thêm về nó trong <a href="https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/non-lexical-lifetimes.html">The Edition Guide</a>.</p>
+<p>Mặc dù đôi khi lỗi borrow có thể gây khó chịu, hãy nhớ rằng đó là
+trình biên dịch Rust đã sớm chỉ ra một lỗi tiềm ẩn (tại thời điểm biên dịch
+so với thời gian chạy) và cho bạn biết chính xác vấn đề nằm ở đâu. Sau đó, bạn không
+phải tìm ra lý do tại sao dữ liệu của bạn không giống như bạn nghĩ.</p>
 <h3 id="dangling-references"><a class="header" href="#dangling-references">Dangling References</a></h3>
-<p>In languages with pointers, it’s easy to erroneously create a <em>dangling
-pointer</em>--a pointer that references a location in memory that may have been
-given to someone else--by freeing some memory while preserving a pointer to
-that memory. In Rust, by contrast, the compiler guarantees that references will
-never be dangling references: if you have a reference to some data, the
-compiler will ensure that the data will not go out of scope before the
-reference to the data does.</p>
-<p>Let’s try to create a dangling reference to see how Rust prevents them with a
-compile-time error:</p>
+<p>Trong các ngôn ngữ có con trỏ, rất dễ tạo nhầm <em>dangling pointer</em>--con trỏ 
+tham chiếu đến một vị trí trong bộ nhớ có thể đã được được cấp cho một code 
+khác--bằng cách giải phóng bộ nhớ trong khi vẫn giữ một con trỏ tới
+phần bộ nhớ đó. Ngược lại, trong Rust, trình biên dịch đảm bảo rằng các tham chiếu sẽ
+không bao giờ là dangling reference: nếu bạn có một reference đến một dữ liệu,
+trình biên dịch sẽ đảm bảo rằng dữ liệu sẽ không đi ra khỏi scope trước reference đó.</p>
+<p>Hãy thử tạo một dangling reference để xem cách Rust ngăn chặn chúng bằng một
+lỗi biên dịch:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let reference_to_nothing = dangle();
@@ -405,7 +407,7 @@ fn dangle() -&gt; &amp;String {
 
     &amp;s
 }</code></pre>
-<p>Here’s the error:</p>
+<p>Đây là lỗi:</p>
 <pre><code class="language-console">$ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -423,14 +425,15 @@ help: consider using the `'static` lifetime
 For more information about this error, try `rustc --explain E0106`.
 error: could not compile `ownership` due to previous error
 </code></pre>
-<p>This error message refers to a feature we haven’t covered yet: lifetimes. We’ll
-discuss lifetimes in detail in Chapter 10. But, if you disregard the parts
-about lifetimes, the message does contain the key to why this code is a problem:</p>
+<p>Thông báo lỗi này đề cập đến một tính năng mà chúng ta chưa đề cập đến: lifetime 
+(thời gian sống). Ta sẽ thảo luận chi tiết về lifetime trong Chương 10. 
+Nhưng, nếu bạn bỏ qua các phần về lifetime, thông báo chứa chìa khóa giải 
+thích tại sao mã này lại có vấn đề:</p>
 <pre><code class="language-text">this function's return type contains a borrowed value, but there is no value
 for it to be borrowed from
 </code></pre>
-<p>Let’s take a closer look at exactly what’s happening at each stage of our
-<code>dangle</code> code:</p>
+<p>Chúng ta hãy xem xét kỹ hơn chính xác những gì đang xảy ra vào mỗi bước trong
+code <code>dangle</code> của chúng ta:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let reference_to_nothing = dangle();
@@ -443,11 +446,11 @@ for it to be borrowed from
     &amp;s // we return a reference to the String, s
 } // Here, s goes out of scope, and is dropped. Its memory goes away.
   // Danger!</code></pre>
-<p>Because <code>s</code> is created inside <code>dangle</code>, when the code of <code>dangle</code> is finished,
-<code>s</code> will be deallocated. But we tried to return a reference to it. That means
-this reference would be pointing to an invalid <code>String</code>. That’s no good! Rust
-won’t let us do this.</p>
-<p>The solution here is to return the <code>String</code> directly:</p>
+<p>Vì <code>s</code> được tạo bên trong <code>dangle</code>, khi code của <code>dangle</code> kết thúc,
+<code>s</code> sẽ được giải phóng. Nhưng chúng ta đã cố gắng trả lại một tham chiếu đến nó. 
+Điều đó có nghĩa là tham chiếu này sẽ trỏ đến một <code>String</code> không hợp lệ. 
+Điều đó hoàn toàn không tốt! Rust sẽ không cho phép chúng ta làm điều này.</p>
+<p>Giải pháp ở đây là trả về <code>String</code> trực tiếp:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span><span class="boring">    let string = no_dangle();
 </span><span class="boring">}
@@ -457,16 +460,16 @@ won’t let us do this.</p>
 
     s
 }</code></pre></pre>
-<p>This works without any problems. Ownership is moved out, and nothing is
-deallocated.</p>
-<h3 id="the-rules-of-references"><a class="header" href="#the-rules-of-references">The Rules of References</a></h3>
-<p>Let’s recap what we’ve discussed about references:</p>
+<p>Điều này hoạt động mà không có bất kỳ vấn đề gì. Ownership được chuyển ra ngoài, và 
+không có biến nào được giải phóng.</p>
+<h3 id="các-quy-tắc-về-tham-chiếu"><a class="header" href="#các-quy-tắc-về-tham-chiếu">Các quy tắc về tham chiếu</a></h3>
+<p>Hãy tóm tắt lại những gì chúng ta đã thảo luận về tham chiếu:</p>
 <ul>
-<li>At any given time, you can have <em>either</em> one mutable reference <em>or</em> any
-number of immutable references.</li>
-<li>References must always be valid.</li>
+<li>Tại bất kỳ thời điểm nào, bạn có thể có <em>hoặc</em> chỉ một mutable reference <em>hoặc</em> 
+nhiều mutable reference.</li>
+<li>Reference phải luôn hợp lệ.</li>
 </ul>
-<p>Next, we’ll look at a different kind of reference: slices.</p>
+<p>Tiếp theo, chúng ta sẽ xem xét một loại tham chiếu khác: slice.</p>
 
                     </main>
 

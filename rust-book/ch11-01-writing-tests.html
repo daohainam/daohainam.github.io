@@ -317,7 +317,7 @@ test tests::exploration ... ok
 failures:
 
 ---- tests::another stdout ----
-thread 'main' panicked at 'Make this test fail', src/lib.rs:10:9
+thread 'tests::another' panicked at 'Make this test fail', src/lib.rs:10:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
@@ -566,7 +566,7 @@ test tests::smaller_cannot_hold_larger ... ok
 failures:
 
 ---- tests::larger_can_hold_smaller stdout ----
-thread 'main' panicked at 'assertion failed: larger.can_hold(&amp;smaller)', src/lib.rs:28:9
+thread 'tests::larger_can_hold_smaller' panicked at 'assertion failed: larger.can_hold(&amp;smaller)', src/lib.rs:28:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
@@ -656,7 +656,7 @@ test tests::it_adds_two ... FAILED
 failures:
 
 ---- tests::it_adds_two stdout ----
-thread 'main' panicked at 'assertion failed: `(left == right)`
+thread 'tests::it_adds_two' panicked at 'assertion failed: `(left == right)`
   left: `4`,
  right: `5`', src/lib.rs:11:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -763,7 +763,7 @@ test tests::greeting_contains_name ... FAILED
 failures:
 
 ---- tests::greeting_contains_name stdout ----
-thread 'main' panicked at 'assertion failed: result.contains(\&quot;Carol\&quot;)', src/lib.rs:12:9
+thread 'tests::greeting_contains_name' panicked at 'assertion failed: result.contains(\&quot;Carol\&quot;)', src/lib.rs:12:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
@@ -809,7 +809,7 @@ test tests::greeting_contains_name ... FAILED
 failures:
 
 ---- tests::greeting_contains_name stdout ----
-thread 'main' panicked at 'Greeting did not contain name, value was `Hello!`', src/lib.rs:12:9
+thread 'tests::greeting_contains_name' panicked at 'Greeting did not contain name, value was `Hello!`', src/lib.rs:12:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
@@ -1031,7 +1031,7 @@ test tests::greater_than_100 - should panic ... FAILED
 failures:
 
 ---- tests::greater_than_100 stdout ----
-thread 'main' panicked at 'Guess value must be greater than or equal to 1, got 200.', src/lib.rs:13:13
+thread 'tests::greater_than_100' panicked at 'Guess value must be greater than or equal to 1, got 200.', src/lib.rs:13:13
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 note: panic did not contain expected string
       panic message: `&quot;Guess value must be greater than or equal to 1, got 200.&quot;`,

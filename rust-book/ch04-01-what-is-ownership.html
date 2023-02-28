@@ -270,26 +270,26 @@ này <code>String</code> là một ví dụ tuyệt vời.</p>
 Nhưng những phần này cũng có thể áp dụng lên các kiểu dữ liệu phức tạp khác,
 bao gồm cả các kiểu trong thư viện chuẩn và các kiểu do bạn tự tạo. Chúng ta sẽ 
 nói sâu hơn về <code>String</code> trong <a href="ch08-02-strings.html">Chương 8</a><!-- ignore -->.</p>
-<p>We’ve already seen string literals, where a string value is hardcoded into our
-program. String literals are convenient, but they aren’t suitable for every
-situation in which we may want to use text. One reason is that they’re
-immutable. Another is that not every string value can be known when we write
-our code: for example, what if we want to take user input and store it? For
-these situations, Rust has a second string type, <code>String</code>. This type manages
-data allocated on the heap and as such is able to store an amount of text that
-is unknown to us at compile time. You can create a <code>String</code> from a string
-literal using the <code>from</code> function, like so:</p>
+<p>Chúng ta đã xem các giá trị chuỗi, khi mà các chuỗi được hard code vào thẳng
+trong chương trình. Các giá trị chuỗi rất có ích, nhưng chúng lại không phù hợp
+cho nhiều trường hợp. Một lý do là chúng không thể thay đổi. Một lý do khác là 
+trong nhiều trường hợp ta không biết giá trị thực sự của nó lúc viết code: ví
+dụ nếu bạn muốn nhận dữ liệu từ người dùng và lưu lại? Với những trường hợp như 
+vậy, Rust có một kiểu dữ liệu chuỗi nữa, <code>String</code>. Kiểu dữ liệu này quản lý dữ liệu 
+được phân bố trên heap và nó có khả năng lưu trữ một khối văn bản ta không biết
+vào thời điểm biên dịch. Bạn có thể tạo một <code>String</code> từ một giá trị chuỗi bằng cách 
+dùng hàm <code>from</code>, giống như sau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from(&quot;hello&quot;);
 <span class="boring">}</span></code></pre></pre>
-<p>The double colon <code>::</code> operator allows us to namespace this particular <code>from</code>
-function under the <code>String</code> type rather than using some sort of name like
-<code>string_from</code>. We’ll discuss this syntax more in the <a href="ch05-03-method-syntax.html#method-syntax">“Method
-Syntax”</a><!-- ignore --> section of Chapter 5, and when we talk
-about namespacing with modules in <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“Paths for Referring to an Item in the
-Module Tree”</a><!-- ignore --> in Chapter 7.</p>
-<p>This kind of string <em>can</em> be mutated:</p>
+<p>Cặp dấu hai chấm <code>::</code> cho phép chúng ta đặt các thành phần trong Rust vào các 
+namespace khác nhau. Chúng ta có thể chỉ ra hàm <code>from</code> nằm trong <code>String</code> thay vì 
+phải viết theo kiểu <code>string_from</code>. Chúng ta sẽ thảo luận thêm về cú pháp này trong phần
+<a href="ch05-03-method-syntax.html#method-syntax">“Cú pháp của phương thức”</a><!-- ignore --> ở chương 5. Và khi chúng 
+ta nói về namespace với các module trong <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“Paths for Referring to an Item in the
+Module Tree”</a><!-- ignore --> ở chương 7.</p>
+<p>Kiểu chuỗi này <em>có thể</em> thay đổi.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let mut s = String::from(&quot;hello&quot;);
 
@@ -297,38 +297,39 @@ Module Tree”</a><!-- ignore --> in Chapter 7.</p>
 
     println!(&quot;{}&quot;, s); // This will print `hello, world!`
 <span class="boring">}</span></code></pre></pre>
-<p>So, what’s the difference here? Why can <code>String</code> be mutated but literals
-cannot? The difference is in how these two types deal with memory.</p>
-<h3 id="memory-and-allocation"><a class="header" href="#memory-and-allocation">Memory and Allocation</a></h3>
-<p>In the case of a string literal, we know the contents at compile time, so the
-text is hardcoded directly into the final executable. This is why string
-literals are fast and efficient. But these properties only come from the string
-literal’s immutability. Unfortunately, we can’t put a blob of memory into the
-binary for each piece of text whose size is unknown at compile time and whose
-size might change while running the program.</p>
-<p>With the <code>String</code> type, in order to support a mutable, growable piece of text,
-we need to allocate an amount of memory on the heap, unknown at compile time,
-to hold the contents. This means:</p>
+<p>Vậy sự khác biệt ở đây là gì? Tại sao <code>String</code> có thể thay đổi mà hằng chuỗi thì
+không? Sự khác nhau nằm ở cách hai loại này thao tác với bộ nhớ.</p>
+<h3 id="bộ-nhớ-và-phân-phối-bộ-nhớ"><a class="header" href="#bộ-nhớ-và-phân-phối-bộ-nhớ">Bộ nhớ và phân phối bộ nhớ</a></h3>
+<p>Trong trường hợp của hằng chuỗi, chúng ta biết nội dung của nó vào lúc biên dịch,
+so vậy nội dung văn bản của nó sẽ được biên dịch thẳng vào bên trong file thực thi.
+Đây là lý do vì sao các hằng chuỗi nhanh và hiệu quả. Nhưng những tính chất đó chỉ 
+có nhờ vào tính không-khả-biến (không thể thay đổi) của hằng chuỗi. Không may là,
+bạn không thể nhúng một khối văn bản vào một file thực thi mà không biết kích thước
+của nó vào lúc biên dịch, hoặc kích thước đó có thể thay đổi vào lúc chạy chương 
+trình.</p>
+<p>Với kiểu <code>String</code>, để cho phép thay đổi nội dung, hoặc tăng độ dài của khối văn
+bản, chúng ta cần phân phối cho nó một phần bộ nhớ trên heap để lưu trữ nội dung.
+Điều này có nghĩa là:</p>
 <ul>
-<li>The memory must be requested from the memory allocator at runtime.</li>
-<li>We need a way of returning this memory to the allocator when we’re done with
-our <code>String</code>.</li>
+<li>Phần bộ nhớ này cần được cấp pháp bởi trình quản lý bộ nhớ khi chạy chương trình.</li>
+<li>Cần một cách để trả lại phần bộ nhớ này khi đã làm việc xong với chuỗi
+<code>String</code> của chúng ta.</li>
 </ul>
-<p>That first part is done by us: when we call <code>String::from</code>, its implementation
-requests the memory it needs. This is pretty much universal in programming
-languages.</p>
-<p>However, the second part is different. In languages with a <em>garbage collector
-(GC)</em>, the GC keeps track of and cleans up memory that isn’t being used
-anymore, and we don’t need to think about it. In most languages without a GC,
-it’s our responsibility to identify when memory is no longer being used and to
-call code to explicitly free it, just as we did to request it. Doing this
-correctly has historically been a difficult programming problem. If we forget,
-we’ll waste memory. If we do it too early, we’ll have an invalid variable. If
-we do it twice, that’s a bug too. We need to pair exactly one <code>allocate</code> with
-exactly one <code>free</code>.</p>
-<p>Rust takes a different path: the memory is automatically returned once the
-variable that owns it goes out of scope. Here’s a version of our scope example
-from Listing 4-1 using a <code>String</code> instead of a string literal:</p>
+<p>Phần thứ nhất đã được hoàn thành khi chúng ta gọi <code>String::from</code>, hàm <code>from</code> sẽ 
+yêu cầu phần bộ nhớ mà nó cần. Những thao táo quen thuộc này khá phổ biến trong 
+các ngôn ngữ lập trình.</p>
+<p>Tuy nhiên, phần thứ hai lại khác. Trong các ngôn ngữ có <em>bộ dọn rác</em> (garbage collector
+(GC)), GC sẽ theo dõi và giải phóng các phần bộ nhớ không còn được dùng đến, và 
+ta không cần phải quan tâm đến chúng. Trong hầu hết các ngôn ngữ không có GC,
+chúng ta phải có trách nhiệm tự quản lý các vùng nhớ để biết chúng khi nào không
+còn được dùng nữa và gọi hàm giải phóng bộ nhớ. Công việc này vốn đã được lịch sử
+chứng minh là rất khó để làm một các đúng đắn. Nếu ta lỡ quên, chúng ta sẽ gây lãng
+phí bộ nhớ. Nếu ta làm điều đó quá sớm, chúng ta sẽ có một biến không hợp lệ. Nếu
+ta làm điều đó hai lần, đó cũng là lỗi. Chúng ta phải có chính xác từng <code>free</code> cho 
+mỗi <code>allocate</code>.</p>
+<p>Rust chọn một con đường khác: phần bộ nhớ sẽ được tự động trả lại một khi biến đi
+ra khỏi tầm vực của nó. Đây là một phiên bản của ví dụ về tầm vực từ Listing 4-1 
+nhưng sử dụng <code>String</code> thay vì một hằng chuỗi:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    {
         let s = String::from(&quot;hello&quot;); // s is valid from this point forward
@@ -337,100 +338,96 @@ from Listing 4-1 using a <code>String</code> instead of a string literal:</p>
     }                                  // this scope is now over, and s is no
                                        // longer valid
 <span class="boring">}</span></code></pre></pre>
-<p>There is a natural point at which we can return the memory our <code>String</code> needs
-to the allocator: when <code>s</code> goes out of scope. When a variable goes out of
-scope, Rust calls a special function for us. This function is called
-<a href="../std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->, and it’s where the author of <code>String</code> can put
-the code to return the memory. Rust calls <code>drop</code> automatically at the closing
-curly bracket.</p>
+<p>Có một thời điểm tự nhiên mà chúng ta có thể trả lại phần bộ nhớ mà biến <code>String</code>
+cần: khi <code>s</code> đi ra khỏi tầm vực của nó. Khi một biến đi ra khỏi scope, Rust gọi một 
+hàm đặc biệt cho chúng ta. Hàm này được gọi là <a href="../std/ops/trait.Drop.html#tymethod.drop"><code>drop</code></a><!-- ignore -->, và
+nó là nơi tác giả của <code>String</code> có thể viết code để trả lại phần bộ nhớ đã cấp phát
+trước đó. Rust gọi <code>drop</code> một cách tự động ngay tại vị trí dấu ngoặc nhọn đóng.</p>
 <blockquote>
-<p>Note: In C++, this pattern of deallocating resources at the end of an item’s
-lifetime is sometimes called <em>Resource Acquisition Is Initialization (RAII)</em>.
-The <code>drop</code> function in Rust will be familiar to you if you’ve used RAII
-patterns.</p>
+<p>Ghi chú: trong C++, mẫu thiết kế cho phép tự động giải phóng tài nguyên vào 
+thời điểm một phần tử nào đó kết thúc vòng đời đôi khi được gọi là: <em>Resource 
+Acquisition Is Initialization (RAII)</em>. Hàm <code>drop</code> trong Rust sẽ là quen thuộc 
+nếu bạn đã từng sử dụng mẫu RAII.</p>
 </blockquote>
-<p>This pattern has a profound impact on the way Rust code is written. It may seem
-simple right now, but the behavior of code can be unexpected in more
-complicated situations when we want to have multiple variables use the data
-we’ve allocated on the heap. Let’s explore some of those situations now.</p>
+<p>Mẫu thiết kế này có một sự ảnh hưởng sâu sắc đến cách viết code Rust. Nó trông
+có vẻ đơn giản, nhưng trong những trường hợp phức tạp code có thể trở nên khó dự 
+đoán, như khi ta có nhiều biến dùng dữ liệu được phân bố trên heap. Hãy cùng khảo 
+sát một vài trường hợp:</p>
 <!-- Old heading. Do not remove or links may break. -->
-<p><a id="ways-variables-and-data-interact-move"></a></p>
-<h4 id="variables-and-data-interacting-with-move"><a class="header" href="#variables-and-data-interacting-with-move">Variables and Data Interacting with Move</a></h4>
-<p>Multiple variables can interact with the same data in different ways in Rust.
-Let’s look at an example using an integer in Listing 4-2.</p>
+<p><a id="ways-variables-and-data-interact-move"></a><a id="variables-and-data-interacting-with-move"></a></p>
+<h4 id="các-biến-và-việc-tương-tác-dữ-liệu-với-move"><a class="header" href="#các-biến-và-việc-tương-tác-dữ-liệu-với-move">Các biến và việc tương tác dữ liệu với Move</a></h4>
+<p>Nhiều biến có thể tương tác với cùng dữ liệu theo những cách khác nhau trong Rust.
+Hãy cùng xem qua một ví dụ sử dụng biến kiểu integer trong Listing 4-2.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
 <span class="boring">}</span></code></pre></pre>
-<p><span class="caption">Listing 4-2: Assigning the integer value of variable <code>x</code>
-to <code>y</code></span></p>
-<p>We can probably guess what this is doing: “bind the value <code>5</code> to <code>x</code>; then make
-a copy of the value in <code>x</code> and bind it to <code>y</code>.” We now have two variables, <code>x</code>
-and <code>y</code>, and both equal <code>5</code>. This is indeed what is happening, because integers
-are simple values with a known, fixed size, and these two <code>5</code> values are pushed
-onto the stack.</p>
-<p>Now let’s look at the <code>String</code> version:</p>
+<p><span class="caption">Listing 4-2: Gán một số nguyên từ biến <code>x</code> sang biến <code>y</code></span></p>
+<p>Chúng ta có thể đoán xem đoạn code này làm gì: &quot;gán giá trị <code>5</code> vào <code>x</code>; sau đó
+tạo một bản sao của giá trị trong <code>x</code> và gán nó cho <code>y</code>&quot;. Chúng ta sẽ có hai biến, 
+<code>x</code> và <code>y</code>, và cả hai đều bằng <code>5</code>. Đây thực sự là những gì đã diễn ra, vì số nguyên
+là những giá trị đơn giản với kích thước cố định biết trước, và hai giá trị <code>5</code> đó
+sẽ được lưu trữ trên stack.</p>
+<p>Giờ hãy xem qua phiên bản với <code>String</code>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;hello&quot;);
     let s2 = s1;
 <span class="boring">}</span></code></pre></pre>
-<p>This looks very similar, so we might assume that the way it works would be the
-same: that is, the second line would make a copy of the value in <code>s1</code> and bind
-it to <code>s2</code>. But this isn’t quite what happens.</p>
-<p>Take a look at Figure 4-1 to see what is happening to <code>String</code> under the
-covers. A <code>String</code> is made up of three parts, shown on the left: a pointer to
-the memory that holds the contents of the string, a length, and a capacity.
-This group of data is stored on the stack. On the right is the memory on the
-heap that holds the contents.</p>
-<p><img alt="Two tables: the first table contains the representation of s1 on the
-stack, consisting of its length (5), capacity (5), and a pointer to the first
-value in the second table. The second table contains the representation of the
-string data on the heap, byte by byte." src="img/trpl04-01.svg" class="center"
+<p>Đoạn này trông khá tương tự, do vậy ta có thể cho là chúng hoạt động theo cùng cách:
+đó là, dòng thứ hai sẽ tạo một bản sao của giá trị trong <code>s1</code> và gán nó vào cho 
+<code>s2</code>. Nhưng đây không thực sự là điều diễn ra.</p>
+<p>Hãy xem qua Figure 4-1 để xem điều gì diễn ra đằng sau đối với <code>String</code>. Một 
+<code>String</code> được tạo nên từ ba phần, được hiển thị phía bên trái: một con trỏ
+đến phần bộ nhớ lưu giữ nội dung của chuỗi, một biến chứa chiều dài và một chứa 
+khả năng lưu trữ. Nhóm dữ liệu này được lưu trên stack. Bên phía phải là phần bộ
+nhớ chứa nội dung của chuỗi.</p>
+<p><img alt="Hai bảng: Bảng đầu tiên chứa biểu diễn của s1 trên stack, bao gồm chiều 
+dài (5), dung lượng khả dụng (5) và một con trỏ đến giá trị đầu tiên trong bảng thứ
+hai. Bảng thứ hai chứa biểu diễn dữ liệu của chuỗi trên heap, theo từng byte."
+src="img/trpl04-01.svg" class="center"
 style="width: 50%;" /></p>
-<p><span class="caption">Figure 4-1: Representation in memory of a <code>String</code>
-holding the value <code>&quot;hello&quot;</code> bound to <code>s1</code></span></p>
-<p>The length is how much memory, in bytes, the contents of the <code>String</code> are
-currently using. The capacity is the total amount of memory, in bytes, that the
-<code>String</code> has received from the allocator. The difference between length and
-capacity matters, but not in this context, so for now, it’s fine to ignore the
-capacity.</p>
-<p>When we assign <code>s1</code> to <code>s2</code>, the <code>String</code> data is copied, meaning we copy the
-pointer, the length, and the capacity that are on the stack. We do not copy the
-data on the heap that the pointer refers to. In other words, the data
-representation in memory looks like Figure 4-2.</p>
-<p><img alt="Three tables: tables s1 and s2 representing those strings on the
-stack, respectively, and both pointing to the same string data on the heap."
+<p><span class="caption">Figure 4-1: Biểu diễn bên trong bộ nhớ của một <code>String</code>
+chứa giá trị <code>&quot;hello&quot;</code> gán cho biến <code>s1</code></span></p>
+<p>Chiều dài là bao nhiêu bộ nhớ, tính theo byte, mà nội dung của <code>String</code> hiện đang
+dùng. Dung lượng khả dụng là tổng số bộ nhớ, tính theo byte, mà <code>String</code> đã nhận
+từ trình quản lý bộ nhớ. Sự khác nhau giữa chiều dài và dung lượng khả dụng, vì 
+không có trong ví dụ này, nên hiện tại ta tạm thời bỏ qua không nói đến.</p>
+<p>Khi ta gán <code>s1</code> vào <code>s2</code>, nội dung của <code>String</code> sẽ được sao chép, có nghĩa là ta
+chỉ sao chép các thông tin con trỏ, chiều dài, và dung lượng khả dụng vốn được 
+lưu trên stack. Ta không sao chép dữ liệu trên heap mà con trỏ trỏ đến. Nói cách 
+khác, biểu diễn dữ liệu trong bộ nhớ sẽ giống như trong hình minh họa 4-2.</p>
+<p><img alt="Ba bảng: bảng s1 và s2 biểu diễn các string tương ứng trên stack, và 
+cả hai cùng trỏ vào cùng một vùng dữ liệu trên heap."
 src="img/trpl04-02.svg" class="center" style="width: 50%;" /></p>
-<p><span class="caption">Figure 4-2: Representation in memory of the variable <code>s2</code>
-that has a copy of the pointer, length, and capacity of <code>s1</code></span></p>
-<p>The representation does <em>not</em> look like Figure 4-3, which is what memory would
-look like if Rust instead copied the heap data as well. If Rust did this, the
-operation <code>s2 = s1</code> could be very expensive in terms of runtime performance if
-the data on the heap were large.</p>
-<p><img alt="Four tables: two tables representing the stack data for s1 and s2,
-and each points to its own copy of string data on the heap."
+<p><span class="caption">Hình minh họa 4-2: Biểu diễn trong bộ nhớ của biến <code>s2</code>
+chứa bản sao con trỏ, chiều dài, và dung lượng khả dụng <code>s1</code></span></p>
+<p>Biểu diễn <em>không</em> trông giống như Hình 4-3, là tổ chức bộ nhớ trong trường hợp Rust 
+cũng sao chép dữ liệu heap. Nếu Rust đã làm điều này, phép gán <code>s2 = s1</code> có thể 
+rất tốn kém về hiệu suất thời gian chạy nếu dữ liệu trên heap lớn.</p>
+<p><img alt="Bốn bảng: hai bảng đại diện cho dữ liệu stack cho s1 và s2,
+và mỗi con trỏ trỏ đến bản sao dữ liệu chuỗi của riêng nó trên heap."
 src="img/trpl04-03.svg" class="center" style="width: 50%;" /></p>
-<p><span class="caption">Figure 4-3: Another possibility for what <code>s2 = s1</code> might
-do if Rust copied the heap data as well</span></p>
-<p>Earlier, we said that when a variable goes out of scope, Rust automatically
-calls the <code>drop</code> function and cleans up the heap memory for that variable. But
-Figure 4-2 shows both data pointers pointing to the same location. This is a
-problem: when <code>s2</code> and <code>s1</code> go out of scope, they will both try to free the
-same memory. This is known as a <em>double free</em> error and is one of the memory
-safety bugs we mentioned previously. Freeing memory twice can lead to memory
-corruption, which can potentially lead to security vulnerabilities.</p>
-<p>To ensure memory safety, after the line <code>let s2 = s1;</code>, Rust considers <code>s1</code> as
-no longer valid. Therefore, Rust doesn’t need to free anything when <code>s1</code> goes
-out of scope. Check out what happens when you try to use <code>s1</code> after <code>s2</code> is
-created; it won’t work:</p>
+<p><span class="caption">Hình 4-3: Biểu diễn bộ nhớ sau phép gán <code>s2 = s1</code> nếu Rust 
+sao chép cả dữ liệu trên heap</span></p>
+<p>Trước đó, chúng tôi đã nói rằng khi một biến ra ngoài phạm vi, Rust sẽ tự động
+gọi hàm <code>drop</code> và dọn sạch bộ nhớ heap cho biến đó. Nhưng Hình 4-2 cho thấy cả 
+hai con trỏ dữ liệu trỏ đến cùng một vị trí. Đây là một vấn đề: khi <code>s2</code> và <code>s1</code> 
+vượt ra ngoài phạm vi, cả hai sẽ cố gắng giải phóng cùng một phần bộ nhớ. Đây 
+được gọi là lỗi <em>double free</em> (giải phóng hai lần) và là một trong những lỗi 
+lỗi an toàn bộ nhớ mà chúng ta đã đề cập đến trước đây. Giải phóng bộ nhớ 
+hai lần có thể dẫn đến sai sót trong tổ chức bộ nhớ, và có khả năng dẫn đến 
+các lỗ hổng bảo mật.</p>
+<p>Để đảm bảo an toàn cho bộ nhớ, sau dòng <code>let s2 = s1;</code>, Rust coi <code>s1</code> là
+không còn giá trị. Do đó, Rust không cần giải phóng bất cứ thứ gì khi <code>s1</code> ra
+ra khỏi phạm vi. Xem điều gì sẽ xảy ra khi bạn cố gắng sử dụng <code>s1</code> sau khi <code>s2</code> 
+được tạo; nó sẽ không hoạt động:</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;hello&quot;);
     let s2 = s1;
 
     println!(&quot;{}, world!&quot;, s1);
 <span class="boring">}</span></code></pre>
-<p>You’ll get an error like this because Rust prevents you from using the
-invalidated reference:</p>
+<p>Bạn sẽ gặp lỗi như thế này vì Rust ngăn bạn sử dụng tham chiếu không hợp lệ:</p>
 <pre><code class="language-console">$ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -445,93 +442,93 @@ error[E0382]: borrow of moved value: `s1`
   |                            ^^ value borrowed here after move
   |
   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider cloning the value if the performance cost is acceptable
+  |
+3 |     let s2 = s1.clone();
+  |                ++++++++
 
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `ownership` due to previous error
 </code></pre>
-<p>If you’ve heard the terms <em>shallow copy</em> and <em>deep copy</em> while working with
-other languages, the concept of copying the pointer, length, and capacity
-without copying the data probably sounds like making a shallow copy. But
-because Rust also invalidates the first variable, instead of being called a
-shallow copy, it’s known as a <em>move</em>. In this example, we would say that <code>s1</code>
-was <em>moved</em> into <code>s2</code>. So, what actually happens is shown in Figure 4-4.</p>
-<p><img alt="Three tables: tables s1 and s2 representing those strings on the
-stack, respectively, and both pointing to the same string data on the heap.
-Table s1 is grayed out be-cause s1 is no longer valid; only s2 can be used to
-access the heap data." src="img/trpl04-04.svg" class="center" style="width:
+<p>Nếu bạn đã nghe các thuật ngữ <em>shallow copy</em> (sao chép cạn) và <em>deep copy</em> 
+(sao chép sâu) khi làm việc với các ngôn ngữ khác, việc sao chép con trỏ, 
+độ dài và dung lượng mà không sao chép dữ liệu có thể giống như tạo một 
+shallow copy. Nhưng vì Rust cũng vô hiệu hóa biến đầu tiên, thay vì được gọi là
+bản sao nông, nó được gọi là <em>move</em> (di chuyển). Trong ví dụ này, chúng ta 
+sẽ nói rằng <code>s1</code> đã được <em>move</em> vào <code>s2</code>. Vì vậy, những gì thực sự xảy ra 
+được thể hiện trong Hình 4-4.</p>
+<p><img alt="Ba bảng: bảng s1 và s2 đại diện cho các chuỗi đó trên
+stack tương ứng và cả hai đều trỏ đến cùng một dữ liệu chuỗi trên heap.
+Bảng s1 chuyển sang màu xám vì s1 không còn giá trị; chỉ s2 có thể được sử dụng để
+truy cập dữ liệu heap." src="img/trpl04-04.svg" class="center" style="width:
 50%;" /></p>
-<p><span class="caption">Figure 4-4: Representation in memory after <code>s1</code> has been
-invalidated</span></p>
-<p>That solves our problem! With only <code>s2</code> valid, when it goes out of scope it
-alone will free the memory, and we’re done.</p>
-<p>In addition, there’s a design choice that’s implied by this: Rust will never
-automatically create “deep” copies of your data. Therefore, any <em>automatic</em>
-copying can be assumed to be inexpensive in terms of runtime performance.</p>
+<p><span class="caption">Hình 4-4: Biểu diễn trong bộ nhớ sau khi <code>s1</code> được
+vô hiệu</span></p>
+<p>Điều này giúp giải quyết vấn đề của chúng ta! Với chỉ <code>s2</code> hợp lệ, khi vượt ra 
+phạm vi, chỉ có nó phải giải phóng bộ nhớ, và chỉ vậy là đủ.</p>
+<p>Ngoài ra, có một lựa chọn thiết kế được ngụ ý bởi điều này: Rust sẽ không bao giờ
+tự động tạo các bản sao dữ liệu “sâu” của bạn. Do đó, bất kỳ thao tác <em>tự động</em>
+sao chép đều có thể được coi là không tốn kém về hiệu suất hoạt động.</p>
 <!-- Old heading. Do not remove or links may break. -->
 <p><a id="ways-variables-and-data-interact-clone"></a></p>
-<h4 id="variables-and-data-interacting-with-clone"><a class="header" href="#variables-and-data-interacting-with-clone">Variables and Data Interacting with Clone</a></h4>
-<p>If we <em>do</em> want to deeply copy the heap data of the <code>String</code>, not just the
-stack data, we can use a common method called <code>clone</code>. We’ll discuss method
-syntax in Chapter 5, but because methods are a common feature in many
-programming languages, you’ve probably seen them before.</p>
-<p>Here’s an example of the <code>clone</code> method in action:</p>
+<h4 id="các-biến-và-tương-tác-dữ-liệu-với-clone"><a class="header" href="#các-biến-và-tương-tác-dữ-liệu-với-clone">Các biến và tương tác dữ liệu với Clone</a></h4>
+<p>Nếu chúng tôi <em>thực sự</em> muốn sao chép cả dữ liệu trên heap của <code>String</code>, không chỉ
+dữ liệu trên stack, chúng ta có thể sử dụng một phương pháp phổ biến gọi là <code>clone</code> (nhân bản). 
+Chúng ta sẽ thảo luận về cú pháp trong Chương 5, nhưng bởi vì các phương thức kiểu này 
+là một tính năng phổ biến trong nhiều ngôn ngữ lập trình, bạn có thể đã nhìn thấy chúng trước đây.</p>
+<p>Đây là một ví dụ về phương thức <code>clone</code> đang hoạt động:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s1 = String::from(&quot;hello&quot;);
     let s2 = s1.clone();
 
     println!(&quot;s1 = {}, s2 = {}&quot;, s1, s2);
 <span class="boring">}</span></code></pre></pre>
-<p>This works just fine and explicitly produces the behavior shown in Figure 4-3,
-where the heap data <em>does</em> get copied.</p>
-<p>When you see a call to <code>clone</code>, you know that some arbitrary code is being
-executed and that code may be expensive. It’s a visual indicator that something
-different is going on.</p>
-<h4 id="stack-only-data-copy"><a class="header" href="#stack-only-data-copy">Stack-Only Data: Copy</a></h4>
-<p>There’s another wrinkle we haven’t talked about yet. This code using
-integers—part of which was shown in Listing 4-2—works and is valid:</p>
+<p>Cách này hoạt động hoàn toàn tốt và tạo ra hành vi như trong Hình 4-3,
+khi mà dữ liệu trên heap <em>thực sự</em> được sao chép.</p>
+<p>Khi bạn thấy lệnh gọi đến <code>clone</code>, bạn sẽ biết rằng một số code tùy biến đang được
+được thực hiện và code đó có thể tốn kém. Đó cũng là một chỉ dẫn trực quan cho thấy 
+rằng một điều gì đó khác đang diễn ra.</p>
+<p><a id="stack-only-data-copy"></a></p>
+<h4 id="dữ-liệu-trên-stack-sao-chép"><a class="header" href="#dữ-liệu-trên-stack-sao-chép">Dữ liệu trên stack: sao chép</a></h4>
+<p>Có một điều thắc mắc khác mà chúng ta chưa nói đến. Mã này sử dụng
+integer — là một phần được hiển thị trong trong Listing 4-2 — chạy được và 
+hoàn toàn hợp lệ:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
 
     println!(&quot;x = {}, y = {}&quot;, x, y);
 <span class="boring">}</span></code></pre></pre>
-<p>But this code seems to contradict what we just learned: we don’t have a call to
-<code>clone</code>, but <code>x</code> is still valid and wasn’t moved into <code>y</code>.</p>
-<p>The reason is that types such as integers that have a known size at compile
-time are stored entirely on the stack, so copies of the actual values are quick
-to make. That means there’s no reason we would want to prevent <code>x</code> from being
-valid after we create the variable <code>y</code>. In other words, there’s no difference
-between deep and shallow copying here, so calling <code>clone</code> wouldn’t do anything
-different from the usual shallow copying, and we can leave it out.</p>
-<p>Rust has a special annotation called the <code>Copy</code> trait that we can place on
-types that are stored on the stack, as integers are (we’ll talk more about
-traits in <a href="ch10-02-traits.html">Chapter 10</a><!-- ignore -->). If a type implements the <code>Copy</code>
-trait, variables that use it do not move, but rather are trivially copied,
-making them still valid after assignment to another variable.</p>
-<p>Rust won’t let us annotate a type with <code>Copy</code> if the type, or any of its parts,
-has implemented the <code>Drop</code> trait. If the type needs something special to happen
-when the value goes out of scope and we add the <code>Copy</code> annotation to that type,
-we’ll get a compile-time error. To learn about how to add the <code>Copy</code> annotation
-to your type to implement the trait, see <a href="appendix-03-derivable-traits.html">“Derivable
-Traits”</a><!-- ignore --> in Appendix C.</p>
-<p>So, what types implement the <code>Copy</code> trait? You can check the documentation for
-the given type to be sure, but as a general rule, any group of simple scalar
-values can implement <code>Copy</code>, and nothing that requires allocation or is some
-form of resource can implement <code>Copy</code>. Here are some of the types that
-implement <code>Copy</code>:</p>
+<p>Nhưng mã này dường như mâu thuẫn với những gì chúng ta vừa học được: chúng ta không có lời gọi đến
+<code>clone</code>, nhưng <code>x</code> vẫn hợp lệ và không được chuyển vào <code>y</code>.</p>
+<p>Rust có một annotation (chú thích) đặc biệt gọi là <code>Copy</code> mà chúng ta có thể đặt trên
+các loại dữ liệu được lưu trữ trên stack, như số nguyên (chúng ta sẽ nói thêm về
+annotation trong <a href="ch10-02-traits.html">Chương 10</a><!-- ignore -->). Nếu một kiểu dữ liệu áp dụng
+<code>Copy</code>, các biến sử dụng nó không move mà được copy một cách bình thường,
+làm cho chúng vẫn hợp lệ sau khi được gán cho một biến khác.</p>
+<p>Rust sẽ không cho phép chúng ta đánh dấu một kiểu bằng <code>Copy</code> nếu kiểu đó hoặc 
+bất kỳ thành phần nào của nó, đã được đánh dấu <code>Drop</code>. Nếu kiểu dữ liệu cần làm một 
+điều gì đó đặc biệt khi giá trị vượt quá phạm vi và chúng ta thêm chú thích <code>Copy</code> 
+cho loại đó, chúng tôi sẽ gặp lỗi biên dịch. Để tìm hiểu về cách thêm chú thích <code>Copy</code>
+vào kiểu dữ liệu của bạn để thực hiện trait, xem phần <a href="appendix-03-derivable-traits.html">“Derivable Traits”</a><!-- ignore --> 
+trong Phụ lục C.</p>
+<p>Vậy, những kiểu dữ liệu nào thực hiện đặc điểm <code>Copy</code>? Để chắc chắn bạn có thể 
+kiểm tra tài liệu của loại dữ liệu đó, nhưng theo nguyên tắc chung, bất kỳ nhóm kiểu dữ liệu 
+vô hướng đơn giản nào các giá trị có thể triển khai <code>Copy</code> và không có gì yêu cầu phân bổ hoặc là một số
+dạng tài nguyên có thể triển khai <code>Copy</code>. Đây là một số loại áp dụng <code>Copy</code>:</p>
 <ul>
-<li>All the integer types, such as <code>u32</code>.</li>
-<li>The Boolean type, <code>bool</code>, with values <code>true</code> and <code>false</code>.</li>
-<li>All the floating-point types, such as <code>f64</code>.</li>
-<li>The character type, <code>char</code>.</li>
-<li>Tuples, if they only contain types that also implement <code>Copy</code>. For example,
-<code>(i32, i32)</code> implements <code>Copy</code>, but <code>(i32, String)</code> does not.</li>
+<li>Tất cả các loại số nguyên, chẳng hạn như <code>u32</code>.</li>
+<li>Kiểu Boolean, <code>bool</code>, với các giá trị <code>true</code> và <code>false</code>.</li>
+<li>Tất cả các loại dấu phẩy động, chẳng hạn như <code>f64</code>.</li>
+<li>Loại ký tự, <code>char</code>.</li>
+<li>Tuple, nếu chúng chỉ chứa các loại cũng áp dụng <code>Copy</code>. Ví dụ,
+<code>(i32, i32)</code> thực hiện <code>Copy</code>, nhưng <code>(i32, String)</code> thì không.</li>
 </ul>
-<h3 id="ownership-and-functions"><a class="header" href="#ownership-and-functions">Ownership and Functions</a></h3>
-<p>The mechanics of passing a value to a function are similar to those when
-assigning a value to a variable. Passing a variable to a function will move or
-copy, just as assignment does. Listing 4-3 has an example with some annotations
-showing where variables go into and out of scope.</p>
+<p><a id="ownership-and-functions"></a></p>
+<h3 id="ownership-và-functions"><a class="header" href="#ownership-và-functions">Ownership và Functions</a></h3>
+<p>Cơ chế chuyển một giá trị cho một hàm cũng tương tự như khi gán giá trị cho một biến. 
+Truyền một biến cho một hàm sẽ move hoặc copy, giống như phép gán. Liệt kê 4-3 có một ví 
+dụ với một số annotation nơi các biến vào và ra khỏi phạm vi.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s = String::from(&quot;hello&quot;);  // s comes into scope
@@ -556,16 +553,16 @@ fn takes_ownership(some_string: String) { // some_string comes into scope
 fn makes_copy(some_integer: i32) { // some_integer comes into scope
     println!(&quot;{}&quot;, some_integer);
 } // Here, some_integer goes out of scope. Nothing special happens.</code></pre></pre>
-<p><span class="caption">Listing 4-3: Functions with ownership and scope
+<p><span class="caption">Liệt kê 4-3: Các hàm với ownership và scope
 annotated</span></p>
-<p>If we tried to use <code>s</code> after the call to <code>takes_ownership</code>, Rust would throw a
-compile-time error. These static checks protect us from mistakes. Try adding
-code to <code>main</code> that uses <code>s</code> and <code>x</code> to see where you can use them and where
-the ownership rules prevent you from doing so.</p>
-<h3 id="return-values-and-scope"><a class="header" href="#return-values-and-scope">Return Values and Scope</a></h3>
-<p>Returning values can also transfer ownership. Listing 4-4 shows an example of a
-function that returns some value, with similar annotations as those in Listing
-4-3.</p>
+<p>Nếu chúng tôi cố sử dụng <code>s</code> sau lệnh gọi <code>takes_ownership</code>, Rust sẽ đưa ra một
+lỗi biên dịch. Những kiểm tra tĩnh này bảo vệ chúng ta khỏi những sai lầm. Thử thêm
+code vào <code>main</code> để sử dụng <code>s</code> và <code>x</code> và xem bạn có thể sử dụng chúng ở đâu và ở đâu
+các quy tắc ownership ngăn cản bạn làm vậy.</p>
+<p><a id="return-values-and-scope"></a></p>
+<h3 id="giá-trị-trả-về-và-scope"><a class="header" href="#giá-trị-trả-về-và-scope">Giá trị trả về và Scope</a></h3>
+<p>Các giá trị trả về cũng có thể chuyển ownership. Liệt kê 4-4 trình bày một ví dụ về một
+hàm trả về một số giá trị, với các annotation tương tự như trong Liệt kê 4-3.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s1 = gives_ownership();         // gives_ownership moves its return
@@ -596,18 +593,16 @@ fn takes_and_gives_back(a_string: String) -&gt; String { // a_string comes into
 
     a_string  // a_string is returned and moves out to the calling function
 }</code></pre></pre>
-<p><span class="caption">Listing 4-4: Transferring ownership of return
-values</span></p>
-<p>The ownership of a variable follows the same pattern every time: assigning a
-value to another variable moves it. When a variable that includes data on the
-heap goes out of scope, the value will be cleaned up by <code>drop</code> unless ownership
-of the data has been moved to another variable.</p>
-<p>While this works, taking ownership and then returning ownership with every
-function is a bit tedious. What if we want to let a function use a value but
-not take ownership? It’s quite annoying that anything we pass in also needs to
-be passed back if we want to use it again, in addition to any data resulting
-from the body of the function that we might want to return as well.</p>
-<p>Rust does let us return multiple values using a tuple, as shown in Listing 4-5.</p>
+<p><span class="caption">Listing 4-4: Chuyển ownership của các giá trị trả về</span></p>
+<p>Ownership của một biến luôn tuân theo cùng một khuôn mẫu: việc gán giá trị cho một 
+biến khác sẽ move nó. Khi một biến bao gồm dữ liệu trên heap nằm ngoài scope, giá trị 
+sẽ bị <code>drop</code> trừ khi ownership đã được chuyển sang một biến khác.</p>
+<p>Khi điều này hoạt động, việc lấy ownership và sau đó trả lại ownership với các 
+hàm sẽ có một chút tẻ nhạt. Điều gì sẽ xảy ra nếu chúng ta muốn để một hàm sử dụng một 
+giá trị nhưng không lấy ownership? Thật khó chịu khi bất cứ thứ gì chúng ta truyền đi 
+cũng cần phải được trả lại nếu chúng ta muốn sử dụng lại, chưa kể chúng ta còn phải trả
+về giá trị của hàm.</p>
+<p>Rust cho phép chúng ta trả về nhiều giá trị bằng cách sử dụng tuple, như trong Liệt kê 4-5.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     let s1 = String::from(&quot;hello&quot;);
@@ -622,10 +617,10 @@ fn calculate_length(s: String) -&gt; (String, usize) {
 
     (s, length)
 }</code></pre></pre>
-<p><span class="caption">Listing 4-5: Returning ownership of parameters</span></p>
-<p>But this is too much ceremony and a lot of work for a concept that should be
-common. Luckily for us, Rust has a feature for using a value without
-transferring ownership, called <em>references</em>.</p>
+<p><span class="caption">Liệt kê 4-5: Trả về ownership của các tham số</span></p>
+<p>Nhưng quả là có quá nhiều thứ cho một khái niệm vốn khá phổ biến. Thật may mắn cho chúng ta, 
+Rust có một tính năng cho phép sử dụng một giá trị mà không cần
+chuyển quyền sở hữu, được gọi là <em>reference</em> (tham chiếu).</p>
 
                     </main>
 

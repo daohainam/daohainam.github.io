@@ -197,12 +197,6 @@ nó đang ở</span></p>
 <p>Lỗi biên dịch cho thấy đường dẫn tắt không còn áp dụng trong module <code>customer</code>:</p>
 <pre><code class="language-console">$ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
-error[E0433]: failed to resolve: use of undeclared crate or module `hosting`
-  --&gt; src/lib.rs:11:9
-   |
-11 |         hosting::add_to_waitlist();
-   |         ^^^^^^^ use of undeclared crate or module `hosting`
-
 warning: unused import: `crate::front_of_house::hosting`
  --&gt; src/lib.rs:7:5
   |
@@ -210,6 +204,12 @@ warning: unused import: `crate::front_of_house::hosting`
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   |
   = note: `#[warn(unused_imports)]` on by default
+
+error[E0433]: failed to resolve: use of undeclared crate or module `hosting`
+  --&gt; src/lib.rs:11:9
+   |
+11 |         hosting::add_to_waitlist();
+   |         ^^^^^^^ use of undeclared crate or module `hosting`
 
 For more information about this error, try `rustc --explain E0433`.
 warning: `restaurant` (lib) generated 1 warning

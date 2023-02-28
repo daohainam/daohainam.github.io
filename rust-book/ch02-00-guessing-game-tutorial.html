@@ -434,10 +434,10 @@ warning: unused `Result` that must be used
   --&gt; src/main.rs:10:5
    |
 10 |     io::stdin().read_line(&amp;mut guess);
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: `#[warn(unused_must_use)]` on by default
    = note: this `Result` may be an `Err` variant, which should be handled
+   = note: `#[warn(unused_must_use)]` on by default
 
 warning: `guessing_game` (bin &quot;guessing_game&quot;) generated 1 warning
     Finished dev [unoptimized + debuginfo] target(s) in 0.59s
@@ -821,6 +821,7 @@ error[E0308]: mismatched types
    = note: expected reference `&amp;String`
               found reference `&amp;{integer}`
 note: associated function defined here
+  --&gt; /rustc/d5a82bbd26e1ad8b7401f6a718a9c57c96905483/library/core/src/cmp.rs:783:8
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `guessing_game` due to previous error
