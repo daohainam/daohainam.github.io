@@ -149,14 +149,14 @@
                     <main>
                         <h1 id="the-rust-programming-language"><a class="header" href="#the-rust-programming-language">The Rust Programming Language</a></h1>
 <p><em>by Steve Klabnik and Carol Nichols, with contributions from the Rust Community</em></p>
-<p>This version of the text assumes you’re using Rust 1.65 (released 2022-11-03)
+<p>This version of the text assumes you’re using Rust 1.67.1 (released 2023-02-09)
 or later. See the <a href="ch01-01-installation.html">“Installation” section of Chapter 1</a><!-- ignore -->
 to install or update Rust.</p>
 <p>The HTML format is available online at
 <a href="https://doc.rust-lang.org/stable/book/">https://doc.rust-lang.org/stable/book/</a>
 and offline with installations of Rust made with <code>rustup</code>; run <code>rustup docs --book</code> to open.</p>
 <p>Several community <a href="appendix-06-translation.html">translations</a> are also available.</p>
-<p>This text is available in <a href="https://nostarch.com/rust">paperback and ebook format from No Starch
+<p>This text is available in <a href="https://nostarch.com/rust-programming-language-2nd-edition">paperback and ebook format from No Starch
 Press</a>.</p>
 <blockquote>
 <p><strong>🚨 Want a more interactive learning experience? Try out a different version
@@ -3917,21 +3917,23 @@ nhiều mutable reference.</li>
 <li>Reference phải luôn hợp lệ.</li>
 </ul>
 <p>Tiếp theo, chúng ta sẽ xem xét một loại tham chiếu khác: slice.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="the-slice-type"><a class="header" href="#the-slice-type">The Slice Type</a></h2>
-<p><em>Slices</em> let you reference a contiguous sequence of elements in a collection
-rather than the whole collection. A slice is a kind of reference, so it does
-not have ownership.</p>
-<p>Here’s a small programming problem: write a function that takes a string of
-words separated by spaces and returns the first word it finds in that string.
-If the function doesn’t find a space in the string, the whole string must be
-one word, so the entire string should be returned.</p>
-<p>Let’s work through how we’d write the signature of this function without using
-slices, to understand the problem that slices will solve:</p>
+<div style="break-before: page; page-break-before: always;"></div><p><a id="the-slice-type"></a></p>
+<h2 id="kiểu-slice"><a class="header" href="#kiểu-slice">Kiểu Slice</a></h2>
+<p><em>Slice</em> cho phép bạn tham chiếu một chuỗi các phần tử liền kề trong một collection
+thay vì toàn bộ collection. Một slide là một dạng reference, do đó, nó
+không có ownership.</p>
+<p>Đây là một vấn đề lập trình nhỏ: viết một hàm nhận vào một chuỗi
+các từ được phân tách bằng khoảng trắng và trả về từ đầu tiên nó tìm thấy trong chuỗi đó.
+Nếu hàm không tìm thấy khoảng trắng trong chuỗi, toàn bộ chuỗi phải là
+một từ, vì vậy toàn bộ chuỗi sẽ được trả về.</p>
+<p>Hãy tìm hiểu cách chúng ta viết khai báo hàm này mà không cần sử dụng
+slice, để hiểu vấn đề mà slice sẽ giải quyết:</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; ?</code></pre>
-<p>The <code>first_word</code> function has a <code>&amp;String</code> as a parameter. We don’t want
-ownership, so this is fine. But what should we return? We don’t really have a
-way to talk about <em>part</em> of a string. However, we could return the index of the
-end of the word, indicated by a space. Let’s try that, as shown in Listing 4-7.</p>
+<p>Hàm <code>first_word</code> có <code>&amp;String</code> làm tham số. chúng tôi không muốn
+ownership, vì vậy điều này là tốt. Nhưng chúng ta nên trả về những gì? Chúng ta 
+không thực sự có một cách để nói về <em>phần</em> của một chuỗi. Tuy nhiên, chúng ta 
+có thể trả về index của vị trí cuối từ, được biểu thị bằng khoảng trắng. Hãy 
+thử điều đó, như trong Liệt kê 4-7.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; usize {
     let bytes = s.as_bytes();
@@ -3946,11 +3948,12 @@ end of the word, indicated by a space. Let’s try that, as shown in Listing 4-7
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<p><span class="caption">Listing 4-7: The <code>first_word</code> function that returns a
-byte index value into the <code>String</code> parameter</span></p>
-<p>Because we need to go through the <code>String</code> element by element and check whether
-a value is a space, we’ll convert our <code>String</code> to an array of bytes using the
-<code>as_bytes</code> method:</p>
+<p><span class="caption">Liệt kê 4-7: Hàm <code>first_word</code> trả về một
+giá trị byte index vào tham số <code>String</code></span></p>
+<p>Vì chúng ta cần đi qua từng phần tử <code>String</code> và kiểm tra xem
+một giá trị có là khoảng trắng hay không, chúng ta sẽ chuyển 
+đổi <code>String</code> của mình thành một mảng byte bằng cách sử dụng
+phương thức <code>as_bytes</code>:</p>
 <pre><code class="language-rust ignore"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span>    let bytes = s.as_bytes();
 <span class="boring">
@@ -3964,7 +3967,7 @@ a value is a space, we’ll convert our <code>String</code> to an array of bytes
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre>
-<p>Next, we create an iterator over the array of bytes using the <code>iter</code> method:</p>
+<p>Tiếp theo, chúng ta tạo một iterator trên mảng byte bằng phương thức <code>iter</code>:</p>
 <pre><code class="language-rust ignore"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span><span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
@@ -3978,21 +3981,21 @@ a value is a space, we’ll convert our <code>String</code> to an array of bytes
 </span><span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre>
-<p>We’ll discuss iterators in more detail in <a href="ch13-02-iterators.html">Chapter 13</a><!-- ignore -->.
-For now, know that <code>iter</code> is a method that returns each element in a collection
-and that <code>enumerate</code> wraps the result of <code>iter</code> and returns each element as
-part of a tuple instead. The first element of the tuple returned from
-<code>enumerate</code> is the index, and the second element is a reference to the element.
-This is a bit more convenient than calculating the index ourselves.</p>
-<p>Because the <code>enumerate</code> method returns a tuple, we can use patterns to
-destructure that tuple. We’ll be discussing patterns more in <a href="ch06-02-match.html#patterns-that-bind-to-values">Chapter
-6</a><!-- ignore -->. In the <code>for</code> loop, we specify a pattern that has <code>i</code>
-for the index in the tuple and <code>&amp;item</code> for the single byte in the tuple.
-Because we get a reference to the element from <code>.iter().enumerate()</code>, we use
-<code>&amp;</code> in the pattern.</p>
-<p>Inside the <code>for</code> loop, we search for the byte that represents the space by
-using the byte literal syntax. If we find a space, we return the position.
-Otherwise, we return the length of the string by using <code>s.len()</code>:</p>
+<p>Chúng ta sẽ thảo luận chi tiết hơn về các iterator trong <a href="ch13-02-iterators.html">Chương 13</a><!-- ignore -->.
+Hiện tại, hãy biết rằng <code>iter</code> là một phương thức trả về từng phần tử trong một collection
+và <code>enumerate</code> bao bọc kết quả của <code>iter</code> và trả về mỗi phần tử dưới dạng tuple. 
+Phần tử đầu tiên của bộ dữ liệu được trả về từ
+<code>enumerate</code> là chỉ mục và phần tử thứ hai là tham chiếu đến phần tử.
+Điều này thuận tiện hơn một chút so với việc tự tính toán index.</p>
+<p>Vì phương thức <code>enumerate</code> trả về một tuple, nên chúng ta có thể sử dụng các pattern (mẫu) để
+hủy tuple đó. Chúng ta sẽ thảo luận nhiều hơn về các pattern trong <a href="ch06-02-match.html#patterns-that-bind-to-values">Chương
+6</a><!-- ignore -->. Trong vòng lặp <code>for</code>, chúng ta chỉ định một pattern có <code>i</code>
+cho chỉ mục trong tuple và <code>&amp;item</code> cho byte đơn trong tuple.
+Bởi vì chúng tôi nhận được tham chiếu đến phần tử từ <code>.iter().enumerate()</code>, nên chúng ta sử dụng
+<code>&amp;</code> trong pattern.</p>
+<p>Bên trong vòng lặp <code>for</code>, chúng ta tìm kiếm byte đại diện cho khoảng trắng bằng cách
+sử dụng cú pháp ký tự byte. Nếu tìm thấy một khoảng trống, chúng ta sẽ trả lại vị trí.
+Ngược lại, chúng tôi trả về độ dài của chuỗi bằng cách sử dụng <code>s.len()</code>:</p>
 <pre><code class="language-rust ignore"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span><span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
@@ -4006,12 +4009,12 @@ Otherwise, we return the length of the string by using <code>s.len()</code>:</p>
 <span class="boring">}
 </span><span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre>
-<p>We now have a way to find out the index of the end of the first word in the
-string, but there’s a problem. We’re returning a <code>usize</code> on its own, but it’s
-only a meaningful number in the context of the <code>&amp;String</code>. In other words,
-because it’s a separate value from the <code>String</code>, there’s no guarantee that it
-will still be valid in the future. Consider the program in Listing 4-8 that
-uses the <code>first_word</code> function from Listing 4-7.</p>
+<p>Bây giờ chúng ta có một cách để tìm ra chỉ số kết thúc của từ đầu tiên trong
+chuỗi, nhưng có một vấn đề. Chúng ta đang trả về một <code>usize</code>, nhưng nó
+chỉ có ý nghĩa trong ngữ cảnh của <code>&amp;String</code>. Nói cách khác,
+bởi vì đó là một giá trị riêng biệt từ <code>String</code>, nên không có gì đảm bảo rằng nó
+vẫn sẽ hợp lệ trong tương lai. Hãy xem xét chương trình trong Listing 4-8 
+sử dụng hàm <code>first_word</code> từ Listing 4-7.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn first_word(s: &amp;String) -&gt; usize {
 </span><span class="boring">    let bytes = s.as_bytes();
@@ -4035,44 +4038,44 @@ uses the <code>first_word</code> function from Listing 4-7.</p>
     // word still has the value 5 here, but there's no more string that
     // we could meaningfully use the value 5 with. word is now totally invalid!
 }</code></pre></pre>
-<p><span class="caption">Listing 4-8: Storing the result from calling the
-<code>first_word</code> function and then changing the <code>String</code> contents</span></p>
-<p>This program compiles without any errors and would also do so if we used <code>word</code>
-after calling <code>s.clear()</code>. Because <code>word</code> isn’t connected to the state of <code>s</code>
-at all, <code>word</code> still contains the value <code>5</code>. We could use that value <code>5</code> with
-the variable <code>s</code> to try to extract the first word out, but this would be a bug
-because the contents of <code>s</code> have changed since we saved <code>5</code> in <code>word</code>.</p>
-<p>Having to worry about the index in <code>word</code> getting out of sync with the data in
-<code>s</code> is tedious and error prone! Managing these indices is even more brittle if
-we write a <code>second_word</code> function. Its signature would have to look like this:</p>
-<pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; (usize, usize) {</code></pre>
-<p>Now we’re tracking a starting <em>and</em> an ending index, and we have even more
-values that were calculated from data in a particular state but aren’t tied to
-that state at all. We have three unrelated variables floating around that
-need to be kept in sync.</p>
-<p>Luckily, Rust has a solution to this problem: string slices.</p>
+<p><span class="caption">Listing 4-8: Lưu trữ kết quả từ việc gọi hàm
+hàm <code>first_word</code> rồi thay đổi nội dung <code>String</code></span></p>
+<p>Chương trình này biên dịch mà không có bất kỳ lỗi nào và cũng sẽ vậy nếu chúng ta sử dụng <code>word</code>
+sau khi gọi <code>s.clear()</code>. Bởi vì <code>word</code> không được kết nối với trạng thái của <code>s</code>
+hoàn toàn, <code>word</code> vẫn chứa giá trị <code>5</code>. Chúng ta có thể sử dụng giá trị <code>5</code> đó với
+biến <code>s</code> để trích xuất từ đầu tiên, nhưng đây sẽ là một lỗi bởi vì nội dung 
+của <code>s</code> đã thay đổi kể từ khi chúng ta lưu <code>5</code> trong <code>word</code>.</p>
+<p>Việc phải lo lắng về index trong <code>word</code> không đồng bộ với dữ liệu trong
+<code>s</code> thật chán và dễ bị lỗi! Việc quản lý các chỉ số này thậm chí còn khó khăn hơn nếu
+chúng tôi viết một hàm <code>second_word</code>. Khai báo của nó sẽ phải trông như thế này:</p>
+<pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; (sử dụng, sử dụng) {</code></pre>
+<p>Bây giờ chúng ta đang theo dõi chỉ mục bắt đầu <em>và</em> kết thúc, và chúng ta thậm chí còn có
+các giá trị được tính toán từ dữ liệu ở một trạng thái cụ thể nhưng không bị ràng buộc với
+trạng thái đó. Chúng ta có ba biến không liên quan trôi nổi xung quanh 
+cần được giữ đồng bộ với nhau.</p>
+<p>May mắn thay, Rust có một giải pháp cho vấn đề này: slide.</p>
 <h3 id="string-slices"><a class="header" href="#string-slices">String Slices</a></h3>
-<p>A <em>string slice</em> is a reference to part of a <code>String</code>, and it looks like this:</p>
+<p>Một <em>string slice</em> là một tham chiếu đến một phần của <code>String</code>, và nó trông như thế này:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn main() {
 </span>    let s = String::from(&quot;hello world&quot;);
 
     let hello = &amp;s[0..5];
     let world = &amp;s[6..11];
 <span class="boring">}</span></code></pre></pre>
-<p>Rather than a reference to the entire <code>String</code>, <code>hello</code> is a reference to a
-portion of the <code>String</code>, specified in the extra <code>[0..5]</code> bit. We create slices
-using a range within brackets by specifying <code>[starting_index..ending_index]</code>,
-where <code>starting_index</code> is the first position in the slice and <code>ending_index</code> is
-one more than the last position in the slice. Internally, the slice data
-structure stores the starting position and the length of the slice, which
-corresponds to <code>ending_index</code> minus <code>starting_index</code>. So in the case of <code>let world = &amp;s[6..11];</code>, <code>world</code> would be a slice that contains a pointer to the
-byte at index 6 of <code>s</code> with a length value of 5.</p>
-<p>Figure 4-6 shows this in a diagram.</p>
-<img alt="world containing a pointer to the byte at index 6 of String s and a length 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
-<p><span class="caption">Figure 4-6: String slice referring to part of a
+<p>Thay vì reference đến toàn bộ <code>String</code>, <code>hello</code> là một reference đến một
+phần của <code>String</code>, được chỉ định trong phần <code>[0..5]</code>. Chúng ta tạo ra các slice
+sử dụng toán tử phạm vi trong ngoặc bằng cách viết <code>[starting_index..ending_index]</code>,
+trong đó <code>starting_index</code> là vị trí đầu tiên trong slice và <code>ending_index</code> là
+vị trí cuối cùng + 1 trong slice. Bên trong, cấu trúc dữ liệu slice
+lưu trữ vị trí bắt đầu và độ dài của slice, tương ứng với <code>ending_index</code> trừ <code>starting_index</code>. 
+Vì vậy, trong trường hợp <code>let world = &amp;s[6..11];</code>, <code>world</code> sẽ là một slice chứa con trỏ tới
+byte tại index 6 của <code>s</code> với giá trị độ dài là 5.</p>
+<p>Hình 4-6 cho thấy điều này trong một diagram.</p>
+<img alt="world chứa con trỏ tới byte ở chỉ số 6 của String s và độ dài 5" src="img/trpl04-06.svg" class="center" style="width: 50%;" />
+<p><span class="caption">Hình 4-6: String slice tham chiếu đến một phần của
 <code>String</code></span></p>
-<p>With Rust’s <code>..</code> range syntax, if you want to start at index zero, you can drop
-the value before the two periods. In other words, these are equal:</p>
+<p>Với cú pháp phạm vi <code>..</code> của Rust, nếu bạn muốn bắt đầu từ chỉ số 0, bạn có thể bỏ
+giá trị trước hai dấu chấm. Nói cách khác, chúng bằng nhau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from(&quot;hello&quot;);
@@ -4080,8 +4083,8 @@ the value before the two periods. In other words, these are equal:</p>
 let slice = &amp;s[0..2];
 let slice = &amp;s[..2];
 <span class="boring">}</span></code></pre></pre>
-<p>By the same token, if your slice includes the last byte of the <code>String</code>, you
-can drop the trailing number. That means these are equal:</p>
+<p>Tương tự như vậy, nếu slice của bạn bao gồm byte cuối cùng của <code>String</code>, thì bạn
+có thể chỉ số cuối. Điều đó có nghĩa là các lệnh sau tương tự nhau:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from(&quot;hello&quot;);
@@ -4091,8 +4094,7 @@ let len = s.len();
 let slice = &amp;s[3..len];
 let slice = &amp;s[3..];
 <span class="boring">}</span></code></pre></pre>
-<p>You can also drop both values to take a slice of the entire string. So these
-are equal:</p>
+<p>Bạn cũng có thể bỏ cả hai giá trị để lấy một phần của toàn bộ chuỗi:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from(&quot;hello&quot;);
@@ -4103,15 +4105,15 @@ let slice = &amp;s[0..len];
 let slice = &amp;s[..];
 <span class="boring">}</span></code></pre></pre>
 <blockquote>
-<p>Note: String slice range indices must occur at valid UTF-8 character
-boundaries. If you attempt to create a string slice in the middle of a
-multibyte character, your program will exit with an error. For the purposes
-of introducing string slices, we are assuming ASCII only in this section; a
-more thorough discussion of UTF-8 handling is in the <a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">“Storing UTF-8 Encoded
-Text with Strings”</a><!-- ignore --> section of Chapter 8.</p>
+<p>Lưu ý: Chỉ số phạm vi string slice phải xuất hiện ở vị trí là ranh giới một ký tự UTF-8 hợp lệ.
+Nếu bạn cố gắng tạo một lát cắt chuỗi ở giữa một
+ký tự multibyte, chương trình của bạn sẽ thoát với một lỗi. Với mục đích
+giới thiệu các string slice, chúng ta giả sử chỉ dùng ASCII trong phần này; Một
+thảo luận kỹ lưỡng hơn về xử lý UTF-8 có trong <a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">“Lưu trữ văn bản UTF-8 Encoded
+với String”</a><!-- ignore --> phần của Chương 8.</p>
 </blockquote>
-<p>With all this information in mind, let’s rewrite <code>first_word</code> to return a
-slice. The type that signifies “string slice” is written as <code>&amp;str</code>:</p>
+<p>Với tất cả những thông tin đã có, hãy viết lại <code>first_word</code> để trả về một
+slice. Loại biểu thị “lát cắt chuỗi” được viết là <code>&amp;str</code>:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn first_word(s: &amp;String) -&gt; &amp;str {
     let bytes = s.as_bytes();
@@ -4126,24 +4128,24 @@ slice. The type that signifies “string slice” is written as <code>&amp;str</
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<p>We get the index for the end of the word in the same way as we did in Listing
-4-7, by looking for the first occurrence of a space. When we find a space, we
-return a string slice using the start of the string and the index of the space
-as the starting and ending indices.</p>
-<p>Now when we call <code>first_word</code>, we get back a single value that is tied to the
-underlying data. The value is made up of a reference to the starting point of
-the slice and the number of elements in the slice.</p>
-<p>Returning a slice would also work for a <code>second_word</code> function:</p>
+<p>Chúng ta lấy chỉ mục cho phần cuối của từ giống như cách chúng ta đã làm trong Liệt kê
+4-7, bằng cách tìm kiếm sự xuất hiện đầu tiên của khoảng trắng. Khi tìm thấy một space, ta
+trả về một string slice bằng cách sử dụng phần đầu của chuỗi và index của space
+như các chỉ số bắt đầu và kết thúc.</p>
+<p>Bây giờ, khi gọi <code>first_word</code>, chúng ta nhận lại một giá trị duy nhất được gắn với
+dữ liệu bên dưới. Giá trị được tạo thành từ một tham chiếu đến điểm bắt đầu của
+slice và số phần tử trong slice.</p>
+<p>Trả về một slice cũng sẽ hoạt động đối với hàm <code>second_word</code>:</p>
 <pre><code class="language-rust ignore">fn second_word(s: &amp;String) -&gt; &amp;str {</code></pre>
-<p>We now have a straightforward API that’s much harder to mess up, because the
-compiler will ensure the references into the <code>String</code> remain valid. Remember
-the bug in the program in Listing 4-8, when we got the index to the end of the
-first word but then cleared the string so our index was invalid? That code was
-logically incorrect but didn’t show any immediate errors. The problems would
-show up later if we kept trying to use the first word index with an emptied
-string. Slices make this bug impossible and let us know we have a problem with
-our code much sooner. Using the slice version of <code>first_word</code> will throw a
-compile-time error:</p>
+<p>Bây giờ chúng tôi có một API đơn giản, khó gây ra rắc rối hơn nhiều, vì
+trình biên dịch sẽ đảm bảo các tham chiếu vào <code>String</code> vẫn hợp lệ. Nhớ
+lỗi trong chương trình trong Liệt kê 4-8, khi chúng ta lấy index đến cuối
+từ đầu tiên nhưng sau đó xóa chuỗi để index đó trở nên không hợp lệ? Đoạn code đó 
+không chính xác về mặt logic nhưng không hiển thị bất kỳ lỗi ngay lập tức nào. 
+Các vấn đề sẽ xuất hiện sau nếu chúng ta tiếp tục cố gắng sử dụng chỉ mục từ đầu tiên 
+với một chuỗi rỗng. Các slide khiến lỗi này không thể xảy ra và cho ta biết 
+về các vấn đề của code sớm hơn nhiều. Sử dụng phiên bản slide của <code>first_word</code> sẽ tạo ra một
+lỗi biên dịch:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn first_word(s: &amp;String) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
@@ -4166,7 +4168,7 @@ compile-time error:</p>
 
     println!(&quot;the first word is: {}&quot;, word);
 }</code></pre>
-<p>Here’s the compiler error:</p>
+<p>Đây là lỗi biên dịch:</p>
 <pre><code class="language-console">$ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -4184,31 +4186,31 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `ownership` due to previous error
 </code></pre>
-<p>Recall from the borrowing rules that if we have an immutable reference to
-something, we cannot also take a mutable reference. Because <code>clear</code> needs to
-truncate the <code>String</code>, it needs to get a mutable reference. The <code>println!</code>
-after the call to <code>clear</code> uses the reference in <code>word</code>, so the immutable
-reference must still be active at that point. Rust disallows the mutable
-reference in <code>clear</code> and the immutable reference in <code>word</code> from existing at the
-same time, and compilation fails. Not only has Rust made our API easier to use,
-but it has also eliminated an entire class of errors at compile time!</p>
+<p>Hãy nhớ lại từ các quy tắc borrowing rằng nếu ta có một immutable reference đến
+một cái gì đó, ta cũng không thể lấy một mutable reference. Bởi vì <code>clear</code> cần 
+cắt bớt <code>String</code>, nó cần lấy mutable reference. Lệnh <code>println!</code> sau lệnh gọi <code>clear</code> 
+sử dụng tham chiếu trong <code>word</code>, vì vậy giá trị immutable reference vẫn đang 
+được sử dụng tại thời điểm đó. Rust không cho phép thay đổi
+tham chiếu trong <code>clear</code> và immutable reference trong <code>word</code> cùng lúc 
+và việc biên dịch sẽ không thành công. Rust không chỉ làm cho API của chúng 
+ta dễ sử dụng hơn, mà nó còn loại bỏ toàn bộ các lỗi tại thời điểm biên dịch!</p>
 <h4 id="string-literals-are-slices"><a class="header" href="#string-literals-are-slices">String Literals Are Slices</a></h4>
-<p>Recall that we talked about string literals being stored inside the binary. Now
-that we know about slices, we can properly understand string literals:</p>
+<p>Nhớ lại rằng chúng ta đã nói về string literal được lưu trữ bên trong dữ liệu nhị phân. Hiện nay
+mà chúng ta biết về slice, chúng ta có thể hiểu đúng về string literal:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = &quot;Hello, world!&quot;;
 <span class="boring">}</span></code></pre></pre>
-<p>The type of <code>s</code> here is <code>&amp;str</code>: it’s a slice pointing to that specific point of
-the binary. This is also why string literals are immutable; <code>&amp;str</code> is an
+<p>Kiểu của <code>s</code> ở đây là <code>&amp;str</code>: đó là một slice trỏ đến một điểm cụ thể của giá trị
+nhị phân. Đây cũng là lý do tại sao string literal là bất biến; <code>&amp;str</code> là một
 immutable reference.</p>
 <h4 id="string-slices-as-parameters"><a class="header" href="#string-slices-as-parameters">String Slices as Parameters</a></h4>
-<p>Knowing that you can take slices of literals and <code>String</code> values leads us to
-one more improvement on <code>first_word</code>, and that’s its signature:</p>
+<p>Khi đã biết rằng bạn có thể lấy slice của các literal và giá trị của <code>String</code>, ta sẽ thấy thêm 
+một cải tiến nữa trên <code>first_word</code>, và đây là chữ ký của nó:</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;String) -&gt; &amp;str {</code></pre>
-<p>A more experienced Rustacean would write the signature shown in Listing 4-9
-instead because it allows us to use the same function on both <code>&amp;String</code> values
-and <code>&amp;str</code> values.</p>
+<p>Một Rustacean có kinh nghiệm hơn sẽ viết chữ ký như trong Listing 4-9
+vì nó cho phép chúng ta sử dụng cùng một chức năng trên cả hai giá trị <code>&amp;String</code>
+và các giá trị <code>&amp;str</code>.</p>
 <pre><code class="language-rust ignore">fn first_word(s: &amp;str) -&gt; &amp;str {
 <span class="boring">    let bytes = s.as_bytes();
 </span><span class="boring">
@@ -4241,15 +4243,15 @@ and <code>&amp;str</code> values.</p>
 </span><span class="boring">    // this works too, without the slice syntax!
 </span><span class="boring">    let word = first_word(my_string_literal);
 </span><span class="boring">}</span></code></pre>
-<p><span class="caption">Listing 4-9: Improving the <code>first_word</code> function by using
-a string slice for the type of the <code>s</code> parameter</span></p>
-<p>If we have a string slice, we can pass that directly. If we have a <code>String</code>, we
-can pass a slice of the <code>String</code> or a reference to the <code>String</code>. This
-flexibility takes advantage of <em>deref coercions</em>, a feature we will cover in
-the <a href="ch15-02-deref.html#implicit-deref-coercions-with-functions-and-methods">“Implicit Deref Coercions with Functions and
-Methods”</a><!--ignore--> section of Chapter 15. Defining a
-function to take a string slice instead of a reference to a <code>String</code> makes our
-API more general and useful without losing any functionality:</p>
+<p><span class="caption">Listing 4-9: Cải thiện chức năng <code>first_word</code> bằng cách sử dụng
+một slice cho kiểu của tham số <code>s</code></span></p>
+<p>Nếu chúng ta có một string slice, chúng ta có thể truyền nó trực tiếp. Nếu chúng ta có <code>String</code>, 
+chúng ta có thể chuyển một slice của <code>String</code> hoặc tham chiếu đến <code>String</code>. Sự linh hoạt này
+cho phép ta tận dụng <em>deref coercions</em>, một tính năng mà chúng tôi sẽ đề cập trong
+phần <a href="ch15-02-deref.html#implicit-deref-coercions-with-functions-and-methods">“Implicit Deref Coercions with Functions and
+Methods”</a><!--ignore--> trong chương 15. 
+Việc xác định một function lấy một string slice thay vì tham chiếu đến <code>String</code> giúp cho 
+API của chúng ta trở nên tổng quát và hữu ích hơn mà không làm mất bất kỳ tính năng nào:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">fn first_word(s: &amp;str) -&gt; &amp;str {
 </span><span class="boring">    let bytes = s.as_bytes();
@@ -4284,14 +4286,14 @@ API more general and useful without losing any functionality:</p>
     let word = first_word(my_string_literal);
 }</code></pre></pre>
 <h3 id="other-slices"><a class="header" href="#other-slices">Other Slices</a></h3>
-<p>String slices, as you might imagine, are specific to strings. But there’s a
-more general slice type, too. Consider this array:</p>
+<p>Các string slice, như bạn có thể tưởng tượng, là dành riêng cho chuỗi. Nhưng cũng có một
+loại slice tổng quát hơn, quá. Hãy xem xét mảng này:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = [1, 2, 3, 4, 5];
 <span class="boring">}</span></code></pre></pre>
-<p>Just as we might want to refer to a part of a string, we might want to refer
-to part of an array. We’d do so like this:</p>
+<p>Cũng tương tự như khi ta muốn tham chiếu đến một phần của chuỗi, ta cũng có thể muốn 
+tham chiếu thành một phần của mảng. Khi đó ta sẽ làm như vậy như thế này:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = [1, 2, 3, 4, 5];
@@ -4300,19 +4302,20 @@ let slice = &amp;a[1..3];
 
 assert_eq!(slice, &amp;[2, 3]);
 <span class="boring">}</span></code></pre></pre>
-<p>This slice has the type <code>&amp;[i32]</code>. It works the same way as string slices do, by
-storing a reference to the first element and a length. You’ll use this kind of
-slice for all sorts of other collections. We’ll discuss these collections in
-detail when we talk about vectors in Chapter 8.</p>
-<h2 id="summary-1"><a class="header" href="#summary-1">Summary</a></h2>
-<p>The concepts of ownership, borrowing, and slices ensure memory safety in Rust
-programs at compile time. The Rust language gives you control over your memory
-usage in the same way as other systems programming languages, but having the
-owner of data automatically clean up that data when the owner goes out of scope
-means you don’t have to write and debug extra code to get this control.</p>
-<p>Ownership affects how lots of other parts of Rust work, so we’ll talk about
-these concepts further throughout the rest of the book. Let’s move on to
-Chapter 5 and look at grouping pieces of data together in a <code>struct</code>.</p>
+<p>Slice này có kiểu <code>&amp;[i32]</code>. Nó hoạt động giống như các string slice, bằng cách
+lưu trữ tham chiếu đến phần tử đầu tiên và độ dài. Bạn sẽ sử dụng kiểu
+slice này cho tất cả các kiểu collection khác. Chúng ta sẽ thảo luận về những collection này 
+chi tiết hơn khi nói về vector trong Chương 8.</p>
+<h2 id="tổng-kết-2"><a class="header" href="#tổng-kết-2">Tổng kết</a></h2>
+<p>Các khái niệm về ownership, borrowing và slice đảm bảo an toàn cho bộ nhớ trong 
+chương trình Rust tại thời điểm biên dịch. Ngôn ngữ Rust cho phép bạn kiểm soát 
+việc sử dụng bộ nhớ giống như trong các ngôn ngữ lập trình hệ thống khác, nhưng có
+owner của dữ liệu sẽ tự động giải phóng dữ liệu đó khi owner vượt quá phạm vi,
+có nghĩa là bạn không phải viết và debug thêm code để có quyền kiểm soát này.</p>
+<p>Ownership ảnh hưởng đến số lượng các phần khác của Rust khi hoạt động, vì vậy 
+chúng ta sẽ nói về những khái niệm này sâu hơn trong suốt phần còn lại của cuốn sách. 
+Hãy chuyển sang Chương 5 và xem xét việc nhóm các phần dữ liệu lại với nhau 
+trong một <code>struct</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-structs-to-structure-related-data"><a class="header" href="#using-structs-to-structure-related-data">Using Structs to Structure Related Data</a></h1>
 <p>A <em>struct</em>, or <em>structure</em>, is a custom data type that lets you package
 together and name multiple related values that make up a meaningful group. If
@@ -5278,7 +5281,7 @@ blocks</span></p>
 <p>There’s no reason to separate these methods into multiple <code>impl</code> blocks here,
 but this is valid syntax. We’ll see a case in which multiple <code>impl</code> blocks are
 useful in Chapter 10, where we discuss generic types and traits.</p>
-<h2 id="summary-2"><a class="header" href="#summary-2">Summary</a></h2>
+<h2 id="summary-1"><a class="header" href="#summary-1">Summary</a></h2>
 <p>Structs let you create custom types that are meaningful for your domain. By
 using structs, you can keep associated pieces of data connected to each other
 and name each piece to make your code clear. In <code>impl</code> blocks, you can define
@@ -6136,7 +6139,7 @@ trong khi cũng gọi tên tiểu bang của các xu 25 cent, chúng ta có th�
 <span class="boring">}</span></code></pre></pre>
 <p>Nếu bạn có một trường hợp trong đó chương trình của bạn có logic quá dài dòng
 để biểu diễn bằng một <code>match</code>, hãy nhớ đến <code>if let</code>.</p>
-<h2 id="summary-3"><a class="header" href="#summary-3">Summary</a></h2>
+<h2 id="summary-2"><a class="header" href="#summary-2">Summary</a></h2>
 <p>Chúng ta đã đi qua cách sử dụng enum để tạo ra một kiểu dữ liệu tùy chỉnh thể
 hiện một giá trị có thể có bên trong một tập các giá trị được liệt kê. Chúng ta
 đã thấy cách thư viện chuẩn <code>Option&lt;T&gt;</code> giúp bạn sử dụng hệ thống kiểu (type
@@ -7226,7 +7229,7 @@ kích thước.</p>
 cũng không thay đổi, và <code>use</code> cũng không ảnh hưởng gì đến việc file nào được
 biên dịch là một phần của crate. Câu lệnh <code>mod</code> khai báo module, và Rust sẽ tìm
 file có cùng tên với module để tìm code của module đó.</p>
-<h2 id="summary-4"><a class="header" href="#summary-4">Summary</a></h2>
+<h2 id="summary-3"><a class="header" href="#summary-3">Summary</a></h2>
 <p>Rust cho phép bạn chia một package thành nhiều crate và một crate thành các
 module để bạn có thể tham chiếu đến các item được định nghĩa trong một module
 từ một module khác. Bạn có thể làm điều này bằng cách chỉ định đường dẫn tuyệt
@@ -8772,7 +8775,7 @@ mà chưa được kiểm tra bởi các điều kiện trong hàm <code>Guess::
 báo trong chữ ký (signature) của nó rằng nó nhận hoặc trả về một <code>Guess</code> thay
 vì một <code>i32</code> và không cần phải làm bất kỳ kiểm tra bổ sung nào trong thân hàm
 của nó.</p>
-<h2 id="summary-5"><a class="header" href="#summary-5">Summary</a></h2>
+<h2 id="summary-4"><a class="header" href="#summary-4">Summary</a></h2>
 <p>Xử lý lỗi trong Rust được thiết kế để giúp bạn viết mã có tính ổn định cao hơn.
 <code>panic!</code> macro cho biết rằng chương trình của bạn đang ở một trạng thái nó không
 thể xử lý và cho phép bạn nói với quá trình dừng thay vì cố gắng tiếp tục với
@@ -10571,7 +10574,7 @@ using <code>{}</code>, which is why the <code>Display</code> trait bound is nece
 lifetimes are a type of generic, the declarations of the lifetime parameter
 <code>'a</code> and the generic type parameter <code>T</code> go in the same list inside the angle
 brackets after the function name.</p>
-<h2 id="summary-6"><a class="header" href="#summary-6">Summary</a></h2>
+<h2 id="summary-5"><a class="header" href="#summary-5">Summary</a></h2>
 <p>We covered a lot in this chapter! Now that you know about generic type
 parameters, traits and trait bounds, and generic lifetime parameters, you’re
 ready to write code without repetition that works in many different situations.
@@ -12114,7 +12117,7 @@ library crate with <code>use</code> to make the important functionality availabl
 If the important functionality works, the small amount of code in the
 <em>src/main.rs</em> file will work as well, and that small amount of code doesn’t
 need to be tested.</p>
-<h2 id="summary-7"><a class="header" href="#summary-7">Summary</a></h2>
+<h2 id="summary-6"><a class="header" href="#summary-6">Summary</a></h2>
 <p>Rust’s testing features provide a way to specify how code should function to
 ensure it continues to work as you expect, even as you make changes. Unit tests
 exercise different parts of a library separately and can test private
@@ -14396,7 +14399,7 @@ How dreary to be somebody!
 </code></pre>
 <p>This demonstrates that we’re now using standard output for successful output
 and standard error for error output as appropriate.</p>
-<h2 id="summary-8"><a class="header" href="#summary-8">Summary</a></h2>
+<h2 id="summary-7"><a class="header" href="#summary-7">Summary</a></h2>
 <p>This chapter recapped some of the major concepts you’ve learned so far and
 covered how to perform common I/O operations in Rust. By using command line
 arguments, files, environment variables, and the <code>eprintln!</code> macro for printing
@@ -15939,7 +15942,7 @@ All these optimizations that Rust is able to apply make the resulting code
 extremely efficient. Now that you know this, you can use iterators and closures
 without fear! They make code seem like it’s higher level but don’t impose a
 runtime performance penalty for doing so.</p>
-<h2 id="summary-9"><a class="header" href="#summary-9">Summary</a></h2>
+<h2 id="summary-8"><a class="header" href="#summary-8">Summary</a></h2>
 <p>Closures and iterators are Rust features inspired by functional programming
 language ideas. They contribute to Rust’s capability to clearly express
 high-level ideas at low-level performance. The implementations of closures and
@@ -16823,7 +16826,7 @@ run it as if it was a Cargo subcommand by running <code>cargo something</code>. 
 commands like this are also listed when you run <code>cargo --list</code>. Being able to
 use <code>cargo install</code> to install extensions and then run them just like the
 built-in Cargo tools is a super convenient benefit of Cargo’s design!</p>
-<h2 id="summary-10"><a class="header" href="#summary-10">Summary</a></h2>
+<h2 id="summary-9"><a class="header" href="#summary-9">Summary</a></h2>
 <p>Sharing code with Cargo and <a href="https://crates.io/">crates.io</a><!-- ignore --> is
 part of what makes the Rust ecosystem useful for many different tasks. Rust’s
 standard library is small and stable, but crates are easy to share, use, and
@@ -18544,7 +18547,7 @@ pointing to each other</span></p>
 <p>If you uncomment the last <code>println!</code> and run the program, Rust will try to
 print this cycle with <code>a</code> pointing to <code>b</code> pointing to <code>a</code> and so forth until it
 overflows the stack.</p>
-<p>Compared to a real-world program, the consequences creating a reference cycle
+<p>Compared to a real-world program, the consequences of creating a reference cycle
 in this example aren’t very dire: right after we create the reference cycle,
 the program ends. However, if a more complex program allocated lots of memory
 in a cycle and held onto it for a long time, the program would use more memory
@@ -18844,7 +18847,7 @@ specifying that the relationship from a child to its parent should be a
 <code>Weak&lt;T&gt;</code> reference in the definition of <code>Node</code>, you’re able to have parent
 nodes point to child nodes and vice versa without creating a reference cycle
 and memory leaks.</p>
-<h2 id="summary-11"><a class="header" href="#summary-11">Summary</a></h2>
+<h2 id="summary-10"><a class="header" href="#summary-10">Summary</a></h2>
 <p>This chapter covered how to use smart pointers to make different guarantees and
 trade-offs from those Rust makes by default with regular references. The
 <code>Box&lt;T&gt;</code> type has a known size and points to data allocated on the heap. The
@@ -19892,7 +19895,7 @@ information is that building new concurrent types not made up of <code>Send</cod
 <code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
 Rustonomicon”</a> has more information about these guarantees and how to
 uphold them.</p>
-<h2 id="summary-12"><a class="header" href="#summary-12">Summary</a></h2>
+<h2 id="summary-11"><a class="header" href="#summary-11">Summary</a></h2>
 <p>This isn’t the last you’ll see of concurrency in this book: the project in
 Chapter 20 will use the concepts in this chapter in a more realistic situation
 than the smaller examples discussed here.</p>
@@ -21226,7 +21229,7 @@ problem to take advantage of Rust’s features can provide benefits, such as
 preventing some bugs at compile time. Object-oriented patterns won’t always be
 the best solution in Rust due to certain features, like ownership, that
 object-oriented languages don’t have.</p>
-<h2 id="summary-13"><a class="header" href="#summary-13">Summary</a></h2>
+<h2 id="summary-12"><a class="header" href="#summary-12">Summary</a></h2>
 <p>No matter whether or not you think Rust is an object-oriented language after
 reading this chapter, you now know that you can use trait objects to get some
 object-oriented features in Rust. Dynamic dispatch can give your code some
@@ -22259,7 +22262,7 @@ reason is that we’ve used the struct field shorthand syntax. But we haven’t
 applied any test to the value in the <code>id</code> field in this arm, as we did with the
 first two arms: any value would match this pattern.</p>
 <p>Using <code>@</code> lets us test a value and save it in a variable within one pattern.</p>
-<h2 id="summary-14"><a class="header" href="#summary-14">Summary</a></h2>
+<h2 id="summary-13"><a class="header" href="#summary-13">Summary</a></h2>
 <p>Rust’s patterns are very useful in distinguishing between different kinds of
 data. When used in <code>match</code> expressions, Rust ensures your patterns cover every
 possible value, or your program won’t compile. Patterns in <code>let</code> statements and
@@ -24328,7 +24331,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {</code></pre>
 <p>This definition is similar to the custom derive macro’s signature: we receive
 the tokens that are inside the parentheses and return the code we wanted to
 generate.</p>
-<h2 id="summary-15"><a class="header" href="#summary-15">Summary</a></h2>
+<h2 id="summary-14"><a class="header" href="#summary-14">Summary</a></h2>
 <p>Whew! Now you have some Rust features in your toolbox that you likely won’t use
 often, but you’ll know they’re available in very particular circumstances.
 We’ve introduced several complex topics so that when you encounter them in
@@ -27007,7 +27010,7 @@ some ideas:</p>
 similar web server using the crate instead. Then compare its API and
 robustness to the thread pool we implemented.</li>
 </ul>
-<h2 id="summary-16"><a class="header" href="#summary-16">Summary</a></h2>
+<h2 id="summary-15"><a class="header" href="#summary-15">Summary</a></h2>
 <p>Well done! You’ve made it to the end of the book! We want to thank you for
 joining us on this tour of Rust. You’re now ready to implement your own Rust
 projects and help with other peoples’ projects. Keep in mind that there is a
