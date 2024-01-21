@@ -146,28 +146,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="programming-a-guessing-game"><a class="header" href="#programming-a-guessing-game">Programming a Guessing Game</a></h1>
-<p>Let’s jump into Rust by working through a hands-on project together! This
-chapter introduces you to a few common Rust concepts by showing you how to use
-them in a real program. You’ll learn about <code>let</code>, <code>match</code>, methods, associated
-functions, external crates, and more! In the following chapters, we’ll explore
-these ideas in more detail. In this chapter, you’ll just practice the
-fundamentals.</p>
-<p>We’ll implement a classic beginner programming problem: a guessing game. Here’s
-how it works: the program will generate a random integer between 1 and 100. It
-will then prompt the player to enter a guess. After a guess is entered, the
-program will indicate whether the guess is too low or too high. If the guess is
-correct, the game will print a congratulatory message and exit.</p>
+                        <h1 id="lập-trình-một-trò-chơi-đoán-số"><a class="header" href="#lập-trình-một-trò-chơi-đoán-số">Lập trình một trò chơi đoán số</a></h1>
+<p>Hãy bắt đầu với Rust bằng cách cùng nhau làm một dự án thực hành! Chương này giới 
+thiệu bạn với một số khái niệm Rust phổ biến bằng cách hướng dẫn cách sử dụng 
+chúng trong một chương trình thực tế. Bạn sẽ tìm hiểu về <code>let</code>, <code>match</code>, các phương 
+thức, các hàm liên kết, các crate bên ngoài, và nhiều điều khác nữa! Trong các chương 
+tiếp theo, chúng ta sẽ khám phá những ý tưởng này một cách chi tiết hơn. 
+Trong chương này, bạn chỉ cần thực hành các kiến thức cơ bản.</p>
+<p>Chúng ta sẽ triển khai một bài toán lập trình cơ bản dành cho người mới học: một trò 
+chơi đoán số. Cách thức hoạt động như sau: chương trình sẽ tạo một số nguyên ngẫu 
+nhiên từ 1 đến 100. Sau đó, nó sẽ yêu cầu người chơi nhập một dự đoán. Sau khi có dự đoán, 
+chương trình sẽ cho biết liệu dự đoán có quá thấp, quá cao, hay chính xác. Nếu 
+dự đoán đúng, trò chơi sẽ in một thông báo chúc mừng và thoát.</p>
 <h2 id="setting-up-a-new-project"><a class="header" href="#setting-up-a-new-project">Setting Up a New Project</a></h2>
-<p>To set up a new project, go to the <em>projects</em> directory that you created in
-Chapter 1 and make a new project using Cargo, like so:</p>
+<p>Để thiết lập một dự án mới, hãy di chuyển đến thư mục <em>projects</em> mà bạn đã tạo trong
+Chương 1 và tạo một dự án mới bằng Cargo, như sau:</p>
 <pre><code class="language-console">$ cargo new guessing_game
 $ cd guessing_game
 </code></pre>
-<p>The first command, <code>cargo new</code>, takes the name of the project (<code>guessing_game</code>)
-as the first argument. The second command changes to the new project’s
-directory.</p>
-<p>Look at the generated <em>Cargo.toml</em> file:</p>
+<p>Lệnh đầu tiên, cargo new, nhận tên của dự án (<code>guessing_game</code>) như là đối số 
+đầu tiên. Lệnh thứ hai chuyển đến thư mục mới của dự án.</p>
+<p>Hãy xem vào tệp <em>Cargo.toml</em> được tạo ra:</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial
 rm -rf no-listing-01-cargo-new
@@ -186,29 +185,28 @@ edition = &quot;2021&quot;
 
 [dependencies]
 </code></pre>
-<p>As you saw in Chapter 1, <code>cargo new</code> generates a “Hello, world!” program for
-you. Check out the <em>src/main.rs</em> file:</p>
+<p>Như bạn đã thấy ở Chương 1, <code>cargo new</code> tạo ra một chương trình &quot;Hello, world!&quot; 
+cho bạn. Hãy xem tệp <em>src/main.rs</em>:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
 }</code></pre></pre>
-<p>Now let’s compile this “Hello, world!” program and run it in the same step
-using the <code>cargo run</code> command:</p>
+<p>Để biên dịch và chạy chương trình &quot;Hello, world!&quot; trong Rust, bạn có thể sử dụng lệnh <code>cargo run</code>:</p>
 <pre><code class="language-console">$ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
     Finished dev [unoptimized + debuginfo] target(s) in 1.50s
      Running `target/debug/guessing_game`
 Hello, world!
 </code></pre>
-<p>The <code>run</code> command comes in handy when you need to rapidly iterate on a project,
-as we’ll do in this game, quickly testing each iteration before moving on to
-the next one.</p>
-<p>Reopen the <em>src/main.rs</em> file. You’ll be writing all the code in this file.</p>
+<p>Lệnh <code>run</code> rất hữu ích khi bạn cần lặp nhanh chóng trên một dự án, như 
+chúng ta sẽ làm trong trò chơi này, kiểm thử nhanh chóng từng bước 
+trước khi chuyển sang bước tiếp theo.</p>
+<p>Mở lại tệp <em>src/main.rs</em>. Bạn sẽ viết toàn bộ code trong file này.</p>
 <h2 id="processing-a-guess"><a class="header" href="#processing-a-guess">Processing a Guess</a></h2>
-<p>The first part of the guessing game program will ask for user input, process
-that input, and check that the input is in the expected form. To start, we’ll
-allow the player to input a guess. Enter the code in Listing 2-1 into
-<em>src/main.rs</em>.</p>
+<p>Phần đầu tiên của chương trình trò chơi đoán số sẽ yêu cầu người chơi nhập liệu, 
+xử lý đầu vào đó và kiểm tra xem đầu vào có đúng dạng mong đợi hay không. Để bắt đầu, 
+chúng ta sẽ cho phép người chơi nhập một số đoán. Nhập code trong Listing 2-1 
+vào <em>src/main.rs</em>.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><code class="language-rust ignore">use std::io;
 

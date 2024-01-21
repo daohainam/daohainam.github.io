@@ -146,18 +146,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="defining-and-instantiating-structs"><a class="header" href="#defining-and-instantiating-structs">Defining and Instantiating Structs</a></h2>
-<p>Structs are similar to tuples, discussed in <a href="ch03-02-data-types.html#the-tuple-type">“The Tuple Type”</a><!--
-ignore --> section, in that both hold multiple related values. Like tuples, the
-pieces of a struct can be different types. Unlike with tuples, in a struct
-you’ll name each piece of data so it’s clear what the values mean. Adding these
-names means that structs are more flexible than tuples: you don’t have to rely
-on the order of the data to specify or access the values of an instance.</p>
-<p>To define a struct, we enter the keyword <code>struct</code> and name the entire struct. A
-struct’s name should describe the significance of the pieces of data being
-grouped together. Then, inside curly brackets, we define the names and types of
-the pieces of data, which we call <em>fields</em>. For example, Listing 5-1 shows a
-struct that stores information about a user account.</p>
+                        <h2 id="Định-nghĩa-và-khởi-tạo-các-cấu-trúc"><a class="header" href="#Định-nghĩa-và-khởi-tạo-các-cấu-trúc">Định nghĩa và khởi tạo các cấu trúc</a></h2>
+<p>Struct (cấu trúc) tương tự như tuple, được thảo luận trong phần <a href="ch03-02-data-types.html#the-tuple-type">“The Tuple Type”</a><!--
+ignore -->, trong đó cả hai đều chứa những giá trị liên quan. Giống như các tuple, các
+các phần của một cấu trúc có thể là các kiểu khác nhau. Không giống như với tuple, trong một cấu trúc
+bạn sẽ đặt tên cho từng phần dữ liệu để hiểu rõ ý nghĩa của các giá trị. Việc thêm tên 
+cho những thành phần bên trong giúp nó có cấu trúc linh hoạt hơn tuple: bạn không cần phải dựa vào
+thứ tự của dữ liệu để truy cập vào các giá trị của một instance (thể hiện).</p>
+<p>Để định nghĩa một struct, chúng ta nhập từ khóa <code>struct</code> và đặt tên cho toàn bộ struct. 
+Tên của một cấu trúc phải mô tả mục đích quan trọng nhất của phần dữ liệu nó chứa. Sau đó, bên trong dấu 
+ngoặc nhọn, chúng ta xác định tên và kiểu của các phần dữ liệu mà chúng tôi gọi là <em>field</em> (trường). 
+Ví dụ, Listing 5-1 cho thấy một struct lưu trữ thông tin về tài khoản người dùng.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct User {
     active: bool,
@@ -167,16 +166,16 @@ struct that stores information about a user account.</p>
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<p><span class="caption">Listing 5-1: A <code>User</code> struct definition</span></p>
-<p>To use a struct after we’ve defined it, we create an <em>instance</em> of that struct
-by specifying concrete values for each of the fields. We create an instance by
-stating the name of the struct and then add curly brackets containing <em>key:
-value</em> pairs, where the keys are the names of the fields and the values are the
-data we want to store in those fields. We don’t have to specify the fields in
-the same order in which we declared them in the struct. In other words, the
-struct definition is like a general template for the type, and instances fill
-in that template with particular data to create values of the type. For
-example, we can declare a particular user as shown in Listing 5-2.</p>
+<p><span class="caption">Listing 5-1: Định nghĩa cấu trúc <code>User</code></span></p>
+<p>Để sử dụng một struct sau khi đã định nghĩa, chúng ta tạo một <em>instance</em> của cấu trúc đó
+bằng cách chỉ định các giá trị cụ thể cho từng trường. Chúng tôi tạo một ví dụ bằng cách
+nêu tên của cấu trúc và sau đó thêm dấu ngoặc nhọn chứa các cặp <em>key:value</em>, 
+trong đó các key là tên của các field và các value là dữ liệu chúng ta muốn 
+lưu trong các trường đó. Chúng ta không phải chỉ định các field theo
+cùng thứ tự mà chúng ta đã khai báo chúng trong cấu trúc. Nói cách khác, một
+định nghĩa cấu trúc giống như một hình mẫu chung cho một kiểu và các instance 
+gán vào trong hình mẫu đó các dữ liệu cụ thể để tạo các giá trị của kiểu. 
+Ví dụ, chúng ta có thể khai báo một user cụ thể như trong Listing 5-2.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
@@ -193,13 +192,12 @@ example, we can declare a particular user as shown in Listing 5-2.</p>
         sign_in_count: 1,
     };
 }</code></pre></pre>
-<p><span class="caption">Listing 5-2: Creating an instance of the <code>User</code>
-struct</span></p>
-<p>To get a specific value from a struct, we use dot notation. For example, to
-access this user’s email address, we use <code>user1.email</code>. If the instance is
-mutable, we can change a value by using the dot notation and assigning into a
-particular field. Listing 5-3 shows how to change the value in the <code>email</code>
-field of a mutable <code>User</code> instance.</p>
+<p><span class="caption">Listing 5-2: Tạo một instance của cấu trúc <code>User</code></span></p>
+<p>Để lấy một giá trị cụ thể từ một struct, chúng ta sử dụng ký hiệu dấu chấm. Ví dụ, để
+truy cập địa chỉ email của user này, chúng ta sử dụng <code>user1.email</code>. Nếu instance là
+mutable (có thể thay đổi), chúng ta có thể thay đổi một giá trị bằng cách sử dụng 
+ký hiệu dấu chấm và gán vào một field cụ thể. Listing kê 5-3 cho thấy cách 
+thay đổi giá trị trong field <code>email</code> của một mutable instance <code>User</code>.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
@@ -218,15 +216,14 @@ field of a mutable <code>User</code> instance.</p>
 
     user1.email = String::from(&quot;anotheremail@example.com&quot;);
 }</code></pre></pre>
-<p><span class="caption">Listing 5-3: Changing the value in the <code>email</code> field of a
-<code>User</code> instance</span></p>
-<p>Note that the entire instance must be mutable; Rust doesn’t allow us to mark
-only certain fields as mutable. As with any expression, we can construct a new
-instance of the struct as the last expression in the function body to
-implicitly return that new instance.</p>
-<p>Listing 5-4 shows a <code>build_user</code> function that returns a <code>User</code> instance with
-the given email and username. The <code>active</code> field gets the value of <code>true</code>, and
-the <code>sign_in_count</code> gets a value of <code>1</code>.</p>
+<p><span class="caption">Listing 5-3: Thay đổi giá trị trường <code>email</code> của một instance <code>User</code></span></p>
+<p>Lưu ý rằng toàn bộ instance phải mutable; Rust không cho phép chúng ta đánh dấu 
+chỉ một số trường nhất định là mutable. Như với bất kỳ biểu thức nào, chúng ta 
+có thể tạo một instance mới của cấu trúc với biểu thức cuối cùng trong thân hàm 
+để trả lại một cách rõ ràng instance mới đó.</p>
+<p>Listing 5-4 biểu diễn một hàm <code>build_user</code> trả về một instance kiểu <code>User</code> với
+email và tên người dùng đã cho. Trường <code>active</code> nhận giá trị <code>true</code> và
+<code>sign_in_count</code> nhận giá trị <code>1</code>.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
@@ -250,20 +247,20 @@ the <code>sign_in_count</code> gets a value of <code>1</code>.</p>
 </span><span class="boring">        String::from(&quot;someusername123&quot;),
 </span><span class="boring">    );
 </span><span class="boring">}</span></code></pre></pre>
-<p><span class="caption">Listing 5-4: A <code>build_user</code> function that takes an email
-and username and returns a <code>User</code> instance</span></p>
-<p>It makes sense to name the function parameters with the same name as the struct
-fields, but having to repeat the <code>email</code> and <code>username</code> field names and
-variables is a bit tedious. If the struct had more fields, repeating each name
-would get even more annoying. Luckily, there’s a convenient shorthand!</p>
+<p><span class="caption">Listing 5-4: Một hàm <code>build_user</code> nhận vào một email và
+username và trả về một <code>User</code> instance</span></p>
+<p>Sẽ là có nghĩa khi đặt tên các tham số của function với tên trùng với tên các 
+trường của struct, nhưng việc lặp lại các tên như <code>email</code> và <code>username</code> cũng sẽ
+gây nhàm chán. Nếu struct có thêm nhiều field nữa, việc lặp đi lặp lại chúng sẽ 
+còn gây khó chịu hơn. May thay, Rust có một cách viết ngắn gọn!</p>
 <!-- Old heading. Do not remove or links may break. -->
 <p><a id="using-the-field-init-shorthand-when-variables-and-fields-have-the-same-name"></a></p>
-<h3 id="using-the-field-init-shorthand"><a class="header" href="#using-the-field-init-shorthand">Using the Field Init Shorthand</a></h3>
-<p>Because the parameter names and the struct field names are exactly the same in
-Listing 5-4, we can use the <em>field init shorthand</em> syntax to rewrite
-<code>build_user</code> so it behaves exactly the same but doesn’t have the repetition of
-<code>username</code> and <code>email</code>, as shown in Listing 5-5.</p>
-<p><span class="filename">Filename: src/main.rs</span></p>
+<h3 id="sử-dụng-cách-viết-khởi-tạo-trường-một-cách-ngắn-gọn"><a class="header" href="#sử-dụng-cách-viết-khởi-tạo-trường-một-cách-ngắn-gọn">Sử dụng cách viết khởi tạo trường một cách ngắn gọn</a></h3>
+<p>Vì tên tham số và tên trường của cấu trúc hoàn toàn giống nhau trong
+Listing 5-4, chúng ta có thể sử dụng cú pháp tốc ký <em>field init</em> để viết lại
+<code>build_user</code> giúp nó hoạt động giống hệt nhưng không có sự lặp lại của
+<code>username</code> và <code>email</code>, như trong Listing 5-5.</p>
+<p><span class="filename">Tên tệp: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
 </span><span class="boring">    username: String,
@@ -286,21 +283,21 @@ Listing 5-4, we can use the <em>field init shorthand</em> syntax to rewrite
 </span><span class="boring">        String::from(&quot;someusername123&quot;),
 </span><span class="boring">    );
 </span><span class="boring">}</span></code></pre></pre>
-<p><span class="caption">Listing 5-5: A <code>build_user</code> function that uses field init
-shorthand because the <code>username</code> and <code>email</code> parameters have the same name as
-struct fields</span></p>
-<p>Here, we’re creating a new instance of the <code>User</code> struct, which has a field
-named <code>email</code>. We want to set the <code>email</code> field’s value to the value in the
-<code>email</code> parameter of the <code>build_user</code> function. Because the <code>email</code> field and
-the <code>email</code> parameter have the same name, we only need to write <code>email</code> rather
-than <code>email: email</code>.</p>
-<h3 id="creating-instances-from-other-instances-with-struct-update-syntax"><a class="header" href="#creating-instances-from-other-instances-with-struct-update-syntax">Creating Instances from Other Instances with Struct Update Syntax</a></h3>
-<p>It’s often useful to create a new instance of a struct that includes most of
-the values from another instance, but changes some. You can do this using
-<em>struct update syntax</em>.</p>
-<p>First, in Listing 5-6 we show how to create a new <code>User</code> instance in <code>user2</code>
-regularly, without the update syntax. We set a new value for <code>email</code> but
-otherwise use the same values from <code>user1</code> that we created in Listing 5-2.</p>
+<p><span class="caption">Listing 5-5: Hàm <code>build_user</code> sử dụng cách viết tắt để khởi tạo 
+vì tham số <code>username</code> và <code>email</code> có cùng tên với field</span></p>
+<p>Ở đây, chúng ta tạo một instance mới của cấu trúc <code>User</code>, có field
+tên là <code>email</code>. Chúng ta muốn đặt giá trị của <code>email</code> thành giá trị trong
+tham số <code>email</code> của hàm <code>build_user</code>. Vì trường <code>email</code> và
+tham số <code>email</code> trùng tên ta chỉ cần viết <code>email</code> là được
+hơn <code>email: email</code>.</p>
+<p><a id="creating-instances-from-other-instances-with-struct-update-syntax"></a></p>
+<h3 id="tạo-instance-mới-từ-một-instance-khác-với-cú-pháp-cập-nhật-cấu-trúc"><a class="header" href="#tạo-instance-mới-từ-một-instance-khác-với-cú-pháp-cập-nhật-cấu-trúc">Tạo instance mới từ một instance khác với cú pháp cập nhật cấu trúc</a></h3>
+<p>Một thao tác thường làm là tạo mới một instance của Struct với hầu hết
+các giá trị từ một phiên bản khác, với một số thay đổi. Bạn có thể làm điều này bằng cách sử dụng
+<em>cú pháp cập nhật cấu trúc</em> (struct update syntax).</p>
+<p>Đầu tiên, trong Listing 5-6, chúng tôi trình bày cách tạo một instance <code>User</code> mới trong <code>user2</code>
+theo cách thông thường, không dùng cú pháp cập nhật. Chúng tôi đặt một giá trị mới cho <code>email</code> nhưng
+sử dụng cùng các giá trị khác từ <code>user1</code> mà chúng ta đã tạo trong Listing 5-2.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
@@ -326,11 +323,10 @@ otherwise use the same values from <code>user1</code> that we created in Listing
         sign_in_count: user1.sign_in_count,
     };
 }</code></pre></pre>
-<p><span class="caption">Listing 5-6: Creating a new <code>User</code> instance using one of
-the values from <code>user1</code></span></p>
-<p>Using struct update syntax, we can achieve the same effect with less code, as
-shown in Listing 5-7. The syntax <code>..</code> specifies that the remaining fields not
-explicitly set should have the same value as the fields in the given instance.</p>
+<p><span class="caption">Listing 5-6: Tạo một instance <code>User</code> mới dùng giá trị từ  <code>user1</code></span></p>
+<p>Sử dụng struct update syntax, chúng ta có thể đạt được cùng mục đích với ít code hơn, như thể
+hiện trong Listing 5-7. Cú pháp <code>..</code> chỉ định rằng các trường còn lại không
+được đặt rõ ràng phải có cùng giá trị với các trường trong instance đã cho.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct User {
 </span><span class="boring">    active: bool,
@@ -354,36 +350,36 @@ explicitly set should have the same value as the fields in the given instance.</
         ..user1
     };
 }</code></pre></pre>
-<p><span class="caption">Listing 5-7: Using struct update syntax to set a new
-<code>email</code> value for a <code>User</code> instance but to use the rest of the values from
+<p><span class="caption">Listing 5-7: Sử dụng struct update syntax để đặt mới
+giá trị <code>email</code> cho instance <code>User</code> nhưng sử dụng phần còn lại của các giá trị từ
 <code>user1</code></span></p>
-<p>The code in Listing 5-7 also creates an instance in <code>user2</code> that has a
-different value for <code>email</code> but has the same values for the <code>username</code>,
-<code>active</code>, and <code>sign_in_count</code> fields from <code>user1</code>. The <code>..user1</code> must come last
-to specify that any remaining fields should get their values from the
-corresponding fields in <code>user1</code>, but we can choose to specify values for as
-many fields as we want in any order, regardless of the order of the fields in
-the struct’s definition.</p>
-<p>Note that the struct update syntax uses <code>=</code> like an assignment; this is because
-it moves the data, just as we saw in the <a href="ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move">“Variables and Data Interacting with
-Move”</a><!-- ignore --> section. In this example, we can no longer use
-<code>user1</code> as a whole after creating <code>user2</code> because the <code>String</code> in the
-<code>username</code> field of <code>user1</code> was moved into <code>user2</code>. If we had given <code>user2</code> new
-<code>String</code> values for both <code>email</code> and <code>username</code>, and thus only used the
-<code>active</code> and <code>sign_in_count</code> values from <code>user1</code>, then <code>user1</code> would still be
-valid after creating <code>user2</code>. Both <code>active</code> and <code>sign_in_count</code> are types that
-implement the <code>Copy</code> trait, so the behavior we discussed in the <a href="ch04-01-what-is-ownership.html#stack-only-data-copy">“Stack-Only
-Data: Copy”</a><!-- ignore --> section would apply.</p>
-<h3 id="using-tuple-structs-without-named-fields-to-create-different-types"><a class="header" href="#using-tuple-structs-without-named-fields-to-create-different-types">Using Tuple Structs Without Named Fields to Create Different Types</a></h3>
-<p>Rust also supports structs that look similar to tuples, called <em>tuple structs</em>.
-Tuple structs have the added meaning the struct name provides but don’t have
-names associated with their fields; rather, they just have the types of the
-fields. Tuple structs are useful when you want to give the whole tuple a name
-and make the tuple a different type from other tuples, and when naming each
-field as in a regular struct would be verbose or redundant.</p>
-<p>To define a tuple struct, start with the <code>struct</code> keyword and the struct name
-followed by the types in the tuple. For example, here we define and use two
-tuple structs named <code>Color</code> and <code>Point</code>:</p>
+<p>Đoạn code trong Listing 5-7 cũng tạo một instance trong <code>user2</code> với một giá trị khác trong 
+<code>email</code> nhưng có cùng giá trị trong <code>username</code>, <code>active</code>, và <code>sign_in_count</code> từ<code>user1</code>. 
+<code>..user1</code> phải được viết cuối cùng để chỉ định rằng mọi trường còn lại sẽ nhận giá trị của chúng từ
+các trường tương ứng trong <code>user1</code>, nhưng chúng ta có thể chọn chỉ định giá trị cho
+nhiều trường như chúng ta muốn theo bất kỳ thứ tự nào, bất kể thứ tự của chúng trong
+định nghĩa của cấu trúc.</p>
+<p>Lưu ý rằng cú pháp cập nhật cấu trúc sử dụng <code>=</code> như một phép gán; điều này là bởi vì
+nó di chuyển dữ liệu, giống như chúng ta đã thấy trong phần <a href="ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move">“Variables and Data Interacting with
+Move”</a><!-- ignore -->. Trong ví dụ này, chúng ta không còn có thể sử dụng
+<code>user1</code> sau khi tạo <code>user2</code> vì <code>String</code> trong Trường <code>username</code> của <code>user1</code> đã 
+được chuyển vào <code>user2</code>. Nếu chúng ta gán <code>user2</code> một giá trị <code>String</code> mới cho cả trường <code>email</code>
+và <code>username</code>, có nghĩa là ta chỉ lấy <code>active</code> và <code>sign_in_count</code> từ <code>user1</code>, khi đó 
+<code>user1</code> vẫn hợp lệ sau khi tạo <code>user2</code>. Đó là vì cả hai <code>active</code> và <code>sign_in_count</code> 
+đều implement <code>Copy</code> trait, do vậy các hành vi như ta đã thảo luậ trong phần 
+<a href="ch04-01-what-is-ownership.html#stack-only-data-copy">“Stack-Only Data: Copy”</a><!-- ignore --> sẽ được áp dụng.</p>
+<p><a id="using-tuple-structs-without-named-fields-to-create-different-types"></a></p>
+<h3 id="sử-dụng-tuple-struct-không-dùng-các-trường-được-đặt-tên-để-tạo-các-kiểu-khác"><a class="header" href="#sử-dụng-tuple-struct-không-dùng-các-trường-được-đặt-tên-để-tạo-các-kiểu-khác">Sử dụng tuple struct không dùng các trường được đặt tên để tạo các kiểu khác</a></h3>
+<p>Rust cũng hỗ trợ các cấu trúc trông tương tự như các tuple, được gọi là <em>tuple structs</em>.
+Các tuple struct cho phép cung cấp tên cho cấu trúc nhưng không có các tên được kết hợp với từng 
+trường bên trong struct; thay vì vậy, chúng chỉ có các kiểu cho các field đó. 
+Các tuple struct rất hữu ích khi bạn muốn đặt tên cho toàn bộ tuple và biến nó thành 
+một kiểu khác với các tuple khác, và khi đặt tên cho từng field bên trong struct
+như trong một cấu trúc thông thường sẽ trở nên dài dòng hoặc dư thừa.</p>
+<p>Để định nghĩa tuple struct, hãy bắt đầu với từ khóa <code>struct</code> và tên cấu trúc
+theo sau là các kiểu trong tuple. Ví dụ, ở đây chúng ta định nghĩa và sử dụng hai
+tuple struct có tên <code>Color</code> và <code>Point</code>:</p>
+<p>Rust cũng hỗ trợ các cấu trúc trông giống như các bộ dữ liệu, được gọi là <em>tuple structs</em>.</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct Color(i32, i32, i32);
 struct Point(i32, i32, i32);
@@ -392,48 +388,48 @@ fn main() {
     let black = Color(0, 0, 0);
     let origin = Point(0, 0, 0);
 }</code></pre></pre>
-<p>Note that the <code>black</code> and <code>origin</code> values are different types because they’re
-instances of different tuple structs. Each struct you define is its own type,
-even though the fields within the struct might have the same types. For
-example, a function that takes a parameter of type <code>Color</code> cannot take a
-<code>Point</code> as an argument, even though both types are made up of three <code>i32</code>
-values. Otherwise, tuple struct instances are similar to tuples in that you can
-destructure them into their individual pieces, and you can use a <code>.</code> followed
-by the index to access an individual value.</p>
-<h3 id="unit-like-structs-without-any-fields"><a class="header" href="#unit-like-structs-without-any-fields">Unit-Like Structs Without Any Fields</a></h3>
-<p>You can also define structs that don’t have any fields! These are called
-<em>unit-like structs</em> because they behave similarly to <code>()</code>, the unit type that
-we mentioned in <a href="ch03-02-data-types.html#the-tuple-type">“The Tuple Type”</a><!-- ignore --> section. Unit-like
-structs can be useful when you need to implement a trait on some type but don’t
-have any data that you want to store in the type itself. We’ll discuss traits
-in Chapter 10. Here’s an example of declaring and instantiating a unit struct
-named <code>AlwaysEqual</code>:</p>
+<p>Lưu ý rằng các giá trị <code>black</code> và <code>origin</code> có các kiểu khác nhau vì chúng
+là instance của các tuple struct khác nhau. Mỗi struct bạn định nghĩa mang kiểu riêng của nó,
+mặc dù các trường trong struct có thể có cùng loại. Ví dụ, một hàm nhận tham số kiểu <code>Color</code> không thể nhận
+<code>Point</code> làm đối số, mặc dù cả hai loại đều được tạo thành từ ba giá trị <code>i32</code>. 
+Mặt khác, các instance tuple struct tương tự như tuple ở chỗ bạn có thể
+hủy struct chúng thành các phần riêng lẻ và bạn có thể sử dụng dấu <code>.</code> theo sau
+theo chỉ mục để truy cập từng giá trị riêng.</p>
+<h3 id="các-cấu-trúc-unit-like-không-có-bất-kỳ-trường-nào"><a class="header" href="#các-cấu-trúc-unit-like-không-có-bất-kỳ-trường-nào">Các cấu trúc Unit-Like không có bất kỳ trường nào</a></h3>
+<p>Bạn cũng có thể định nghĩa các cấu trúc không có bất kỳ trường nào! Chúng được gọi là
+<em>unit-like struct</em> vì chúng hoạt động tương tự như <code>()</code>, kiểu đơn vị
+chúng ta đã đề cập trong phần <a href="ch03-02-data-types.html#the-tuple-type">“The Tuple Type”</a><!-- ignore -->. Unit-like
+struct có thể hữu ích khi bạn cần triển khai một trait trên một số kiểu nhưng không
+có bất kỳ dữ liệu nào mà bạn muốn lưu trữ trong chính kiểu đó. Chúng ta sẽ thảo luận về trait
+trong Chương 10. Đây là một ví dụ về khai báo và khởi tạo một unit struct
+được đặt tên là <code>AlwaysEqual</code>:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <pre><pre class="playground"><code class="language-rust">struct AlwaysEqual;
 
 fn main() {
     let subject = AlwaysEqual;
 }</code></pre></pre>
-<p>To define <code>AlwaysEqual</code>, we use the <code>struct</code> keyword, the name we want, and
-then a semicolon. No need for curly brackets or parentheses! Then we can get an
-instance of <code>AlwaysEqual</code> in the <code>subject</code> variable in a similar way: using the
-name we defined, without any curly brackets or parentheses. Imagine that later
-we’ll implement behavior for this type such that every instance of
-<code>AlwaysEqual</code> is always equal to every instance of any other type, perhaps to
-have a known result for testing purposes. We wouldn’t need any data to
-implement that behavior! You’ll see in Chapter 10 how to define traits and
-implement them on any type, including unit-like structs.</p>
+<p>Để định nghĩa <code>AlwaysEqual</code>, chúng ta sử dụng từ khóa <code>struct</code>, tên chúng ta muốn và
+sau đó là dấu chấm phẩy. Không cần dấu ngoặc nhọn hoặc dấu ngoặc đơn! 
+Sau đó, chúng ta có thể nhận được một instance về <code>AlwaysEqual</code> trong biến <code>subject</code> 
+theo cách tương tự: sử dụng tên chúng ta đã xác định, không có bất kỳ dấu ngoặc 
+nhọn hoặc dấu ngoặc đơn nào. Hãy tưởng tượng rằng sau này chúng tôi sẽ triển khai 
+hành vi cho kiểu này sao cho mọi instance của <code>AlwaysEqual</code> luôn bằng với mọi instance 
+của bất kỳ kiểu nào khác, có lẽ để có một kết quả xác định nhằm mục đích thử nghiệm. 
+Chúng ta sẽ không cần bất kỳ dữ liệu nào để thực hiện hành vi đó! Bạn sẽ thấy trong 
+Chương 10 cách định nghĩa các trait và triển khai chúng trên bất kỳ kiểu dữ liệu nào, 
+kể cả các unit-like struct.</p>
 <blockquote>
-<h3 id="ownership-of-struct-data"><a class="header" href="#ownership-of-struct-data">Ownership of Struct Data</a></h3>
-<p>In the <code>User</code> struct definition in Listing 5-1, we used the owned <code>String</code>
-type rather than the <code>&amp;str</code> string slice type. This is a deliberate choice
-because we want each instance of this struct to own all of its data and for
-that data to be valid for as long as the entire struct is valid.</p>
-<p>It’s also possible for structs to store references to data owned by something
-else, but to do so requires the use of <em>lifetimes</em>, a Rust feature that we’ll
-discuss in Chapter 10. Lifetimes ensure that the data referenced by a struct
-is valid for as long as the struct is. Let’s say you try to store a reference
-in a struct without specifying lifetimes, like the following; this won’t work:</p>
+<h3 id="sở-hữu-của-các-cấu-trúc-dữ-liệu"><a class="header" href="#sở-hữu-của-các-cấu-trúc-dữ-liệu">Sở hữu của các cấu trúc dữ liệu</a></h3>
+<p>Trong định nghĩa cấu trúc <code>User</code> trong Listing 5-1, chúng ta đã sử dụng kiểu <code>String</code> 
+type thay vì kiểu string slice <code>&amp;str</code>. Đây là một sự lựa chọn có chủ ý
+bởi vì chúng ta muốn mỗi instance của cấu trúc này sở hữu tất cả dữ liệu của nó và cho
+dữ liệu đó là hợp lệ miễn sao toàn bộ cấu trúc là hợp lệ.</p>
+<p>Các cấu trúc cũng có thể lưu trữ các tham chiếu đến dữ liệu thuộc sở hữu của một thứ gì đó
+khác, nhưng để làm như vậy yêu cầu sử dụng <em>lifetimes</em>, một tính năng của Rust mà chúng ta sẽ
+thảo luận trong Chương 10. <em>lifetimes</em> đảm bảo rằng dữ liệu được tham chiếu bởi một cấu trúc
+sẽ là hợp lệ cùng với chính cấu trúc đó . Giả sử bạn cố gắng lưu trữ một tham chiếu
+trong một cấu trúc mà không chỉ định thời gian tồn tại giống như sau; chúng sẽ không hoạt động:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
 <!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
 <pre><code class="language-rust ignore does_not_compile">struct User {
@@ -451,7 +447,7 @@ fn main() {
         sign_in_count: 1,
     };
 }</code></pre>
-<p>The compiler will complain that it needs lifetime specifiers:</p>
+<p>Trình duyệt sẽ báo lỗi rằng bạn cần các khai báo về lifetime:</p>
 <pre><code class="language-console">$ cargo run
    Compiling structs v0.1.0 (file:///projects/structs)
 error[E0106]: missing lifetime specifier
@@ -484,9 +480,10 @@ help: consider introducing a named lifetime parameter
 For more information about this error, try `rustc --explain E0106`.
 error: could not compile `structs` due to 2 previous errors
 </code></pre>
-<p>In Chapter 10, we’ll discuss how to fix these errors so you can store
-references in structs, but for now, we’ll fix errors like these using owned
-types like <code>String</code> instead of references like <code>&amp;str</code>.</p>
+<p>Trong chương 10, chúng ta sẽ thảo luận cách sửa các lỗi trên, cho phép bạn
+lưu các tham chiếu bên trong các struct, nhưng hiện tại, chúng ta sẽ sửa các 
+lỗi này bằng cách dùng các kiểu được sở hữu như <code>String</code> thay vì dùng tham
+chiếu như <code>&amp;str</code>.</p>
 </blockquote>
 <!-- manual-regeneration
 for the error above
